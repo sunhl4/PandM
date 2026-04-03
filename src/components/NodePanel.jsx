@@ -1,9 +1,15 @@
 import { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import MarkdownIt from 'markdown-it'
+import mdKatex from 'markdown-it-katex'
 import { NODE_TYPE_CONFIG } from '../data/initialGraph.js'
 
 const md = new MarkdownIt({ html: false, linkify: true, typographer: true })
+md.use(mdKatex, {
+  throwOnError: false,
+  errorColor: '#f87171',
+  trust: false,
+})
 
 const TYPE_LABELS = {
   root: '根节点',

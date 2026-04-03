@@ -152,6 +152,26 @@ body,
   margin: 1rem 0;
 }
 
+/* KaTeX inside node panel (markdown math) */
+.markdown-body .katex {
+  font-size: 1.05em;
+  color: var(--q-text);
+}
+.markdown-body .katex-display {
+  display: block;
+  margin: 0.85rem 0;
+  padding: 0.5rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+.markdown-body .katex-display > .katex {
+  white-space: normal;
+}
+.markdown-body .katex-error {
+  color: #f87171 !important;
+}
+
 /* Animated quantum ring */
 @keyframes orbit {
   from { transform: rotate(0deg); }

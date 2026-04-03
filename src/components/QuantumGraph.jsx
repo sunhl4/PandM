@@ -115,6 +115,13 @@ export default function QuantumGraph({
 
     const zoom = d3.zoom()
       .scaleExtent([0.15, 4])
+      .filter((event) => {
+        const onNode = event.target?.closest?.('g.node')
+        if (onNode && (event.type === 'mousedown' || event.type === 'touchstart' || event.type === 'dblclick')) {
+          return false
+        }
+        return (!event.ctrlKey || event.type === 'wheel') && !event.button
+      })
       .on('zoom', (event) => {
         g.attr('transform', event.transform)
       })
@@ -145,16 +152,17 @@ export default function QuantumGraph({
       const simulation = d3.forceSimulation(nodes)
         .force('link', d3.forceLink(edges).id((d) => d.id).distance((e) => {
           const srcType = nodes.find((n) => n.id === (typeof e.source === 'object' ? e.source.id : e.source))?.type
-          const dist = { root: 180, module: 140, category: 110, topic: 80, leaf: 60 }
-          return dist[srcType] || 100
-        }).strength(0.6))
+          const dist = { root: 230, module: 175, category: 140, topic: 100, leaf: 78 }
+          return dist[srcType] || 125
+        }).strength((e) => (e.type === 'cross' ? 0.06 : 0.22)))
         .force('charge', d3.forceManyBody().strength((d) => {
-          const s = { root: -600, module: -400, category: -250, topic: -150, leaf: -80 }
-          return s[d.type] || -150
+          const s = { root: -520, module: -340, category: -220, topic: -130, leaf: -70 }
+          return s[d.type] || -130
         }))
         .force('center', d3.forceCenter(0, 0))
-        .force('collision', d3.forceCollide().radius((d) => getTypeConfig(d.type).radius + 20))
-        .alphaDecay(0.025)
+        .force('collision', d3.forceCollide().radius((d) => getTypeConfig(d.type).radius + 24).strength(0.85))
+        .velocityDecay(0.35)
+        .alphaDecay(0.022)
       simRef.current = simulation
 
       // Draw edges
@@ -262,13 +270,19 @@ export default function QuantumGraph({
       // Drag behavior
       const drag = d3.drag()
         .on('start', (event, d) => {
-          if (!event.active) simulation.alphaTarget(0.3).restart()
-          d.fx = d.x; d.fy = d.y
+          event.sourceEvent?.stopPropagation?.()
+          if (!event.active) simulation.alphaTarget(0.55).restart()
+          d.fx = d.x
+          d.fy = d.y
         })
-        .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y })
+        .on('drag', (event, d) => {
+          d.fx = event.x
+          d.fy = event.y
+        })
         .on('end', (event, d) => {
           if (!event.active) simulation.alphaTarget(0)
-          d.fx = null; d.fy = null
+          d.fx = null
+          d.fy = null
         })
       nodeEl.call(drag)
 
