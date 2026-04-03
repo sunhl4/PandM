@@ -13,7 +13,7 @@
 1. 打开 **WSL（Ubuntu）** 终端。
 2. 进入工程目录（示例，按你的盘符与路径修改）：
    ```bash
-   cd /mnt/d/Yaozheng/QuantumChemistry/LearningPlan
+   cd /mnt/d/Yaozheng/PandM/materials/software/qc-x-chem
    ```
 3. 激活 Conda 环境（若 Conda 安装在 WSL 内）：
    ```bash
@@ -30,7 +30,7 @@
 不进入交互式 WSL 时，可用 `wsl` 执行一条命令（需把 Conda 初始化路径改成你在 WSL 中的实际路径）：
 
 ```powershell
-wsl -e bash -lc "source ~/anaconda3/etc/profile.d/conda.sh && conda activate qc_chem && cd /mnt/d/Yaozheng/QuantumChemistry/LearningPlan && python your_script.py"
+wsl -e bash -lc "source ~/anaconda3/etc/profile.d/conda.sh && conda activate qc_chem && cd /mnt/d/Yaozheng/PandM/materials/software/qc-x-chem && python your_script.py"
 ```
 
 说明：
@@ -52,7 +52,7 @@ wsl -e bash -lc "source ~/anaconda3/etc/profile.d/conda.sh && conda activate qc_
 
 ```bash
 conda activate qc_chem
-cd /mnt/d/Yaozheng/QuantumChemistry/LearningPlan
+cd /mnt/d/Yaozheng/PandM/materials/software/qc-x-chem
 jupyter lab --no-browser
 ```
 

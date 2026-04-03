@@ -6,7 +6,7 @@
 #   - sudo for apt
 #
 # From Windows: open Ubuntu in WSL, then:
-#   cd /mnt/d/Yaozheng/QuantumChemistry/LearningPlan/learning_materials   # adjust drive/path
+#   cd /mnt/d/Yaozheng/PandM/materials/software/qc-x-chem   # adjust drive/path
 #   chmod +x install_pyscf_wsl.sh
 #
 # With conda (recommended, matches README qc_chem):

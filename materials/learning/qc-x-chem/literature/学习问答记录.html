@@ -240,7 +240,9 @@
 </head>
 <body>
 <h1 id="量子计算化学学习-问答记录">量子计算化学学习 · 问答记录</h1>
-<p>本文件用于集中保存你在按计划学习过程中提出的问题及对应回答，便于日后检索与复习。</p>
+<p>本文件集中保存：<strong>公式与预览说明</strong>、<strong>文献翻译/精读工作流</strong>、<strong>计算化学×量子计算文献补充索引</strong>、<strong>文献精读可复制模板（附录
+A）</strong>，以及按计划学习过程中的<strong>问答条目</strong>。日后检索与复习以本文件（及同目录
+<strong><code>学习问答记录.html</code></strong>）为主。</p>
 <hr />
 <h2
 id="公式如何正确显示三种方式任选其一">公式如何正确显示（三种方式，任选其一）</h2>
@@ -318,6 +320,643 @@ Z_{j-1}\otimes\cdots\otimes Z_0
 <p>若以上两处公式在预览中显示为排版好的数学式而非原始 <code>$...$</code>
 文本，则说明环境配置正确。</p>
 <hr />
+<h2
+id="文献翻译与问答工作流标准可修订">文献翻译与问答工作流标准（可修订）</h2>
+<p>本节前身是独立文件
+<code>文献工作流标准.md</code>，现已并入本文。<strong>后续同类文献处理以本节为准</strong>；你可直接增删改各节，并在本节末「修订记录」留一行日期与摘要。若希望
+Cursor 自动优先遵循：工作区技能
+<strong><code>quantum-literature-zh</code></strong>（<code>.cursor/skills/quantum-literature-zh/SKILL.md</code>）；修改流程时可同步更新该
+SKILL 中「何时读取本文件」的说明。</p>
+<h3 id="目录与文件命名">1. 目录与文件命名</h3>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 45%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th>类型</th>
+<th>命名规则</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原文 PDF</td>
+<td>与来源一致、便于检索；<strong>无空格</strong></td>
+<td><code>2512.13657v2.pdf</code>、<code>acs.chemrev.8b00803.pdf</code></td>
+</tr>
+<tr>
+<td>中文译文</td>
+<td><strong>英文下划线题名</strong> +
+<code>.zh-CN.md</code>（正文中文）</td>
+<td><code>Towards_Quantum_Advantage_in_Chemistry.zh-CN.md</code></td>
+</tr>
+<tr>
+<td>问答记录</td>
+<td>与译文 <strong>同主干名</strong> + <code>.QA.zh-CN.md</code></td>
+<td><code>Towards_Quantum_Advantage_in_Chemistry.QA.zh-CN.md</code></td>
+</tr>
+<tr>
+<td>独立主题问答（非单篇配套）</td>
+<td>自定短名 +
+<code>.md</code>；<strong>建议最终并入本节问答区</strong></td>
+<td>（例：原 <code>QA_波函数集中性.md</code> → <strong>条目
+25</strong>）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>原则</strong></p>
+<ul>
+<li>译文与问答文件与 PDF <strong>同一目录</strong>（本目录
+<code>literature/</code>），相对链接可写
+<code>./xxx.zh-CN.md</code>。</li>
+<li>文件名用
+<strong>ASCII</strong>（英文、数字、下划线），避免空格与特殊符号，便于跨平台与脚本处理。</li>
+<li>从 PDF / 期刊页无法直接得到英文题名时：可用 <strong>arXiv
+号</strong> 或 <strong>期刊缩写_年份_文章编号</strong>
+作为主干，并在译文题头写清完整中/英文标题。</li>
+</ul>
+<h3 id="中文译文.zh-cn.md结构">2.
+中文译文（<code>.zh-CN.md</code>）结构</h3>
+<p>建议顺序（可按文献类型微调）：</p>
+<ol type="1">
+<li><strong>一级标题</strong>：中文题名（可与官方译名或常用译法一致）。</li>
+<li><strong>元信息块</strong>：作者、单位（可缩写）、日期、期刊或
+<strong>arXiv</strong> 编号等。</li>
+<li><strong>分隔线 <code>---</code></strong></li>
+<li><strong>「说明」小节</strong>（固定保留），建议包含：本文为译文的定位、与原文结构对应关系；<strong>公式渲染</strong>（行内
+<code>$...$</code>；块公式上下各一行 <code>$$</code>，<strong>块末
+<code>$$</code>
+后空一行</strong>）；参考文献与图表编号约定；<strong>指向问答文件</strong>的相对路径。</li>
+<li><strong>正文</strong>：章节编号与原文一致；术语首次出现可加英文或缩写。</li>
+</ol>
+<p><strong>与 PDF 对照</strong>：图表编号、公式
+tag、参考文献序号尽量与原文一致，便于答疑时写「见原文 Fig. 2 / 译文
+§3」。</p>
+<h3 id="问答文件.qa.zh-cn.md结构">3.
+问答文件（<code>.QA.zh-CN.md</code>）结构</h3>
+<p><strong>空白骨架</strong>：直接复制本文 <strong>「附录
+A：文献精读问答可复制骨架」</strong>。</p>
+<p><strong>题头必备字段</strong>（与现有一致）：</p>
+<ul>
+<li>中文书名式标题：<code># 《……》问答记录</code></li>
+<li><strong>对应论文</strong>：作者或预印本编号、英文题名、<strong>PDF
+文件名</strong></li>
+<li><strong>配套译文</strong>：相对链接到 <code>.zh-CN.md</code></li>
+<li><strong>使用说明</strong>：字段 <strong>文献 / 标签（可选）/ 日期 /
+问题 / 回答</strong>；公式规则与译文一致。</li>
+</ul>
+<p><strong>正文区块</strong>：<strong>文章速览</strong>（表格）+
+<strong>问答日志</strong>（条目模板复制追加）。可引用译文章节号
+<code>§x.x</code>。</p>
+<p><strong>与总表同步（可选）</strong>：若在本文件
+<strong>「问答条目」</strong> 区维护总索引，新文献可增加一行或链接到对应
+<code>.QA.zh-CN.md</code>。</p>
+<h3 id="处理新文献清单给协作者-agent">4. 处理新文献清单（给协作者 /
+Agent）</h3>
+<ol type="1">
+<li>确定 <strong>PDF 文件名</strong> 与
+<strong>英文下划线主干名</strong>（译文 + 问答共用）。</li>
+<li>新建 <strong>译文</strong>
+<code>.zh-CN.md</code>，写好「说明」与问答文件双向引用。</li>
+<li>复制 <strong>附录 A</strong> 生成
+<code>.QA.zh-CN.md</code>，填写题头与文章速览。</li>
+<li>（可选）在本文件 <strong>问答条目</strong>
+区或「专题补充」表添加索引。</li>
+</ol>
+<h3 id="完善本节的方式">5. 完善本节的方式</h3>
+<ul>
+<li>直接编辑本文件对应小节。</li>
+<li>每次重要约定变更，在下方 <strong>修订记录</strong>
+增加一行：<code>YYYY-MM-DD — 摘要</code>。</li>
+</ul>
+<h4 id="工作流修订记录">工作流修订记录</h4>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>日期</th>
+<th>摘要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-04-01</td>
+<td>初版（独立 <code>文献工作流标准.md</code>）：命名规则、译文与 QA
+结构、模板路径、流程清单</td>
+</tr>
+<tr>
+<td>2026-04-03</td>
+<td>并入 <code>学习问答记录.md</code>；模板改为本文附录 A；路径对齐
+<code>literature/</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="文献补充计算化学-量子计算对照本工程缺口">文献补充：计算化学 ×
+量子计算（对照本工程缺口）</h2>
+<p>本节前身是独立文件 <code>文献补充_计算化学与量子计算.md</code>。按
+<strong>本仓库学习路径</strong>（<code>PandM/materials/README.md</code>、<code>qc-x-chem/learning-example/</code>
+下
+Notebook、<code>literature/SQD.md</code>、<code>literature/ADAPT-VQE.md</code>
+等）逐块对照，补充
+<strong>工程内引用偏少或尚未展开的经典/前沿文献</strong>，便于把「量子线路」与
+<strong>DFT/多参考/活性空间/ML 力场/催化</strong> 的经典语境对齐。</p>
+<blockquote>
+<p><strong>说明</strong>：本目录内已有 PDF 见各译文题头与
+<strong><code>量子计算在计算化学中的方法与文献地图.md</code></strong>；本节
+<strong>不重复罗列</strong>，只补 <strong>表外</strong> 与
+<strong>应用向 Notebook</strong> 强相关的入口。</p>
+</blockquote>
+<h3 id="阅读优先级按你的目标调整">阅读优先级（按你的目标调整）</h3>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 20%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>优先级</th>
+<th>内容</th>
+<th>本节中的位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P0</strong></td>
+<td><strong>计算化学 +
+催化</strong>（多参考、活性空间、强关联、表面/单原子催化 ×
+量子路线）</td>
+<td><strong>§S1</strong></td>
+</tr>
+<tr>
+<td><strong>P0</strong></td>
+<td><strong>DFT
+理论如何与量子计算衔接</strong>（同一工作流里的分工）</td>
+<td><strong>§S2</strong></td>
+</tr>
+<tr>
+<td><strong>P1</strong></td>
+<td>机器学习势能面 / 力场（与 Phase4 第二本
+Notebook、量子训练数据叙事衔接）</td>
+<td><strong>§S3</strong></td>
+</tr>
+<tr>
+<td><strong>P2</strong></td>
+<td>量子算法与资源估计（QPE、VQE、低深度模拟等）</td>
+<td><strong>§S4</strong></td>
+</tr>
+<tr>
+<td><strong>P2</strong></td>
+<td>嵌入（DMET 等）与软件入口</td>
+<td><strong>§S5–S6</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="s1-计算化学与催化优先阅读">§S1 计算化学与催化（优先阅读）</h3>
+<p>工程内 <a
+href="../../software/qc-x-chem/Phase4_Applications/01_非均相催化量子计算.ipynb"><code>01_非均相催化量子计算.ipynb</code></a>
+强调 <strong>DFT 在过渡金属 / 强关联活性位的失效</strong> 与
+<strong>active space + 嵌入</strong>。下列文献把
+<strong>经典计算化学语言</strong> 与
+<strong>量子比特「截断子空间」</strong> 对齐；<strong>本地
+<code>acs.chemrev.8b00803.pdf</code>（Cao 等）</strong>
+仍是总入口，此处补 <strong>专题与对标</strong>。</p>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 53%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>主题</th>
+<th>建议补充文献</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>量子计算化学全景（含催化、材料）</td>
+<td>Y. Cao <em>et al.</em>, <em>Chem. Rev.</em> <strong>119</strong>,
+10856 (2019) — <strong>本地 PDF</strong></td>
+<td>https://doi.org/10.1021/acs.chemrev.8b00803</td>
+</tr>
+<tr>
+<td>CASSCF / 活性空间思想与选型评述</td>
+<td>B. O. Roos <em>et al.</em>, <em>Int. J. Quantum Chem.</em>
+<strong>111</strong>, 339 (2011)</td>
+<td>https://doi.org/10.1002/qua.23107</td>
+</tr>
+<tr>
+<td>多参考方法尺度与现代算法（DMRG、选 CI 等脉络）</td>
+<td>S. Guo <em>et al.</em>, <em>Nat. Comput. Sci.</em>
+<strong>1</strong>, 538 (2021)</td>
+<td>https://doi.org/10.1038/s43588-021-00179-9</td>
+</tr>
+<tr>
+<td>量子计算 × <strong>计算催化</strong>（界面、资源、路线）</td>
+<td>M. Kühn <em>et al.</em>, <em>Phys. Rev. Res.</em>
+<strong>3</strong>, 033055 (2021)</td>
+<td>https://doi.org/10.1103/PhysRevResearch.3.033055</td>
+</tr>
+<tr>
+<td>异相催化 × 量子计算：学术与工业视角（预印本）</td>
+<td><em>Modelling Heterogeneous Catalysis using Quantum Computers…</em>,
+<em>ChemRxiv</em></td>
+<td>https://chemrxiv.org/engage/chemrxiv/article-details/673d9e2e5a82cea2fad8c50a</td>
+</tr>
+</tbody>
+</table>
+<p><strong>近期验证线（TM 氧化物片段、活性空间对标）</strong>：在 arXiv
+检索
+<code>transition metal oxide quantum computing catalysis</code>；例：<strong>arXiv:2512.19778</strong>（以正文方法与结论为准）。</p>
+<h3 id="s2-dft-理论与量子计算如何结合">§S2 DFT
+理论与量子计算如何结合</h3>
+<p>下面分 <strong>概念</strong> 与 <strong>文献</strong> 两层回答「DFT
+怎么跟量子计算接在一起」——接点不在「用量子机算 KS 方程」，而在
+<strong>同一套电子结构问题</strong> 上的
+<strong>分工与数据流</strong>。</p>
+<h4 id="s2.1-概念三条主接点">§S2.1 概念：三条主接点</h4>
+<ol type="1">
+<li><strong>单粒子基与二次量子化（最常见工程路径）</strong>
+<ul>
+<li>DFT（<strong>Kohn–Sham 流程</strong>）在经典机上给出
+<strong>一组单粒子轨道</strong>（及占据）、<strong>核–电子与外场几何</strong>。<br />
+</li>
+<li>在这组基下把电子–电子相互作用写成
+<strong>费米子二次量子化哈密顿量</strong>（通常截断到 <strong>活性轨道 /
+活性空间</strong>）。<br />
+</li>
+<li>再经 Jordan–Wigner / Parity / Bravyi–Kitaev 等
+<strong>映射到泡利算符 → 量子比特哈密顿量</strong>。<br />
+<strong>结论</strong>：DFT 在这里的角色是
+<strong>提供轨道与积分（或已聚合的哈密顿量项）</strong>，量子算法解决的是
+<strong>该多体哈密顿量在选定子空间上的本征问题</strong>，而不是替代
+Hohenberg–Kohn 泛函本身。</li>
+</ul></li>
+<li><strong>DFT 的「弱点多体区」= 量子算法的化学动机</strong>
+<ul>
+<li>KS 解是 <strong>单行列式参考</strong>（除非你做多参考
+DFT）；<strong>静态强关联、近简并、自旋态竞争</strong>（单原子催化、部分
+TM 氧化物等）正是催化 Notebook 里 <strong>DFT+U 仍难系统化</strong>
+的区域。<br />
+</li>
+<li>量子侧常用 <strong>CASSCF 型活性空间 + VQE/SQD</strong> 等，在
+<strong>同一几何</strong> 上追求更接近
+<strong>FCI（于活性空间内）</strong> 的基态或低激发态。<br />
+<strong>结论</strong>：理论上的「结合」首先是
+<strong>问题对齐</strong>：<strong>哪里 DFT
+不可靠，就把那部分自由度交给多体量子模拟</strong>。</li>
+</ul></li>
+<li><strong>空间分区：DFT「环境」+ 量子「活性片段」</strong>
+<ul>
+<li>大体系（表面、载体、溶剂）仍用 <strong>经典 DFT（或力场）</strong>
+处理远程与大部分电子；<strong>强关联局域簇</strong> 用 <strong>嵌入 /
+下行折叠</strong> 得到小哈密顿量，在量子设备或模拟器上算。<br />
+</li>
+<li>这与 <strong>QM/MM、DMET、冻结核、downfolding</strong>
+的经典语言同构；量子计算是 <strong>内层求解器</strong> 的候选。<br />
+<strong>结论</strong>：<strong>结合形态 =
+混合量子–经典工作流</strong>，不是全盘替换 DFT。</li>
+</ul></li>
+</ol>
+<h4 id="s2.2-易混淆点一句话辨清">§S2.2 易混淆点（一句话辨清）</h4>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>说法</th>
+<th>更精确的理解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「用量子计算机做 DFT」</td>
+<td>工业界主流路线是
+<strong>用量子算法求多体哈密顿量基态/激发态</strong>；KS
+自洽循环仍在经典端完成（除非研究专门构造「量子
+DFT」类想法，见下文文献）。</td>
+</tr>
+<tr>
+<td>「DFT 哈密顿量」</td>
+<td>常指 <strong>在 KS
+轨道基下写出的二次量子化电子哈密顿量</strong>；交换–相关
+<strong>未</strong> 以泛函形式进入量子线路，而是以 <strong>有效单电子 +
+双电子积分</strong> 形式固定下来再映射到量子比特。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="s2.3-直接讨论dft-vqe-嵌入-活性空间的文献入口">§S2.3
+直接讨论「DFT × VQE / 嵌入 / 活性空间」的文献入口</h4>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>主题</th>
+<th>文献</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>活性空间嵌入的一般框架（与量子计算应用挂钩）</td>
+<td>R. M. Parrish <em>et al.</em>, <em>npj Comput. Mater.</em>
+<strong>10</strong>, article 147 (2024)</td>
+<td>https://doi.org/10.1038/s41524-024-01477-2</td>
+</tr>
+<tr>
+<td>用 VQE <strong>增强</strong> DFT
+表述的近期框架（以摘要/方法为准）</td>
+<td><em>Enhancing density functional theory using the variational
+quantum eigensolver</em> (预印本)</td>
+<td>https://arxiv.org/abs/2402.18534</td>
+</tr>
+<tr>
+<td>量子计算化学总览（含映射、算法与化学问题分类）</td>
+<td>S. McArdle <em>et al.</em>, <em>Rev. Mod. Phys.</em>
+<strong>92</strong>, 015003 (2020) — <strong>本地 PDF</strong></td>
+<td>https://doi.org/10.1103/RevModPhys.92.015003</td>
+</tr>
+</tbody>
+</table>
+<p>读 <strong>§S2.3</strong> 时建议 <strong>对照</strong> <a
+href="../learning-example/02_Qiskit_Nature_H2_LiH.ipynb"><code>02_Qiskit_Nature_H2_LiH.ipynb</code></a>
+里 <strong>从分子轨道到 qubit 算符</strong> 的步骤，把「DFT/PySCF 输出 →
+<code>ElectronicStructureProblem</code>」看成 <strong>§S2.1
+第一条接点</strong> 的实现实例。</p>
+<h3 id="s3-机器学习势能面-mlip次优先">§S3 机器学习势能面 /
+MLIP（次优先）</h3>
+<p><a
+href="../../software/qc-x-chem/Phase4_Applications/02_量子计算辅助力场开发.ipynb"><code>02_量子计算辅助力场开发.ipynb</code></a>
+提到 NNP、ReaxFF、QC 训练数据。下列为
+<strong>从经典到等变图网络</strong> 的常用引用链。</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>层级</th>
+<th>文献</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高维 PES 的神经网络表示</td>
+<td>J. Behler, M. Parrinello, <em>Phys. Rev. Lett.</em>
+<strong>98</strong>, 146401 (2007)</td>
+<td>https://doi.org/10.1103/PhysRevLett.98.146401</td>
+</tr>
+<tr>
+<td>高斯近似势（GAP）与 SOAP</td>
+<td>A. P. Bartók, R. Kondor, G. Csányi, <em>Phys. Rev. Lett.</em>
+<strong>104</strong>, 136403 (2010)</td>
+<td>https://doi.org/10.1103/PhysRevLett.104.136403</td>
+</tr>
+<tr>
+<td>SchNet</td>
+<td>K. T. Schütt <em>et al.</em>, <em>npj Comput. Mater.</em>
+<strong>3</strong>, 41 (2017)</td>
+<td>https://doi.org/10.1038/s41524-017-0029-8</td>
+</tr>
+<tr>
+<td>NequIP</td>
+<td>S. Batzner <em>et al.</em>, <em>Nat. Commun.</em>
+<strong>13</strong>, 2453 (2022)</td>
+<td>https://doi.org/10.1038/s41467-022-29939-5</td>
+</tr>
+<tr>
+<td>MACE / E(3) 设计空间</td>
+<td>I. Batatia <em>et al.</em>, NeurIPS <strong>35</strong>
+(2022)；arXiv:2205.06643</td>
+<td>https://arxiv.org/abs/2205.06643</td>
+</tr>
+<tr>
+<td>机器学习力场综述</td>
+<td>O. T. Unke <em>et al.</em>, <em>Chem. Rev.</em>
+<strong>121</strong>, 10142 (2021)</td>
+<td>https://doi.org/10.1021/acs.chemrev.0c01111</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>时间紧</strong>：优先 <strong>Unke Chem. Rev.</strong> +
+<strong>Behler–Parrinello</strong> + <strong>NequIP 或
+MACE</strong>；再对照 Notebook 中「用更高阶参考数据训练」的段落。</p>
+</blockquote>
+<h3 id="s4-量子算法与资源phase23-支撑">§S4 量子算法与资源（Phase2–3
+支撑）</h3>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 31%" />
+<col style="width: 36%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>主题</th>
+<th>工程内位置</th>
+<th>建议补充文献</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>量子相位估计 / 本征求解复杂度图像</td>
+<td>VQE、量子优势 Notebook</td>
+<td>D. S. Abrams, S. Lloyd, <em>Phys. Rev. Lett.</em>
+<strong>83</strong>, 5162 (1999)</td>
+<td>https://doi.org/10.1103/PhysRevLett.83.5162</td>
+</tr>
+<tr>
+<td>费米子系统量子模拟</td>
+<td>基础与 Hubbard 示意</td>
+<td>D. S. Abrams, S. Lloyd, <em>Phys. Rev. Lett.</em>
+<strong>79</strong>, 2586 (1997)</td>
+<td>https://doi.org/10.1103/PhysRevLett.79.2586</td>
+</tr>
+<tr>
+<td>VQE 原始实验</td>
+<td><a
+href="../learning-example/01_VQE原理与实现.ipynb"><code>01_VQE原理与实现.ipynb</code></a></td>
+<td>A. Peruzzo <em>et al.</em>, <em>Nat. Commun.</em>
+<strong>5</strong>, 4213 (2014)</td>
+<td>https://doi.org/10.1038/ncomms5213</td>
+</tr>
+<tr>
+<td>VQE / NISQ 化学算法长篇综述</td>
+<td>Phase2–3</td>
+<td>J. Tilly <em>et al.</em>, <em>Phys. Rep.</em> <strong>986</strong>,
+1 (2022)</td>
+<td>https://doi.org/10.1016/j.physrep.2022.08.003</td>
+</tr>
+<tr>
+<td>低深度电子结构模拟、平面波视角</td>
+<td>优势分析</td>
+<td>R. Babbush <em>et al.</em>, <em>Phys. Rev. X</em>
+<strong>8</strong>, 011044 (2018)</td>
+<td>https://doi.org/10.1103/PhysRevX.8.011044</td>
+</tr>
+</tbody>
+</table>
+<h3 id="s5-嵌入与量子数据邻域">§S5 嵌入与「量子数据」邻域</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>主题</th>
+<th>文献</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>密度矩阵嵌入（DMET）</td>
+<td>G. Knizia, G. K.-L. Chan, <em>Phys. Rev. Lett.</em>
+<strong>109</strong>, 186404 (2012)</td>
+<td>https://doi.org/10.1103/PhysRevLett.109.186404</td>
+</tr>
+</tbody>
+</table>
+<p>SQD / SKQD / 采样 Krylov 的预印本追踪以 <strong><a
+href="./SQD.md"><code>SQD.md</code></a></strong> 与 <strong><a
+href="../learning-example/01_进阶算法综述.ipynb"><code>01_进阶算法综述.ipynb</code></a></strong>
+为准。</p>
+<h3 id="s6-软件与可复现入口">§S6 软件与可复现入口</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>工具</th>
+<th>文献或文档</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PySCF</td>
+<td>Q. Sun <em>et al.</em>, <em>WIREs Comput. Mol. Sci.</em>
+<strong>8</strong>, e1340 (2018)；<em>J. Chem. Phys.</em>
+<strong>153</strong>, 024109 (2020)</td>
+<td>https://doi.org/10.1002/wcms.1340 ·
+https://doi.org/10.1063/5.0006074</td>
+</tr>
+<tr>
+<td>Qiskit Nature</td>
+<td>官方文档</td>
+<td>https://qiskit-community.github.io/qiskit-nature/</td>
+</tr>
+</tbody>
+</table>
+<h3 id="s7-建议使用方式">§S7 建议使用方式</h3>
+<ol type="1">
+<li><strong>催化向</strong>：先 <strong>§S1</strong> + 本地 <strong>Cao
+Chem. Rev.</strong>，再读 <strong>§S2</strong> 把「DFT
+失效—活性空间—量子求解」串成一条逻辑。<br />
+</li>
+<li><strong>搞清 DFT–QC 接口</strong>：精读
+<strong>§S2.1–S2.2</strong>，并在 <strong>§S2.3</strong> 选 1–2 篇与
+<strong>H₂/LiH Notebook</strong> 对照。<br />
+</li>
+<li><strong>力场向</strong>：在 <strong>§S3</strong> 建 MLIP
+坐标，再回到 Phase4 第二本 Notebook 谈 <strong>数据层级</strong>。<br />
+</li>
+<li><strong>与仓库 PDF</strong>：本节为
+<strong>索引与概念提纲</strong>；完整 PDF
+以本目录及译文题头所列本地文件为主。</li>
+</ol>
+<p><em>标题与 DOI 以出版社页面为准；若链接失效请用 DOI 解析。</em></p>
+<hr />
+<h3 id="附录-a文献精读问答可复制骨架">附录
+A：文献精读问答可复制骨架</h3>
+<p>以下可直接复制为新文件
+<strong><code>English_Underscore_Title.QA.zh-CN.md</code></strong>（与译文、PDF
+同目录）；字段与本文 <strong>问答条目</strong> 中文献精读约定一致。</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># 《（文献中文题名）》问答记录</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>**对应论文：** （作者, 期刊或 arXiv:xxxx.xxxxxvN — 英文题名）  </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>**配套译文：** [English_Underscore_Title.zh-CN.md](./English_Underscore_Title.zh-CN.md)（**建议文件名用英文**，正文仍用中文；与 PDF 同目录）  </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>**PDF：** <span class="in">`（预印本编号或简称）.pdf`</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## 使用说明</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>字段与 <span class="in">`学习问答记录.md`</span> 中文献精读条目一致：**文献 / 标签 / 日期 / 问题 / 回答**。</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>公式：行内 <span class="in">`$...$`</span>；行间 <span class="in">`$$`</span> **独占行**，**块末 `$$` 后空一行**再接文字；HTML 预览可用 Pandoc <span class="in">`--mathjax`</span>（参见本文件开头说明）。</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## 文章速览（便于提问）</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 主题 <span class="pp">|</span> 要点 <span class="pp">|</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|------|</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 问题与背景 <span class="pp">|</span> （一句话） <span class="pp">|</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 方法 <span class="pp">|</span> （核心算法/实验） <span class="pp">|</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 数据与结论 <span class="pp">|</span> （量级、主要图表） <span class="pp">|</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 与课程关联 <span class="pp">|</span> （可选：对应 Phase / 笔记本） <span class="pp">|</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## 问答日志</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### 条目模板（复制后使用）</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>**文献：** （可与文首一致或写「见题头」）  </span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>**标签：** <span class="in">`#`</span>  </span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>**日期：** YYYY-MM-DD  </span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>**问题：**  </span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>**回答：**  </span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="fu">### 条目 1</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>**文献：**  </span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>**标签：**  </span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>**日期：**  </span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>**问题：**  </span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>**回答：**  </span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 追加条目 2、3 … --&gt;</span></span></code></pre></div>
+<hr />
 <h2 id="问答类型与双模板说明">问答类型与双模板说明</h2>
 <p>同一学习过程里常见两类记录方式，可按场景选用；公式<strong>行内</strong>用
 <code>$...$</code>，<strong>独立块</strong>用上下各一行的
@@ -334,7 +973,8 @@ Z_{j-1}\otimes\cdots\otimes Z_0
 <strong><code>文献题名.QA.zh-CN.md</code></strong>，内含
 <strong>文章速览表</strong>（主题—要点）+
 <strong>问答日志</strong>，便于长期只围绕一篇论文追加。示例见
-<code>QuantumChemistry</code> 目录：
+<strong>本目录</strong>（<code>literature/</code>，如
+<code>Towards_Quantum_Advantage_in_Chemistry.*</code>、<code>Quantum_Chemistry_in_the_Age_of_Quantum_Computing.*</code>）：
 <ul>
 <li><a
 href="../../Towards_Quantum_Advantage_in_Chemistry.QA.zh-CN.md">Towards_Quantum_Advantage_in_Chemistry.QA.zh-CN.md</a><br />
@@ -347,8 +987,9 @@ href="../../Quantum_Chemistry_in_the_Age_of_Quantum_Computing.QA.zh-CN.md">Quant
 / <a
 href="../../Quantum_Chemistry_in_the_Age_of_Quantum_Computing.zh-CN.md">Quantum_Chemistry_in_the_Age_of_Quantum_Computing.zh-CN.md</a>（PDF：<code>acs.chemrev.8b00803.pdf</code>）<br />
 </li>
-<li><strong>空白可复制模板</strong>（新建其它文献时）：同目录 <a
-href="./文献精读问答_模板.md">文献精读问答_模板.md</a></li>
+<li><strong>空白可复制模板</strong>（新建其它文献时）：见本文
+<strong>「附录 A：文献精读问答可复制骨架」</strong>（原独立文件
+<code>文献精读问答_模板.md</code> 已并入）</li>
 </ul></li>
 <li><strong>仍写在本文件</strong>：复制下方「###
 条目模板（文献精读）」，填写文献、标签与问答。</li>
@@ -360,8 +1001,9 @@ href="./文献精读问答_模板.md">文献精读问答_模板.md</a></li>
 <h2 id="问答条目按学习资料顺序">问答条目（按学习资料顺序）</h2>
 <blockquote>
 <p><strong>使用约定：</strong> 条目按 <strong>学习资料出现顺序</strong>
-排列（当前为 Phase1：<code>01_量子计算基础与概念映射.ipynb</code> →
-<code>02_Qiskit入门实践.ipynb</code>），便于对照教程阅读。<strong>新条目</strong>
+排列（Phase1：<code>01_量子计算基础与概念映射.ipynb</code> →
+<code>02_Qiskit入门实践.ipynb</code>；其后接 Phase2
+等），便于对照教程阅读。<strong>新条目</strong>
 请插在对应教材位置，并更新上方「对应关系」表；若暂无法定位，可先附在文末再归位。回答中的公式同样用
 <code>$...$</code> 或 <code>$$...$$</code>。</p>
 </blockquote>
@@ -396,6 +1038,51 @@ href="./文献精读问答_模板.md">文献精读问答_模板.md</a></li>
 <td>Qiskit 入门</td>
 <td><code>Phase1_Fundamentals/02_Qiskit入门实践.ipynb</code> §1–§4</td>
 <td><strong>条目 19–23</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="与学习资料的对应关系phase2">与学习资料的对应关系（Phase2）</h3>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 66%" />
+</colgroup>
+<thead>
+<tr>
+<th>范围</th>
+<th>教材</th>
+<th>本文件中条目（新编号）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VQE 原理、方法对比表</td>
+<td><code>Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb</code>（「试探波函数与计算量」表）</td>
+<td><strong>条目 24</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="专题补充跨文献-概念">专题补充（跨文献 / 概念）</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr>
+<th>主题</th>
+<th>说明</th>
+<th>本文件中条目</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>波函数「集中」与采样子空间对角化</td>
+<td>与 SQD、SKQD、SqDRIFT 等前提；原独立文件
+<code>QA_波函数集中性.md</code> 已并入</td>
+<td><strong>条目 25</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1364,9 +2051,9 @@ A^\dagger = (A^{\mathsf T})^\ast,
 class="math inline">\(\hat{a}_j^\dagger\)</span></strong> 在计算基下的
 <strong>矩阵</strong>。矩阵表示下，伴随就是
 <strong><code>.conj().T</code></strong>，所以</p>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jordan_wigner_annihilation(j, n_qubits):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jordan_wigner_creation(j, n_qubits).conj().T</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jordan_wigner_annihilation(j, n_qubits):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jordan_wigner_creation(j, n_qubits).conj().T</span></code></pre></div>
 <p>就是在实现 <strong><span class="math inline">\(\hat{a}_j =
 (\hat{a}_j^\dagger)^\dagger\)</span></strong>，无需把 JW
 公式再抄一遍。</p>
@@ -2512,8 +3199,8 @@ class="math inline">\(T_1\)</span></strong>；<strong>开壳层</strong>
 <p><strong>按位置配对</strong>：<code>qargs[i]</code> 的测量结果写入
 <code>cargs[i]</code>。</p>
 <p>因此</p>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>qc.measure([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>qc.measure([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>])</span></code></pre></div>
 <p>表示：<strong>测第 0 号量子比特 → 存到经典寄存器第 0 位；测第 1
 号量子比特 → 存到经典寄存器第 1 位</strong>。</p>
 <p>两个列表 <strong>恰好都是 <code>[0, 1]</code></strong>
@@ -2657,9 +3344,9 @@ Qiskit 电路</strong> 再
 <p>在 <code>02_Qiskit入门实践.ipynb</code>
 中，下面两行各自在做什么？Qiskit 里 <code>assign_parameters</code> 与
 <code>Statevector.from_instruction</code> 的作用是什么？</p>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bound_circuit <span class="op">=</span> qc_ansatz.assign_parameters({theta: theta_val})</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sv_bound <span class="op">=</span> Statevector.from_instruction(bound_circuit)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>bound_circuit <span class="op">=</span> qc_ansatz.assign_parameters({theta: theta_val})</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sv_bound <span class="op">=</span> Statevector.from_instruction(bound_circuit)</span></code></pre></div>
 <p><strong>回答：</strong></p>
 <p><strong>（1）<code>assign_parameters({theta: theta_val})</code>——把「符号参数」换成具体数值</strong></p>
 <ul>
@@ -2852,7 +3539,270 @@ COBYLA 说明</a> 为准。</p>
 <strong>直接调 SciPy</strong>。</p>
 <hr />
 <hr />
+<h3 id="条目-24">条目 24</h3>
+<p><strong>日期：</strong> 2026-04-02</p>
+<p><strong>问题：</strong></p>
+<p>（Phase2
+<code>01_VQE原理与实现.ipynb</code>）表中「试探波函数与计算量」一行里，HF、CCSD(T)、VQE、FCI
+的 <strong>计算量</strong>（<span
+class="math inline">\(O(N^3)\)</span>、<span
+class="math inline">\(O(N^7)\)</span>、经典 <span
+class="math inline">\(O(M)\)</span> / 量子 <span
+class="math inline">\(O(\text{深度})\)</span>、<span
+class="math inline">\(O(\exp(N))\)</span>）分别指什么？<strong><span
+class="math inline">\(N\)</span></strong> 与 <strong><span
+class="math inline">\(M\)</span></strong> 是什么？</p>
+<p><strong>回答：</strong></p>
+<p>表里的 <strong><span class="math inline">\(N\)</span></strong>
+在量子化学讨论标度时，通常指 <strong>基函数（AO）个数</strong>
+或与它同阶的 <strong>体系规模</strong>（有时细分为占据 / 虚轨道数，但
+<strong>标度关系</strong> 不变）。下面按方法说明表中「计算量」一列。</p>
+<hr />
+<p><strong>（1）HF：<span
+class="math inline">\(O(N^3)\)</span></strong></p>
+<ul>
+<li><strong>在做什么：</strong> 反复构造 Fock
+矩阵、对角化得分子轨道系数，直到密度自洽（SCF）。<br />
+</li>
+<li><strong>为何常写 <span class="math inline">\(N^3\)</span>：</strong>
+若 <strong>双电子积分已给出</strong>，用密度矩阵缩并得到 Fock
+的一步，主导标度常记为 <strong><span
+class="math inline">\(O(N^3)\)</span></strong>；若把
+<strong>积分生成</strong>也算进总成本，整体更接近 <strong><span
+class="math inline">\(O(N^4)\)</span></strong>（或经屏蔽后介于两者之间）。<br />
+</li>
+<li><strong>小结：</strong> 表中 <strong><span
+class="math inline">\(O(N^3)\)</span></strong> 多指 <strong>SCF
+迭代里、给定积分后的主要步骤</strong>，或教材对 HF
+<strong>经验标度</strong>的简化；更严谨时可写 <strong><span
+class="math inline">\(O(N^3)\)</span>～<span
+class="math inline">\(O(N^4)\)</span></strong>。</li>
+</ul>
+<hr />
+<p><strong>（2）CCSD(T)：<span
+class="math inline">\(O(N^7)\)</span></strong></p>
+<ul>
+<li><strong>在做什么：</strong> 在 HF 参考上解 <strong>CCSD</strong>
+振幅（<span class="math inline">\(t_1\)</span>、<span
+class="math inline">\(t_2\)</span>），再算 <strong>(T)
+三重激发修正</strong>。<br />
+</li>
+<li><strong>标度：</strong> <strong>CCSD</strong> 部分常见为
+<strong><span
+class="math inline">\(O(N^6)\)</span></strong>；<strong>(T)</strong>
+一步主导为 <strong><span
+class="math inline">\(O(N^7)\)</span></strong>。<br />
+</li>
+<li><strong>小结：</strong> 表把 <strong>CCSD(T)</strong> 整体概括为
+<strong><span class="math inline">\(O(N^7)\)</span></strong>，即以
+<strong>(T)</strong> 为最昂贵环节。</li>
+</ul>
+<hr />
+<p><strong>（3）VQE：经典 <span
+class="math inline">\(O(M)\)</span>，量子 <span
+class="math inline">\(O(\text{深度})\)</span></strong></p>
+<p>与 HF/CC/FCI 的 <strong>单一 <span class="math inline">\(N\)</span>
+幂次</strong> 不是同一套记账方式，需拆开说。</p>
+<ul>
+<li><strong><span class="math inline">\(M\)</span>：</strong>
+变分参数个数（如电路里独立转角 <span
+class="math inline">\(\theta_1,\ldots,\theta_M\)</span>）。<strong>经典侧</strong>
+优化器每步要多次评估能量（若算梯度则评估次数更多），总代价随
+<strong>迭代步数 × 每步评估次数</strong> 增长；表中 <strong><span
+class="math inline">\(O(M)\)</span></strong> 表示
+<strong>随参数规模多项式增长</strong> 的简化说法，<strong>不</strong>
+表示严格线性。<br />
+</li>
+<li><strong>量子侧：</strong> 每次能量估计执行一条
+<strong>参数化电路</strong>；在硬件上更贴切的是
+<strong>电路深度、双比特门数、shots</strong> 等。表中 <strong><span
+class="math inline">\(O(\text{深度})\)</span></strong> 指
+<strong>单次线路执行</strong> 随深度变化。<br />
+</li>
+<li><strong>与 <span class="math inline">\(N\)</span> 的关系：</strong>
+分子越大，二次量子化后 <strong>量子比特数 <span
+class="math inline">\(n\)</span></strong> 通常增加，<strong>Pauli
+项数、线路更深</strong>，总成本 <strong>间接随体系急剧上升</strong>。用
+<strong>态矢量模拟器</strong> 时，模拟成本还随 <strong><span
+class="math inline">\(2^n\)</span></strong> 指数增——那是
+<strong>经典模拟</strong>
+的代价，与「真实量子机时间」不是同一概念。</li>
+</ul>
+<hr />
+<p><strong>（4）FCI：<span
+class="math inline">\(O(\exp(N))\)</span></strong></p>
+<ul>
+<li><strong>在做什么：</strong> 在固定基组下，在
+<strong>全组态空间</strong> 对角化哈密顿量，得该基组内的
+<strong>精确</strong> 电子相关解。<br />
+</li>
+<li><strong>为何指数：</strong> 组态数目随
+<strong>电子数、轨道数</strong> 组合增长，希尔伯特空间维度
+<strong>指数级</strong>。常写作 <strong><span
+class="math inline">\(\exp(O(n))\)</span></strong>（<span
+class="math inline">\(n\)</span> 为自旋轨道数或量子比特数），表中
+<strong><span class="math inline">\(O(\exp(N))\)</span></strong>
+是同一类记号的宽松写法。<br />
+</li>
+<li><strong>小结：</strong> 稍大体系 <strong>精确 FCI
+不可行</strong>，故需 CC、CASSCF、DMRG、量子算法等
+<strong>降维或近似</strong>。</li>
+</ul>
+<hr />
+<p><strong>（5）对照表（与表中「计算量」列对齐）</strong></p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>方法</th>
+<th>计算量在比什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HF</td>
+<td>SCF：<strong>对 <span class="math inline">\(N\)</span>
+多项式</strong>（常记 <span class="math inline">\(N^3\)</span>～<span
+class="math inline">\(N^4\)</span>）</td>
+</tr>
+<tr>
+<td>CCSD(T)</td>
+<td><strong>(T) 主导 <span
+class="math inline">\(N^7\)</span></strong></td>
+</tr>
+<tr>
+<td>VQE</td>
+<td><strong>优化轮数 × 每次量子评估</strong>；评估侧用 <strong><span
+class="math inline">\(M\)</span></strong> 与 <strong>线路深度</strong>
+描述</td>
+</tr>
+<tr>
+<td>FCI</td>
+<td>组态空间 <strong>指数大</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="条目-25专题波函数集中与采样子空间方法">条目
+25（专题：波函数「集中」与采样子空间方法）</h3>
+<p><strong>标签：</strong> <code>#波函数集中性</code> <code>#SQD</code>
+<code>#SKQD</code> <code>#SqDRIFT</code> <code>#多参考</code></p>
+<p><strong>日期：</strong> 2026-04-03</p>
+<p><strong>问题：</strong></p>
+<p>量子化学 / 量子算法语境下，波函数在<strong>计算基</strong>（或
+<strong>Slater
+行列式基</strong>）上<strong>何时更可能「集中」、何时往往「不集中」</strong>？有没有可操作的直觉判别？与
+<strong>SQD、SKQD、SqDRIFT</strong>
+等「采样子空间对角化」类方法的<strong>前提</strong>如何对应？</p>
+<p><strong>回答：</strong></p>
+<p>以下整理适用于理解这类方法对「少量基矢/构型能否承载大部分概率权重」的隐含假设。</p>
+<hr />
+<p><strong>（1）什么时候更可能「集中」？</strong></p>
+<p>下面几类情形里，基态（或目标低能态）往往更容易用<strong>少量基矢/构型</strong>承载大部分概率权重，即更接近「集中型」。</p>
+<ul>
+<li><p><strong>单参考主导 + 微扰式相关：</strong>
+许多闭壳层分子在<strong>较好的分子轨道基</strong>下，Hartree–Fock
+行列式权重很大，真正重要的修正主要来自<strong>相对较少的单、双激发</strong>（或其它低阶激发）。此时
+CISD、CCSD
+等截断方法常常已经「像那么回事」，说明波函数在行列式展开里<strong>头部几项就占了大部分质量</strong>。</p></li>
+<li><p><strong>选对单粒子基：</strong>
+「集中」不是绝对的，<strong>与表象有关</strong>：同一物理态，在不同单粒子基下，展开系数稀疏程度可以差很多。目标是让<strong>主导占据模式</strong>与基尽量对齐。常用候选包括规范
+Hartree–Fock
+轨道、自然轨道、局域化轨道等。<strong>哪一种更集中要就事论事</strong>。例如
+SqDRIFT 一文里同一分子在 HF
+轨道与局域（LO）轨道下，<strong>线路深度与集中性表现可以相反</strong>：LO
+可能让线路更浅，但波函数在行列式意义上未必更集中。</p></li>
+<li><p><strong>对称性把 Hilbert 空间「切碎」：</strong>
+若基态落在某个<strong>小的对称扇区</strong>里（如固定电子数、自旋、点群不可约表示等），则<strong>物理上可及的构型集合</strong>会比全体比特串小得多。但要注意：扇区缩小<strong>不等于</strong>一定集中——扇区维度仍可能是<strong>指数级</strong>的。「集中」还要求：在这个扇区内部，仍然只有<strong>少数构型</strong>占据绝大部分权重，而不是权重摊在指数多个行列式上。</p></li>
+</ul>
+<hr />
+<p><strong>（2）什么时候往往「不集中」（或集中性很差）？</strong></p>
+<ul>
+<li><p><strong>多参考 / 强关联：</strong>
+例如键长拉伸、解离极限；近简并（多个低能态靠得很近）；开壳层金属片段、强关联局域区；需用共振结构描述的自由基等。这类体系里，<strong>多个
+Slater
+行列式往往权重相当</strong>，波函数在展开中分散在许多构型上。</p></li>
+<li><p><strong>「坏基」下的表象：</strong>
+同一个精确波函数，换一组单粒子基后，可能从「少数主导行列式」变成「指数多个小系数叠加」。这与量子信息里「在哪个基上看起来稀疏」是同一类问题：<strong>集中性是表象依赖的</strong>。</p></li>
+<li><p><strong>权重长尾很重：</strong>
+即使<strong>前几名</strong>构型概率很大，若要达到<strong>化学精度</strong>（或你关心的能量/性质精度），还必须系统性地纳入<strong>海量</strong>小权重构型，则在「小子空间对角化」的意义下，<strong>实质上仍算不集中</strong>——因为有效支撑维度并没有被控制在多项式规模内。</p></li>
+</ul>
+<hr />
+<p><strong>（3）有没有一句「判别口诀」？</strong></p>
+<ul>
+<li><strong>更偏集中：</strong> 把行列式（或计算基）按 <span
+class="math inline">\(|c_i|^2\)</span>
+从大到小排序后，<strong>概率质量曲线很快饱和</strong>——前 <strong><span
+class="math inline">\(\mathrm{poly}(n)\)</span>
+个</strong>基矢上的权重之和就达到 <span
+class="math inline">\(1-\varepsilon\)</span>（<span
+class="math inline">\(\varepsilon\)</span> 足够小）。<br />
+</li>
+<li><strong>更偏不集中：</strong>
+曲线饱和<strong>很慢</strong>——要把能量或波函数误差压到目标精度，往往需要
+<strong>指数级多个</strong> 构型才够。</li>
+</ul>
+<hr />
+<p><strong>（4）能不能说「很多开壳层体系、化学反应里很多自由基，波函数都不集中」？</strong></p>
+<p>可以把它理解成<strong>经验上的倾向（prior）</strong>，<strong>不要理解成一条恒真的定理</strong>。</p>
+<ul>
+<li><p><strong>为何常「更不集中」：</strong>
+<strong>开壳层</strong>常有低能激发与基态间距较小、或多个自旋/空间对称相关的组态竞争，单参考未必能垄断权重。<strong>自由基与许多反应中间体</strong>往往涉及成键/反键重新分布、共振、简并或近简并，电子相关更强、构型空间更「散」，与上文「多参考
+/
+强关联」高度重叠。因此在<strong>方法选型直觉</strong>上：对这类体系，采样子空间对角化、截断
+CI
+等依赖「少数构型就够」的思路<strong>更容易吃紧</strong>，往往需要更大的子空间、多参考方法、或更谨慎地选活性空间与轨道基。</p></li>
+<li><p><strong>重要例外：</strong>
+不少开壳层双自由基/自由基在<strong>合适的活性空间 + ROHF/CASSCF 起点 +
+自然轨道</strong>下，仍可能是<strong>一个参考行列式占主导</strong>；「集中」<strong>依赖表象</strong>，自由基并非自动等于「展开系数必散」。</p></li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr>
+<th>说法</th>
+<th>是否妥当</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「开壳层 /
+自由基<strong>往往</strong>比典型闭壳层平衡构型<strong>更难</strong>保证集中」</td>
+<td>✅ 作为经验规律可以这么理解</td>
+</tr>
+<tr>
+<td>「凡是开壳层或凡是自由基都<strong>一定</strong>不集中」</td>
+<td>❌ 过强，不成立</td>
+</tr>
+</tbody>
+</table>
+<p>真正可靠的做法仍是对<strong>具体体系</strong>看
+<strong>（3）</strong> 的「概率质量曲线」或 <strong>（5）</strong>
+的截断误差，而不是只贴标签。</p>
+<hr />
+<p><strong>（5）附：若要做「计算上」的判定</strong></p>
+<p>对具体体系（某分子的活性空间、某格点/自旋模型），可以用更贴近程序的说法自测，例如：</p>
+<ul>
+<li><strong>主导行列式权重</strong>：最大 <span
+class="math inline">\(|c|^2\)</span> 或前若干项累积权重；<br />
+</li>
+<li><strong>截断误差</strong>：只保留前 <span
+class="math inline">\(L\)</span> 个构型时，能量或方差相对
+FCI（或你认为的参考）差多少。</li>
+</ul>
+<hr />
+<p><em>可与 SqDRIFT 译文 <a
+href="./Quantum_chemistry_with_provable_convergence_via_randomized_sample-based_Krylov_quantum_diagonalization.zh-CN.md">Quantum_chemistry_with_provable_convergence_via_randomized_sample-based_Krylov_quantum_diagonalization.zh-CN.md</a>
+中关于 <span
+class="math inline">\((\alpha_L,\beta_L)\)</span>-集中假设的段落对照阅读。</em></p>
+<hr />
 <p><em>文档说明：后续问答请按教材顺序插入对应位置，或暂附文末后归位；编号顺延为「条目
-24」「条目 25」…</em></p>
+26」「条目 27」…</em></p>
 </body>
 </html>

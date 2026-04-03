@@ -462,7 +462,7 @@ Path: \`materials/learning/qc-x-chem/literature/\`
 
 ## Workflow Standard
 
-\`文献工作流标准.md\` — naming conventions, front-matter, formula rules, QA log format
+\`学习问答记录.md\` (workflow + appendix A) / \`文献工作流标准.md\` stub — naming, formulas, QA format
 
 ## Q&A Records
 

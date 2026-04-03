@@ -1,6 +1,6 @@
 # Run install_pyscf_wsl.sh inside WSL from Windows PowerShell.
 # Usage (from anywhere):
-#   & "D:\Yaozheng\QuantumChemistry\LearningPlan\learning_materials\install_pyscf_wsl.ps1" 2.6.2
+#   & "D:\Yaozheng\PandM\materials\software\qc-x-chem\install_pyscf_wsl.ps1" 2.6.2
 # Or cd to learning_materials first:
 #   .\install_pyscf_wsl.ps1
 #   .\install_pyscf_wsl.ps1 2.6.2

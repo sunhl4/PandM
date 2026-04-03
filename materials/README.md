@@ -15,21 +15,16 @@ materials/
 │   │       ├── 01_量子计算基础与概念映射.ipynb
 │   │       └── 02_Qiskit入门实践.ipynb
 │   ├── 机器学习/                      # NNP, GNN, 主动学习
-│   ├── 量子计算×计算化学/             # VQE, SQD, ADAPT-VQE, QPE
-│   │   ├── Phase2_CoreAlgorithms/
-│   │   │   ├── 01_VQE原理与实现.ipynb
-│   │   │   └── 02_Qiskit_Nature_H2_LiH.ipynb
-│   │   ├── Phase3_AdvancedMethods/
-│   │   │   ├── 01_进阶算法综述.ipynb
-│   │   │   └── 02_量子优势分析.ipynb
-│   │   ├── SQD.md
-│   │   ├── ADAPT-VQE.md
-│   │   └── 文献补充_计算化学与量子计算.md
+│   ├── 量子计算×计算化学/             # 路径：learning/qc-x-chem/
+│   │   ├── learning-example/          # VQE、进阶算法、优势分析等 Notebook
+│   │   └── literature/                # 译文、PDF、SQD/ADAPT 笔记
+│   │       ├── 学习问答记录.md        # 含：工作流标准、文献补充索引、附录模板、问答条目
+│   │       ├── 学习问答记录.html      # Pandoc + MathJax（python regen_qa_html.py）
+│   │       ├── 文献工作流标准.md      # → 重定向至学习问答记录.md
+│   │       ├── 文献精读问答_模板.md   # → 重定向（正文在「附录 A」）
+│   │       └── 文献补充_计算化学与量子计算.md  # → 重定向
 │   ├── 量子计算×机器学习/             # QML, 量子核方法, VQC
 │   ├── 量子计算×分子动力学/           # 量子增强采样, 量子力场
-│   ├── 学习问答记录.md                # 累计 1500+ 行
-│   ├── 学习问答记录.html
-│   └── 文献精读问答_模板.md
 │
 ├── 工作计划/                          # 两个工作方向
 │   ├── 量子计算×计算化学/

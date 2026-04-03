@@ -5,9 +5,15 @@ import subprocess
 from pathlib import Path
 
 CMAKE = Path(r"C:\Users\Administrator\anaconda3\envs\qc_chem\Scripts\cmake.exe")
-SRC = Path(
-    r"D:\Yaozheng\QuantumChemistry\LearningPlan\.pyscf_win_build\src\pyscf-2.12.1\pyscf\lib\CMakeLists.txt"
-)
+_HERE = Path(__file__).resolve().parent
+_SRC_ROOT = _HERE / ".pyscf_win_build" / "src"
+_candidates = sorted(_SRC_ROOT.glob("pyscf-*/pyscf/lib/CMakeLists.txt"))
+SRC = _candidates[-1] if _candidates else _HERE / ".pyscf_win_build" / "src" / "pyscf-2.12.1" / "pyscf" / "lib" / "CMakeLists.txt"
+if not SRC.is_file():
+    raise SystemExit(
+        f"Missing PySCF CMakeLists at {SRC}. Unpack sources under {_SRC_ROOT} "
+        "or set SRC in _binsearch_cmake.py."
+    )
 raw = SRC.read_text(encoding="utf-8")
 raw = re.sub(r"\bif\s+\(", "if(", raw)
 raw = re.sub(r"\belseif\s+\(", "elseif(", raw)
