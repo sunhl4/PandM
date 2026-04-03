@@ -16,7 +16,8 @@
  *   type            – undefined (hierarchy) | 'cross' (dashed cross-module)
  */
 
-const BASE = 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials'
+// Notebook 链接用 raw + nbviewer /urls/，避免 github/blob 解析在部分环境下 404（如 “not found among 60 files”）
+const BASE = 'https://nbviewer.org/urls/raw.githubusercontent.com/sunhl4/PandM/main/materials'
 const RAW  = 'https://github.com/sunhl4/PandM/blob/main/materials'
 
 export const INITIAL_GRAPH = {

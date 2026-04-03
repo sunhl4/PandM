@@ -25,7 +25,7 @@ export const ROOT = path.resolve(__dirname, '..')
 const MATERIALS  = path.join(ROOT, 'materials')
 
 const GITHUB_RAW  = 'https://github.com/sunhl4/PandM/blob/main/materials'
-const NBVIEWER    = 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials'
+const NBVIEWER    = 'https://nbviewer.org/urls/raw.githubusercontent.com/sunhl4/PandM/main/materials'
 
 const SKIP_DIRS   = new Set(['node_modules', '__pycache__', '.git', '.pytest_cache',
                               'tests', '.github', '.venv', 'dist', 'build'])
