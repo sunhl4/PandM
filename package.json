@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "scan": "node -e \"import('./scripts/scan-materials.js').then(m => { const r = m.scan(); console.log('Auto-discovered:', r.nodes.length, 'nodes,', r.edges.length, 'edges'); })\""
   },
   "dependencies": {
     "d3": "^7.9.0",

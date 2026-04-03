@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { INITIAL_GRAPH } from './data/initialGraph.js'
+import { BASE_GRAPH } from './data/graphData.js'
 import { useLocalStorage } from './hooks/useLocalStorage.js'
 import { useGraph } from './hooks/useGraph.js'
 import ParticleField from './components/ParticleField.jsx'
@@ -11,7 +11,7 @@ import Breadcrumb from './components/Breadcrumb.jsx'
 import AddNodeModal from './components/AddNodeModal.jsx'
 
 export default function App() {
-  const [graph, setGraph] = useLocalStorage(INITIAL_GRAPH)
+  const [graph, setGraph] = useLocalStorage(BASE_GRAPH)
   const [selectedNode, setSelectedNode] = useState(null)
   const [focusNodeId, setFocusNodeId] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')

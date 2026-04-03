@@ -1,0 +1,11 @@
+{
+  "id": "literature",
+  "_comment": "Maps this directory to the existing curated node 'literature'. Files listed in excludeFiles are already curated as dedicated nodes.",
+  "excludeFiles": [
+    "RevModPhys_92_015003.zh-CN.md",
+    "Quantum_Chemistry_in_the_Age_of_Quantum_Computing.zh-CN.md",
+    "Towards_Quantum_Advantage_in_Chemistry.zh-CN.md",
+    "2508.02578v2.zh-CN.md",
+    "量子计算在计算化学中的方法与文献地图.md"
+  ]
+}

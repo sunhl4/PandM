@@ -80,8 +80,12 @@ npm run dev
 - **D3.js v7** — 力导向图、缩放、拖拽
 - **Framer Motion** — 面板动画
 - **Tailwind CSS** — 样式
-- **Markdown-it** — 节点内容渲染
+- **Markdown-it** + **KaTeX** — 节点 Markdown 与数学公式渲染
 - **localStorage** — 本地持久化
+
+## 自定义调参（力导向图 / 公式 / 节点样式）
+
+详见 **[docs/可视化与布局调整.md](./docs/可视化与布局调整.md)**：说明要改哪个文件、改哪一段（连线刚度与距离、碰撞半径、斥力、拖拽与缩放、节点 `NODE_TYPE_CONFIG`、KaTeX 与侧栏样式等）。
 
 ## 开发
 
