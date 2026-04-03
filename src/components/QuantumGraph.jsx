@@ -176,9 +176,13 @@ export default function QuantumGraph({
         .attr('stroke-dasharray', (d) => d.type === 'cross' ? '5,4' : '0')
         .attr('marker-end', (d) => d.type === 'cross' ? 'url(#arrow-cross)' : 'url(#arrow)')
 
-      // Animated flowing particles on links
+      // Animated flowing particles on links (datum needs stable phase index — D3 does not set d.index)
+      const particleEdges = edges.filter((e) => e.type !== 'cross')
+      particleEdges.forEach((e, i) => {
+        e._particlePhase = i
+      })
       const linkParticles = linkGroup.selectAll('circle.link-particle')
-        .data(edges.filter((e) => e.type !== 'cross'))
+        .data(particleEdges)
         .join('circle')
         .attr('class', 'link-particle')
         .attr('r', 2)
@@ -340,13 +344,13 @@ export default function QuantumGraph({
 
         // Flowing particles along links
         linkParticles.attr('cx', (d) => {
-          const progress = (t * 0.008 + d.index * 0.3) % 1
+          const progress = (t * 0.008 + (d._particlePhase ?? 0) * 0.3) % 1
           return (d.source.x || 0) + ((d.target.x || 0) - (d.source.x || 0)) * progress
         }).attr('cy', (d) => {
-          const progress = (t * 0.008 + d.index * 0.3) % 1
+          const progress = (t * 0.008 + (d._particlePhase ?? 0) * 0.3) % 1
           return (d.source.y || 0) + ((d.target.y || 0) - (d.source.y || 0)) * progress
         }).attr('opacity', (d) => {
-          const progress = (t * 0.008 + d.index * 0.3) % 1
+          const progress = (t * 0.008 + (d._particlePhase ?? 0) * 0.3) % 1
           return Math.sin(progress * Math.PI) * 0.8
         })
 
@@ -384,7 +388,7 @@ export default function QuantumGraph({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graph, focusNodeId, buildVisibleGraph])
 
-  // Apply search highlight as a separate effect (no re-simulation)
+  // Search highlight — deps include graph/focus so styles re-apply after D3 rebuilds DOM
   useEffect(() => {
     if (!gRef.current) return
     const q = searchQuery?.toLowerCase().trim()
@@ -393,6 +397,7 @@ export default function QuantumGraph({
       if (!q) {
         el.style('opacity', 1)
         el.select('.main-circle').attr('stroke-width', 1.8)
+        el.select('.glow-ring').attr('stroke-opacity', 0.2)
         return
       }
       const match = d.label.toLowerCase().includes(q) ||
@@ -407,7 +412,7 @@ export default function QuantumGraph({
         el.select('.main-circle').attr('stroke-width', 1.8)
       }
     })
-  }, [searchQuery])
+  }, [searchQuery, graph, focusNodeId])
 
   // Highlight selected node
   useEffect(() => {
@@ -427,7 +432,7 @@ export default function QuantumGraph({
         el.select('.glow-ring').attr('stroke-opacity', 0.2).attr('r', cfg.radius + 8)
       }
     })
-  }, [selectedNode])
+  }, [selectedNode, graph, focusNodeId])
 
   return (
     <svg

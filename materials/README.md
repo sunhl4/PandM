@@ -19,10 +19,8 @@ materials/
 │   │   ├── learning-example/          # VQE、进阶算法、优势分析等 Notebook
 │   │   └── literature/                # 译文、PDF、SQD/ADAPT 笔记
 │   │       ├── 学习问答记录.md        # 含：工作流标准、文献补充索引、附录模板、问答条目
-│   │       ├── 学习问答记录.html      # Pandoc + MathJax（python regen_qa_html.py）
-│   │       ├── 文献工作流标准.md      # → 重定向至学习问答记录.md
-│   │       ├── 文献精读问答_模板.md   # → 重定向（正文在「附录 A」）
-│   │       └── 文献补充_计算化学与量子计算.md  # → 重定向
+│   │       ├── 学习问答记录.html      # Pandoc + MathJax（本目录 python regen_qa_html.py）
+│   │       └── regen_qa_html.py
 │   ├── 量子计算×机器学习/             # QML, 量子核方法, VQC
 │   ├── 量子计算×分子动力学/           # 量子增强采样, 量子力场
 │
