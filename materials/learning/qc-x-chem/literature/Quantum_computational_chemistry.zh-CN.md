@@ -8,7 +8,7 @@
 
 **DOI**：10.1103/RevModPhys.92.015003  
 
-**PDF**：`RevModPhys.92.015003.pdf`  
+**PDF**：`Quantum_computational_chemistry.pdf`  
 
 ---
 
@@ -17,7 +17,7 @@
 - 本文为 *Quantum computational chemistry*（McArdle 等，*Rev. Mod. Phys.* 2020）的中文读本；合并了 PDF 中的断行以便阅读。
 - **篇幅**：原文约 51 页。**§I 引言**与 **§II 量子计算与模拟**为与 PDF 对应的**逐段全文翻译**。**§III 经典计算化学**起至 **§VIII 讨论与结论**暂以**分节中文导读**呈现（小节标题与原文一致，每条为要点摘要，并指向原文公式/图表编号）；**极长推导、算法细节与全部参考文献仍以 PDF 为准**。若需与 *Chem. Rev.* 2019（Cao 等）同级别的通篇逐句译文，可在本文件上按节逐步补全。
 - **公式**：行内用 `$...$`；**独立公式**用上下各一行的 `$$`，且**结束 `$$` 后空一行**再接正文。
-- **读后问答**：[RevModPhys_92_015003.QA.zh-CN.md](./RevModPhys_92_015003.QA.zh-CN.md)
+- **读后问答**：[Quantum_computational_chemistry.QA.zh-CN.md](./Quantum_computational_chemistry.QA.zh-CN.md)
 
 ---
 
@@ -164,4 +164,4 @@ $$
 
 ---
 
-*（译文与导读完；参考文献列表与正文图表请对照 `RevModPhys.92.015003.pdf`。）*
+*（译文与导读完；参考文献列表与正文图表请对照 `Quantum_computational_chemistry.pdf`。）*

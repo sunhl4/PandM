@@ -1,7 +1,7 @@
 # 《量子计算化学》问答记录
 
-**对应论文**：McArdle, Endo, Aspuru-Guzik, Benjamin, Yuan — *Quantum computational chemistry*, *Rev. Mod. Phys.* **2020**, *92*, 015003（PDF：`RevModPhys.92.015003.pdf`）  
-**配套译文**：[RevModPhys_92_015003.zh-CN.md](./RevModPhys_92_015003.zh-CN.md)（文件名英文、正文中文）
+**对应论文**：McArdle, Endo, Aspuru-Guzik, Benjamin, Yuan — *Quantum computational chemistry*, *Rev. Mod. Phys.* **2020**, *92*, 015003（PDF：`Quantum_computational_chemistry.pdf`）  
+**配套译文**：[Quantum_computational_chemistry.zh-CN.md](./Quantum_computational_chemistry.zh-CN.md)（文件名英文、正文中文）
 
 ## 使用说明
 
