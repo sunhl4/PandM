@@ -222,25 +222,41 @@ This is one of the most actionable near-term industrial value paths for quantum 
       id: 'learn-qc-chem',
       label: 'QC × Comp. Chem.',
       type: 'category',
-      description: 'VQE, SQD, ADAPT-VQE, QPE, DMET quantum embedding',
+      description: 'VQE, SQD, ADAPT-VQE, QPE, DMET, TC, GBS, Gibbs, CQE, NEO — full method landscape',
       content: `# Quantum Computing × Computational Chemistry
 
 **Core goal**: Solve strongly-correlated electronic structure problems on quantum computers.
 
-## Algorithm Landscape
+## Algorithm Landscape (to 2026-04)
 
-### NISQ Algorithms
-- **VQE** — Variational Quantum Eigensolver
+### NISQ / Near-Term Algorithms
+- **VQE** — Variational Quantum Eigensolver (+ UCCSD, HEA, OO-VQE ansätze)
 - **ADAPT-VQE** — Adaptive ansatz construction via gradient selection
 - **SQD** — Sample-based Quantum Diagonalization
 - **SKQD** — Krylov-enhanced version of SQD
+- **VQD / QSE / qEOM** — Excited states & spectroscopy
+- **TC-VQE** — Transcorrelated method for chemical accuracy on NISQ
+- **CQE** — Contracted quantum eigensolver (RDM-based)
+- **Classical shadows** — Measurement cost reduction for VQE
 
 ### Fault-Tolerant Algorithms
-- **QPE** — Quantum Phase Estimation (long-term, polynomial advantage)
+- **QPE** — Quantum Phase Estimation (qubitization, LCU, block encoding)
+- **Low-rank factorization / THC / SCDF** — Hamiltonian compression
+
+### Specialized Platforms
+- **GBS** — Gaussian Boson Sampling for vibronic spectra (photonic)
+- **Quantum annealing** — Molecular conformation, docking (D-Wave)
+
+### Supporting Methods
+- **Fermionic encodings** — JW, BK, Parity, tapering
+- **Embedding / DMET** — Active-space partitioning
+- **Error mitigation** — ZNE, PEC, symmetry verification
+- **Finite-temperature** — Gibbs state preparation, quantum MCMC
+- **NEO-VQE** — Nuclear quantum effects, proton tunneling
 
 ## Quantum Embedding
 
-\`DFT → DMET → active-space Hamiltonian → VQE / SQD\`
+\`DFT → DMET → active-space Hamiltonian → VQE / SQD / QPE\`
 
 ## 4-Phase Learning Path
 
@@ -249,13 +265,18 @@ This is one of the most actionable near-term industrial value paths for quantum 
 | 1 | Qubits, gates, concept mapping | \`learning/quantum-computing/\` |
 | 2 | VQE, H₂/LiH | \`learning/qc-x-chem/Phase2_CoreAlgorithms/\` |
 | 3 | ADAPT-VQE, SQD, quantum advantage | \`learning/qc-x-chem/Phase3_AdvancedMethods/\` |
-| 4 | Catalysis, force field applications | \`software/qc-x-chem/Phase4_Applications/\` |`,
-      tags: ['VQE', 'ADAPT-VQE', 'SQD', 'QPE', 'DMET', 'quantum embedding'],
+| 4 | Catalysis, force field applications | \`software/qc-x-chem/Phase4_Applications/\` |
+
+## Full Method Reference
+
+See: \`literature/量子计算在计算化学中的方法与文献地图.md\``,
+      tags: ['VQE', 'ADAPT-VQE', 'SQD', 'QPE', 'DMET', 'TC', 'GBS', 'Gibbs', 'CQE', 'NEO', 'quantum embedding', 'barren plateau'],
       links: [
         { label: 'Phase2: VQE Theory & Impl.', url: `${BASE}/learning/qc-x-chem/Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb` },
         { label: 'Phase2: H2/LiH', url: `${BASE}/learning/qc-x-chem/Phase2_CoreAlgorithms/02_Qiskit_Nature_H2_LiH.ipynb` },
         { label: 'Phase3: Advanced Algorithms', url: `${BASE}/learning/qc-x-chem/Phase3_AdvancedMethods/01_进阶算法综述.ipynb` },
         { label: 'Phase3: Quantum Advantage', url: `${BASE}/learning/qc-x-chem/Phase3_AdvancedMethods/02_量子优势分析.ipynb` },
+        { label: 'Method & Literature Map', url: `${RAW}/learning/qc-x-chem/literature/量子计算在计算化学中的方法与文献地图.md` },
       ],
     },
     {
@@ -341,6 +362,41 @@ Introduces Krylov time-evolved states to SQD:
       tags: ['SQD', 'SKQD', 'quantum data', 'diagonalization', 'Krylov'],
       links: [
         { label: 'SQD.md', url: `${RAW}/learning/qc-x-chem/SQD.md` },
+      ],
+    },
+    {
+      id: 'qc-frontier',
+      label: 'Frontier Methods (2026)',
+      type: 'topic',
+      description: 'Advanced & emerging QC-chemistry methods: TC, GBS, Gibbs, CQE, NEO, periodic, classical shadows',
+      content: `# Frontier & Advanced Methods in QC × Chemistry (to 2026-04)
+
+Beyond the core VQE / SQD / QPE triad, these directions are actively shaping the field.
+
+## Method Overview
+
+| Family | Key representatives | Status |
+|--------|--------------------|----|
+| **Fermionic encodings** | JW, Bravyi-Kitaev, Parity, tapering | Foundation layer |
+| **Transcorrelated (TC)** | TC-VQE, TC+AVQITE | 2024 IBM milestone |
+| **Barren plateaus** | mitigation: ADAPT, local cost, layered init | Critical VQE scaling challenge |
+| **OO-VQE / SA-OO-VQE** | orbital optimization + circuit params | 2024 JOSS paper |
+| **Classical shadows** | ShadowGrouping, Pauli grouping | Cuts measurement overhead |
+| **CQE** | contracted Schrödinger eq. | RDM-based, strong correlation |
+| **GBS / photonic** | Gaussian Boson Sampling | Vibronic spectra, Xanadu |
+| **Finite-temperature** | Gibbs state, quantum MCMC | Nature 2025 breakthrough |
+| **Periodic / solid-state** | SQD for band gaps, VQE+Wannier | Band structure, defects |
+| **Quantum annealing** | QAE, QUBO, D-Wave | Conformation, docking |
+| **Response / gradients** | VQE forces, dipoles, freq. | Geometry opt., IR/Raman |
+| **NEO-VQE** | nuclear quantum effects | Proton tunneling, H-bonds |
+
+## Full Reference
+
+See: \`materials/learning/qc-x-chem/literature/量子计算在计算化学中的方法与文献地图.md\`  
+Sections §4.0–§4.18 cover each method with key papers and GitHub links.`,
+      tags: ['TC', 'GBS', 'Gibbs', 'CQE', 'NEO', 'barren plateau', 'OO-VQE', 'classical shadows', 'periodic', 'QA', 'frontier', '2026'],
+      links: [
+        { label: 'Full Method & Literature Map', url: `${RAW}/learning/qc-x-chem/literature/量子计算在计算化学中的方法与文献地图.md` },
       ],
     },
     {
@@ -481,30 +537,35 @@ Comprehensive review of quantum algorithms for chemical simulation:
       id: 'lit-towards',
       label: 'Towards QC Advantage',
       type: 'leaf',
-      description: 'Towards quantum advantage in chemistry — roadmap paper',
+      description: 'iQCC-based study calibrating the quantum advantage threshold in OLED emitter calculations',
       content: `# Towards Quantum Advantage in Chemistry
 
-**Paper**: Towards Quantum Advantage in Financial Pricing, adapted for chemistry  
-**Focus**: Concrete pathways to quantum advantage in molecular simulation
+**Authors**: Genin, Kwon et al. (OTI Lumionics & Samsung SAIT)  
+**arXiv**: 2512.13657v2 — March 2026
+
+## Core Contribution
+
+Uses a large-scale classical simulation of the iQCC quantum solver (up to ~200 logical qubits, ~10⁷ two-qubit gates) to **benchmark** quantum-native methods against DFT/TD-DFT/CCSD on Ir(III)/Pt(II) phosphorescent OLED emitters, and calibrate where quantum advantage may emerge.
 
 ## Key Content
 
-- Analysis of problem instances where quantum speedup is achievable
-- Time and space complexity comparisons
-- Practical near-term opportunities (SQD, hybrid embedding)
-- Long-term fault-tolerant targets
+- iQCC (iterative qubit coupled-cluster): VQE-type algorithm designed for fault-tolerant hardware
+- Scalability: linear wall-clock time vs. qubit count × entangler count
+- Result: iQCC+PT mean absolute error ~0.05 eV, R² ≈ 0.94 vs. experiment
+- Conclusion: these systems remain classically tractable to ~200 logical qubits, setting a quantum-advantage threshold
 
 ## Files
 
-- \`Towards_Quantum_Advantage_in_Chemistry.pdf\`
+- \`2512.13657v2.pdf\` (arXiv)
 - \`Towards_Quantum_Advantage_in_Chemistry.zh-CN.md\`
 - \`Towards_Quantum_Advantage_in_Chemistry.QA.zh-CN.md\`
 
 ## Path
 
 \`materials/learning/qc-x-chem/literature/\``,
-      tags: ['quantum advantage', 'roadmap', 'complexity'],
+      tags: ['iQCC', 'quantum advantage', 'OLED', 'threshold', 'fault-tolerant', 'iQCC+PT'],
       links: [
+        { label: 'arXiv 2512.13657', url: 'https://arxiv.org/abs/2512.13657' },
         { label: 'zh-CN Translation', url: `${RAW}/learning/qc-x-chem/literature/Towards_Quantum_Advantage_in_Chemistry.zh-CN.md` },
       ],
     },
@@ -529,6 +590,48 @@ Comprehensive review of quantum algorithms for chemical simulation:
       links: [
         { label: 'arXiv 2508.02578', url: 'https://arxiv.org/abs/2508.02578' },
         { label: 'zh-CN Translation', url: `${RAW}/learning/qc-x-chem/literature/2508.02578v2.zh-CN.md` },
+      ],
+    },
+    {
+      id: 'lit-method-map',
+      label: 'Method & Lit. Map (2026-04)',
+      type: 'leaf',
+      description: 'Comprehensive map of quantum-computing-for-chemistry methods and references through April 2026',
+      content: `# 量子计算在计算化学中的方法与文献地图（截至 2026-04）
+
+A comprehensive, extensible reference covering all major quantum-computing approaches for computational chemistry.
+
+## Coverage
+
+| Section | Content |
+|---------|---------|
+| §2 | Full method landscape (18 method families) |
+| §3 | Chemistry problem types covered |
+| §4.0–4.18 | Per-method literature maps |
+| §5 | 2024–2026 trend analysis |
+| §6 | GitHub ecosystem (6 subsections) |
+| §7–8 | Reading order & practical judgments |
+
+## Key additions vs. prior surveys
+
+- Fermionic encodings (JW / BK / Parity / tapering)
+- Transcorrelated methods (TC-VQE, TC+AVQITE)
+- Classical shadows & measurement reduction
+- Contracted quantum eigensolver (CQE)
+- Gaussian Boson Sampling for vibronic spectra
+- Finite-temperature / Gibbs-state chemistry
+- Periodic & solid-state quantum chemistry
+- Quantum annealing & adiabatic QC
+- Response properties, forces, gradients
+- Nuclear quantum effects / NEO-VQE
+- Barren plateau problem & mitigation
+
+## File
+
+\`materials/learning/qc-x-chem/literature/量子计算在计算化学中的方法与文献地图.md\``,
+      tags: ['review', 'method map', 'VQE', 'QPE', 'TC', 'GBS', 'Gibbs', 'barren plateau', 'CQE', 'NEO', 'QML', '2026'],
+      links: [
+        { label: 'Method & Literature Map', url: `${RAW}/learning/qc-x-chem/literature/量子计算在计算化学中的方法与文献地图.md` },
       ],
     },
 
@@ -1273,6 +1376,8 @@ Retrain → iterate until convergence
     { source: 'literature',    target: 'lit-qcage' },
     { source: 'literature',    target: 'lit-towards' },
     { source: 'literature',    target: 'lit-2508' },
+    { source: 'literature',    target: 'lit-method-map' },
+    { source: 'learn-qc-chem', target: 'qc-frontier' },
 
     /* Research Plans → 2 branches */
     { source: 'work-plan', target: 'wp-qc-chem' },
@@ -1310,6 +1415,8 @@ Retrain → iterate until convergence
     { source: 'learn-classical-chem', target: 'learn-qc-chem', type: 'cross' },
     { source: 'sw-nnp-workflow', target: 'learn-ml',          type: 'cross' },
     { source: 'lit-towards',  target: 'wp-advantage',         type: 'cross' },
+    { source: 'lit-method-map', target: 'wp-advantage',       type: 'cross' },
+    { source: 'qc-frontier',   target: 'lit-method-map',      type: 'cross' },
   ],
 }
 

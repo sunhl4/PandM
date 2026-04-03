@@ -152,15 +152,15 @@ export default function QuantumGraph({
       const simulation = d3.forceSimulation(nodes)
         .force('link', d3.forceLink(edges).id((d) => d.id).distance((e) => {
           const srcType = nodes.find((n) => n.id === (typeof e.source === 'object' ? e.source.id : e.source))?.type
-          const dist = { root: 230, module: 175, category: 140, topic: 100, leaf: 78 }
-          return dist[srcType] || 125
-        }).strength((e) => (e.type === 'cross' ? 0.06 : 0.22)))
+          const dist = { root: 280, module: 215, category: 170, topic: 125, leaf: 95 }
+          return dist[srcType] || 155
+        }).strength((e) => (e.type === 'cross' ? 0.03 : 0.12)))
         .force('charge', d3.forceManyBody().strength((d) => {
           const s = { root: -520, module: -340, category: -220, topic: -130, leaf: -70 }
           return s[d.type] || -130
         }))
         .force('center', d3.forceCenter(0, 0))
-        .force('collision', d3.forceCollide().radius((d) => getTypeConfig(d.type).radius + 24).strength(0.85))
+        .force('collision', d3.forceCollide().radius((d) => getTypeConfig(d.type).radius + 36).strength(0.72))
         .velocityDecay(0.35)
         .alphaDecay(0.022)
       simRef.current = simulation
