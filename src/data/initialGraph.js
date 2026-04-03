@@ -1,754 +1,1322 @@
 /**
- * Initial graph data seeded from d:\Yaozheng\QuantumChemistry workspace.
+ * Initial graph data — PandM Knowledge Graph
+ * Three main modules: Learning Resources / Research Plans / Software Engineering
  *
  * Node schema:
  *   id          – unique string
- *   label       – display label (Chinese OK)
+ *   label       – display label (English)
  *   type        – 'root' | 'module' | 'category' | 'topic' | 'leaf'
- *   color       – optional override (uses type default otherwise)
  *   description – one-line summary
- *   content     – markdown string shown in NodePanel
+ *   content     – markdown shown in NodePanel
  *   tags        – string[]
  *   links       – { label, url }[]
  *
  * Edge schema:
  *   source / target – node ids
+ *   type            – undefined (hierarchy) | 'cross' (dashed cross-module)
  */
+
+const BASE = 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials'
+const RAW  = 'https://github.com/sunhl4/PandM/blob/main/materials'
 
 export const INITIAL_GRAPH = {
   nodes: [
     /* ─── ROOT ─────────────────────────────────────────────── */
     {
       id: 'root',
-      label: '知识宇宙',
+      label: 'Knowledge Universe',
       type: 'root',
-      description: '工作计划与学习资料的量子知识图谱',
-      content: `# 知识宇宙
+      description: 'Three modules: Learning · Research Plans · Software Engineering',
+      content: `# Knowledge Universe
 
-这是你的个人知识管理系统。
+Personal knowledge management system. Three core modules:
 
-两大核心模块：
-- **工作计划** — 研究路线、技术主线、近期任务
-- **学习资料** — 经典方法与量子计算的交叉学科知识库
+| Module | Branches | Focus |
+|--------|----------|-------|
+| **Learning Resources** | 6 directions | Classical Chem · QC · ML + 3 cross-disciplinary |
+| **Research Plans** | 2 directions | QC×Comp.Chem · QC×ML |
+| **Software Engineering** | 3 directions | QC×Comp.Chem · QC×ML · QC×Mol.Dynamics |
 
-点击任意节点展开分支，双击聚焦子图。`,
-      tags: ['系统', '导航'],
+Click any node to expand, double-click to focus subgraph.`,
+      tags: ['navigation', 'system'],
       links: [],
     },
 
-    /* ─── MODULE 1: 工作计划 ───────────────────────────────── */
-    {
-      id: 'work-plan',
-      label: '工作计划',
-      type: 'module',
-      description: '研究路线图与技术攻关计划',
-      content: `# 工作计划
-
-> 统一逻辑：**基础映射 → 少比特分子算法 → 量子优势判断 → SQD/量子数据路线 → 催化与力场应用**
-
-## 四条核心主线
-
-| 主线 | 核心问题 |
-|------|---------|
-| 少比特应用线 | 比特不多时量子计算还有没有价值？|
-| 量子优势线 | 何时、何种体系、何种资源下优于经典？|
-| 化学应用线 | 强关联、过渡金属活性中心的量子解法 |
-| 量子数据线 | 比特串分布作为"量子数据"与AI协作 |
-
-## 六个核心文件
-
-- \`README.md\` — 全局结构与学习路线
-- \`Phase2/02_Qiskit_Nature_H2_LiH.ipynb\` — 分子哈密顿量与少比特化学
-- \`Phase3/02_量子优势分析.ipynb\` — 量子优势的多维判断
-- \`SQD.md\` — 量子数据主线
-- \`Phase3/01_进阶算法综述.ipynb\` — ADAPT-VQE/SQD/SKQD关系
-- \`Phase4\` — 催化与力场两大应用故事`,
-      tags: ['规划', '路线图'],
-      links: [],
-    },
-    {
-      id: 'wp-fewqubit',
-      label: '少比特应用线',
-      type: 'category',
-      description: '验证算法、强关联局域问题、active space工作流',
-      content: `# 少比特应用线
-
-**核心问题**: 比特不多的时候，量子计算还有没有价值？
-
-## 价值所在
-
-- 验证算法正确性
-- 刻画强关联局域问题
-- 形成 active space 工作流
-- 构建量子数据和建立混合量子经典管线
-
-## 典型体系
-
-| 体系 | 规模 | 意义 |
-|------|------|------|
-| H₂ | 2 qubits | 最小化学基准 |
-| LiH | 4 qubits | 键解离验证 |
-| 2-site Hubbard | 2 qubits | 强关联模型 |
-| Fe-N4 toy model | 4 qubits | 催化活性中心 |
-
-少比特阶段的真正价值是**找准未来会放大的方法和数据路线**。`,
-      tags: ['NISQ', '少比特', 'active space'],
-      links: [
-        { label: 'Phase2: H2/LiH notebook', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase2_CoreAlgorithms/02_Qiskit_Nature_H2_LiH.ipynb' },
-      ],
-    },
-    {
-      id: 'wp-advantage',
-      label: '量子优势线',
-      type: 'category',
-      description: '精度、体系、资源、经典baseline综合判断',
-      content: `# 量子优势线
-
-量子优势不是"是否比经典快"这么单一，而是**在什么精度、什么体系、什么资源预算、什么经典baseline下更值得**。
-
-## 近期机会 (NISQ)
-
-- Shallow circuit 算法
-- 采样型方法 (SQD)
-- 量子嵌入 (DMET + VQE)
-- 量子数据与 QML
-
-## 长期优势 (FT)
-
-- QPE 对 FCI 级问题多项式复杂度优势
-- 强关联大体系、FCI 级精度
-- 需要大量物理比特与纠错开销
-
-## 关键参考
-
-- 量子优势分析 notebook（Phase3）
-- Towards Quantum Advantage in Chemistry（文献翻译）`,
-      tags: ['量子优势', 'NISQ', '容错'],
-      links: [
-        { label: '量子优势分析 notebook', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase3_AdvancedMethods/02_量子优势分析.ipynb' },
-      ],
-    },
-    {
-      id: 'wp-chemistry',
-      label: '化学应用线',
-      type: 'category',
-      description: '强关联体系与工业催化、力场开发',
-      content: `# 化学应用线
-
-化学天然是量子多体问题，**问题本身与量子计算语言高度同构**。
-
-## 关键特征体系
-
-- 强关联体系、近简并态
-- 自旋态竞争
-- 断键成键过程
-- 过渡金属活性中心（TM oxide, Fe-N4, Co-N4）
-
-## 两个应用故事
-
-### 非均相催化
-\`Fe-N4 / Co-N4 / TM oxide / active space / embedding\`
-
-### 力场开发
-\`PES数据 → ReaxFF / NNP / QML力场\`
-
-经典近似方法（DFT、CCSD(T)）在这些体系最脆弱，而工业最在意。`,
-      tags: ['催化', '力场', '强关联', 'DMET'],
-      links: [
-        { label: '非均相催化 notebook', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase4_Applications/01_非均相催化量子计算.ipynb' },
-        { label: '力场开发 notebook', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase4_Applications/02_量子计算辅助力场开发.ipynb' },
-      ],
-    },
-    {
-      id: 'wp-qdata',
-      label: '量子数据线',
-      type: 'category',
-      description: 'SQD比特串分布作为量子数据与AI协作',
-      content: `# 量子数据线
-
-**核心问题**: 公司为什么会关心 SQD 和量子测量数据？
-
-## SQD 工作原理
-
-\`bitstring → 合法组态 → 投影子空间 → 经典对角化\`
-
-量子设备产出的不是单纯一个能量数字，而是：
-- 比特串分布
-- 组态样本
-- 时间演化后的采样快照
-
-## 量子数据的价值
-
-这些样本不是噪声垃圾，而是能被**恢复、筛选、投影、特征化**的"量子数据"。
-
-最容易与经典 AI 形成**协作**，而不是简单替代经典 AI。
-
-## 参考材料
-
-- \`SQD.md\` — 核心原理
-- \`ADAPT-VQE.md\` — 自适应 ansatz
-- \`sqd_nat_chem_2024\` — 复现代码`,
-      tags: ['SQD', '量子数据', 'QML', 'SKQD'],
-      links: [
-        { label: 'SQD.md', url: 'https://github.com/sunhl4/PandM/blob/main/materials/SQD.md' },
-      ],
-    },
-    {
-      id: 'wp-pipeline',
-      label: 'DFT-QC流水线',
-      type: 'topic',
-      description: 'dft_qc_pipeline工程实现',
-      content: `# DFT-QC Pipeline
-
-**工程**: \`dft_qc_pipeline\`
-
-## 架构
-
-\`\`\`
-core/          # pipeline.py, config.py
-embedding/     # dmet.py — 量子嵌入
-hamiltonian/   # builder.py — 哈密顿量构建
-postprocessing/ # ml_export.py, inter_fragment_estimate.py
-\`\`\`
-
-## 典型工作流
-
-1. DFT 计算全体系（PySCF）
-2. DMET 分割活性空间
-3. 构建活性空间哈密顿量
-4. VQE/SQD 求解
-5. 结果导出
-
-## 示例 Notebooks
-
-- \`01_H2_minimal.ipynb\`
-- \`02_N2_multisolver.ipynb\`
-- \`03_FeN4_DMET_SQD.ipynb\``,
-      tags: ['DMET', 'DFT', 'VQE', 'pipeline'],
-      links: [],
-    },
-    {
-      id: 'wp-bench',
-      label: '基准测试平台',
-      type: 'topic',
-      description: 'quantum_chem_bench: HF–FCI vs VQE/QPE/SQD',
-      content: `# Quantum Chemistry Benchmark
-
-**工程**: \`quantum_chem_bench\`
-
-## 支持的方法
-
-| 类型 | 方法 |
-|------|------|
-| 经典 | HF, CCSD, FCI |
-| 量子 | VQE, QPE, SQD, ADAPT-VQE, QSE |
-
-## 测试体系
-
-- H₂ (STO-3G)
-- LiH (STO-3G)
-- N₂ (6-31G) — 解离曲线
-
-## YAML 配置驱动
-
-\`\`\`yaml
-molecule: h2
-basis: sto-3g
-methods: [hf, vqe, sqd]
-\`\`\``,
-      tags: ['benchmark', 'VQE', 'QPE', 'SQD'],
-      links: [],
-    },
-
-    /* ─── MODULE 2: 学习资料 ───────────────────────────────── */
+    /* ════════════════════════════════════════════════════════
+       MODULE 1: Learning Resources
+       ════════════════════════════════════════════════════════ */
     {
       id: 'learning',
-      label: '学习资料',
+      label: 'Learning Resources',
       type: 'module',
-      description: '经典方法与量子计算交叉学科知识库',
-      content: `# 学习资料
+      description: 'Systematic knowledge base across 6 directions',
+      content: `# Learning Resources
 
-系统化的学习体系，覆盖两大方向：
+Six learning directions:
 
-## 经典方法
-- **计算化学** — DFT, CCSD(T), 分子轨道理论
-- **分子动力学** — 力场, AIMD, 增强采样
-- **机器学习** — NNP, 图神经网络, 迁移学习
+## Classical Foundations
+- **Classical Comp. Chem.** — DFT, CCSD, Mol. Dynamics, PySCF
+- **Quantum Computing** — Qubits, gates, Qiskit, NISQ landscape
+- **Machine Learning** — NNP, GNN, active learning
 
-## 量子计算（交叉方向）
-- **QC × 计算化学** — VQE, QPE, 量子嵌入
-- **QC × 分子动力学** — 量子增强采样
-- **QC × 机器学习** — QML, 量子核方法`,
-      tags: ['学习', '知识库'],
+## Cross-Disciplinary
+- **QC × Comp. Chem.** — VQE, SQD/SKQD, ADAPT-VQE, QPE, DMET
+- **QC × Machine Learning** — QML, quantum kernels, VQC, PennyLane
+- **QC × Mol. Dynamics** — Quantum-accuracy PES, QM/MM, enhanced sampling
+
+## Literature Archive
+\`materials/learning/qc-x-chem/literature/\`  
+5 papers with Chinese translations and Q&A files.`,
+      tags: ['learning', 'knowledge base'],
       links: [],
     },
 
-    /* ─── 经典方法 ──────────────────────────────────────────── */
+    /* ── 1-1  Classical Comp. Chem. ────────────────────────── */
     {
-      id: 'classical',
-      label: '经典方法',
+      id: 'learn-classical-chem',
+      label: 'Classical Comp. Chem.',
       type: 'category',
-      description: '计算化学、分子动力学、机器学习',
-      content: `# 经典方法
+      description: 'DFT, HF, CCSD, molecular dynamics, PySCF toolchain',
+      content: `# Classical Computational Chemistry
 
-量子计算的基础与对照组。理解经典方法的能力边界，才能找准量子计算的切入点。`,
-      tags: ['经典', '基础'],
-      links: [],
-    },
-    {
-      id: 'comp-chem',
-      label: '计算化学',
-      type: 'category',
-      description: 'DFT, HF, CCSD, PySCF, 分子轨道理论',
-      content: `# 计算化学
+Foundation and benchmark for quantum methods. Understanding classical limits reveals quantum entry points.
 
-## 核心理论层次
+## Theory Hierarchy
 
 \`\`\`
 HF → MP2 → CCSD → CCSD(T) → FCI
 DFT (LDA → GGA → Hybrid → meta-GGA)
 \`\`\`
 
-## 关键概念
+## Key Concepts
 
-- **Born-Oppenheimer 近似** — 电子与核运动分离
-- **基组** (STO-3G, 6-31G, cc-pVDZ)
-- **活性空间** (CASSCF, CASPT2, NEVPT2)
-- **嵌入方法** (DMET, DFT/WF)
+- **Born-Oppenheimer approximation** — nuclear/electronic separation
+- **Basis sets** (STO-3G, 6-31G, cc-pVDZ)
+- **Active space** (CASSCF, CASPT2, NEVPT2)
+- **Embedding** (DMET, DFT/WF)
 
-## 工具
+## Molecular Dynamics
 
-- **PySCF** — Python从头算框架
-- **Psi4** — 高级量化软件
-- **ORCA** — 多参考方法
+| Type | Representatives | Feature |
+|------|----------------|---------|
+| Classical MD | AMBER, CHARMM, ReaxFF | Fast, limited accuracy |
+| AIMD | Born-Oppenheimer MD | DFT/QM force-driven |
+| Enhanced sampling | metadynamics, REMD | Conformational exploration |
+| Neural network FF | DeepMD, NequIP, MACE | High accuracy + efficiency |
 
-## 学习材料
+## Toolchain
 
-Phase1 & Phase2 notebooks 涵盖 HF、DFT 基础到量子计算接口。`,
-      tags: ['DFT', 'HF', 'CCSD', 'PySCF', 'active space'],
+- **PySCF** — Python ab initio framework
+- **Psi4 / ORCA** — Advanced quantum chemistry
+- **LAMMPS / GROMACS** — MD simulation engines`,
+      tags: ['DFT', 'HF', 'CCSD', 'PySCF', 'MD', 'active space'],
+      links: [],
+    },
+
+    /* ── 1-2  Quantum Computing ─────────────────────────────── */
+    {
+      id: 'learn-qc',
+      label: 'Quantum Computing',
+      type: 'category',
+      description: 'Qubits, gates, Qiskit basics, NISQ landscape',
+      content: `# Quantum Computing Fundamentals
+
+## Core Concepts
+
+- **Qubits** — superposition, entanglement, measurement collapse
+- **Quantum gates** — H, X, CNOT, Rz, universal gate sets
+- **Quantum circuits** — circuit construction, depth, noise models
+
+## Quantum Chemistry Mapping
+
+| Classical concept | Quantum computing analog |
+|-------------------|--------------------------|
+| Hamiltonian | Pauli string operator |
+| Wavefunction | Quantum state \`|ψ⟩\` |
+| Expectation value | Quantum measurement |
+| Ground state energy | Minimum expectation |
+
+## NISQ Landscape
+
+- 50–1000 noisy qubits today
+- Shallow variational circuits (VQE, ADAPT-VQE)
+- Sampling-based methods (SQD)
+- Hybrid quantum-classical workflows
+
+## Learning Materials
+
+\`materials/learning/quantum-computing/Phase1_Fundamentals/\`
+1. \`01_量子计算基础与概念映射.ipynb\`
+2. \`02_Qiskit入门实践.ipynb\``,
+      tags: ['Qiskit', 'NISQ', 'qubit', 'quantum gate', 'quantum circuit'],
       links: [
-        { label: 'Phase1: 量子计算基础与概念映射', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase1_Fundamentals/01_量子计算基础与概念映射.ipynb' },
-        { label: 'Phase2: VQE原理与实现', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb' },
+        { label: 'Phase1: QC Fundamentals', url: `${BASE}/learning/quantum-computing/Phase1_Fundamentals/01_量子计算基础与概念映射.ipynb` },
+        { label: 'Phase1: Qiskit Practice', url: `${BASE}/learning/quantum-computing/Phase1_Fundamentals/02_Qiskit入门实践.ipynb` },
       ],
     },
     {
-      id: 'md',
-      label: '分子动力学',
-      type: 'category',
-      description: 'MD模拟、力场、AIMD、增强采样',
-      content: `# 分子动力学
+      id: 'phase1',
+      label: 'Phase 1: Fundamentals',
+      type: 'leaf',
+      description: 'QC fundamentals & concept mapping, Qiskit practice',
+      content: `# Phase 1 — Quantum Computing Fundamentals
 
-## 方法谱系
+## Learning Objectives
 
-- **经典 MD** — 力场驱动（AMBER, CHARMM, ReaxFF）
-- **AIMD** — DFT/QM 力驱动（Born-Oppenheimer MD）
-- **增强采样** — metadynamics, umbrella sampling, REMD
+Build a conceptual bridge between quantum computing and quantum chemistry; master basic Qiskit operations.
 
-## 力场类型
+## Notebook 1: QC Fundamentals & Concept Mapping
+- Quantum states, superposition, entanglement
+- Basic gates (H, X, CNOT, Rz)
+- Hamiltonian → Pauli string mapping
 
-| 类型 | 代表 | 特点 |
-|------|------|------|
-| 分析力场 | AMBER, CHARMM | 快速，有限精度 |
-| 反应力场 | ReaxFF | 处理化学反应 |
-| 神经网络力场 | DeepMD, NequIP | 高精度+效率 |
+## Notebook 2: Qiskit Hands-on Practice
+- QuantumCircuit construction & visualization
+- Quantum measurement statistics
+- Statevector / AerSimulator usage
 
-## 与量子计算的连接
+## Path
 
-- 量子精度 PES 数据 → 训练 NNP
-- 量子增强采样
-- 量子嵌入 QM/MM`,
-      tags: ['MD', 'ReaxFF', 'NNP', 'AIMD', 'sampling'],
-      links: [],
-    },
-    {
-      id: 'ml-classical',
-      label: '机器学习',
-      type: 'category',
-      description: 'NNP、图神经网络、主动学习、迁移学习',
-      content: `# 机器学习（计算化学方向）
-
-## 主要应用
-
-- **神经网络势函数 (NNP)** — DeepMD-kit, NequIP, MACE
-- **分子性质预测** — HOMO/LUMO, 溶剂化能
-- **图神经网络 (GNN)** — SchNet, DimeNet, PaiNN
-- **主动学习** — 不确定性采样构建训练集
-
-## 输入表示
-
-- ACSF / SOAP 描述符
-- 等变图神经网络 (E(3)-equivariant)
-- 原子坐标 + 元素类型
-
-## 量子精度数据生成
-
-\`\`\`
-CCSD(T) / VQE → PES points → NNP training
-\`\`\`
-
-这是量子计算近期最清晰的工业价值路径之一。`,
-      tags: ['NNP', 'GNN', 'DeepMD', '主动学习'],
-      links: [],
-    },
-
-    /* ─── 量子计算 ──────────────────────────────────────────── */
-    {
-      id: 'quantum-comp',
-      label: '量子计算',
-      type: 'category',
-      description: '量子计算与经典方法的三条交叉路线',
-      content: `# 量子计算（交叉方向）
-
-## 三条交叉路线
-
-量子计算与经典计算化学、分子动力学、机器学习的三大交叉：
-
-1. **QC × 计算化学** — 直接求解电子结构问题
-2. **QC × 分子动力学** — 量子增强采样与量子力场
-3. **QC × 机器学习** — 量子核方法与量子模型
-
-## 当前阶段
-
-NISQ 时代：50–1000 个含噪比特
-- 浅电路变分算法（VQE, ADAPT-VQE）
-- 采样型方法（SQD）
-- 量子-经典混合工作流`,
-      tags: ['量子计算', 'NISQ', '交叉方向'],
-      links: [],
-    },
-    {
-      id: 'qc-chem',
-      label: 'QC × 计算化学',
-      type: 'category',
-      description: 'VQE, QPE, ADAPT-VQE, SQD, DMET嵌入',
-      content: `# 量子计算 × 计算化学
-
-**核心目标**: 用量子计算机直接求解强关联电子结构问题。
-
-## 算法谱系
-
-### NISQ 算法
-- **VQE** (Variational Quantum Eigensolver) — 变分本征值求解
-- **ADAPT-VQE** — 自适应 ansatz 构建
-- **SQD** (Sample-based Quantum Diagonalization) — 采样量子对角化
-- **SKQD** — 对称约束版本
-
-### 容错算法
-- **QPE** (Quantum Phase Estimation) — 精确相位估计
-
-## 量子嵌入
-
-\`DFT → DMET → 活性空间哈密顿量 → VQE/SQD\`
-
-## 学习路线（4阶段）
-
-| 阶段 | 内容 | Notebook |
-|------|------|---------|
-| Phase 1 | 量子比特、门、测量 | 基础概念映射 |
-| Phase 2 | VQE 实现, H₂/LiH | 核心算法 |
-| Phase 3 | ADAPT-VQE, SQD, 量子优势 | 进阶方法 |
-| Phase 4 | 催化、力场应用 | 应用落地 |`,
-      tags: ['VQE', 'ADAPT-VQE', 'SQD', 'QPE', 'DMET'],
+\`materials/learning/quantum-computing/Phase1_Fundamentals/\``,
+      tags: ['Qiskit', 'qubit', 'Phase1', 'fundamentals'],
       links: [
-        { label: 'Phase1: 量子计算基础', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase1_Fundamentals/01_量子计算基础与概念映射.ipynb' },
-        { label: 'Phase2: VQE原理与实现', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb' },
-        { label: 'Phase3: 进阶算法综述', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase3_AdvancedMethods/01_进阶算法综述.ipynb' },
+        { label: '01_QC Fundamentals', url: `${BASE}/learning/quantum-computing/Phase1_Fundamentals/01_量子计算基础与概念映射.ipynb` },
+        { label: '02_Qiskit Practice', url: `${BASE}/learning/quantum-computing/Phase1_Fundamentals/02_Qiskit入门实践.ipynb` },
+      ],
+    },
+
+    /* ── 1-3  Machine Learning ──────────────────────────────── */
+    {
+      id: 'learn-ml',
+      label: 'Machine Learning',
+      type: 'category',
+      description: 'NNP, GNN, active learning, transfer learning',
+      content: `# Machine Learning for Computational Chemistry
+
+## Main Applications
+
+- **Neural Network Potentials (NNP)** — DeepMD-kit, NequIP, MACE
+- **Molecular property prediction** — HOMO/LUMO, solvation energy
+- **Graph Neural Networks (GNN)** — SchNet, DimeNet, PaiNN
+- **Active learning** — uncertainty sampling for training set construction
+
+## Input Representations
+
+- ACSF / SOAP descriptors
+- E(3)-equivariant graph neural networks
+- Atomic coordinates + element types
+
+## Quantum-Accuracy Data Generation
+
+\`\`\`
+CCSD(T) / VQE → PES data points → NNP training → MD simulation
+\`\`\`
+
+This is one of the most actionable near-term industrial value paths for quantum computing: quantum computers don't need to cover all data points—only the most critical, scarce high-value ones.`,
+      tags: ['NNP', 'GNN', 'DeepMD', 'active learning', 'MACE', 'SOAP'],
+      links: [],
+    },
+
+    /* ── 1-4  QC × Comp. Chem. ──────────────────────────────── */
+    {
+      id: 'learn-qc-chem',
+      label: 'QC × Comp. Chem.',
+      type: 'category',
+      description: 'VQE, SQD, ADAPT-VQE, QPE, DMET quantum embedding',
+      content: `# Quantum Computing × Computational Chemistry
+
+**Core goal**: Solve strongly-correlated electronic structure problems on quantum computers.
+
+## Algorithm Landscape
+
+### NISQ Algorithms
+- **VQE** — Variational Quantum Eigensolver
+- **ADAPT-VQE** — Adaptive ansatz construction via gradient selection
+- **SQD** — Sample-based Quantum Diagonalization
+- **SKQD** — Krylov-enhanced version of SQD
+
+### Fault-Tolerant Algorithms
+- **QPE** — Quantum Phase Estimation (long-term, polynomial advantage)
+
+## Quantum Embedding
+
+\`DFT → DMET → active-space Hamiltonian → VQE / SQD\`
+
+## 4-Phase Learning Path
+
+| Phase | Content | Path |
+|-------|---------|------|
+| 1 | Qubits, gates, concept mapping | \`learning/quantum-computing/\` |
+| 2 | VQE, H₂/LiH | \`learning/qc-x-chem/Phase2_CoreAlgorithms/\` |
+| 3 | ADAPT-VQE, SQD, quantum advantage | \`learning/qc-x-chem/Phase3_AdvancedMethods/\` |
+| 4 | Catalysis, force field applications | \`software/qc-x-chem/Phase4_Applications/\` |`,
+      tags: ['VQE', 'ADAPT-VQE', 'SQD', 'QPE', 'DMET', 'quantum embedding'],
+      links: [
+        { label: 'Phase2: VQE Theory & Impl.', url: `${BASE}/learning/qc-x-chem/Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb` },
+        { label: 'Phase2: H2/LiH', url: `${BASE}/learning/qc-x-chem/Phase2_CoreAlgorithms/02_Qiskit_Nature_H2_LiH.ipynb` },
+        { label: 'Phase3: Advanced Algorithms', url: `${BASE}/learning/qc-x-chem/Phase3_AdvancedMethods/01_进阶算法综述.ipynb` },
+        { label: 'Phase3: Quantum Advantage', url: `${BASE}/learning/qc-x-chem/Phase3_AdvancedMethods/02_量子优势分析.ipynb` },
       ],
     },
     {
       id: 'qc-vqe',
-      label: 'VQE 原理与实现',
-      type: 'topic',
-      description: 'Variational Quantum Eigensolver — 变分量子本征值求解',
+      label: 'VQE Theory & Impl.',
+      type: 'leaf',
+      description: 'Variational Quantum Eigensolver — theory, ansatz, Qiskit implementation',
       content: `# VQE — Variational Quantum Eigensolver
 
-## 核心思路
+## Core Idea
 
-利用变分原理：$\\langle \\psi(\\theta) | H | \\psi(\\theta) \\rangle \\geq E_0$
+Variational principle: $\\langle \\psi(\\theta) | H | \\psi(\\theta) \\rangle \\geq E_0$
 
-通过优化参数 $\\theta$ 最小化期望值来近似基态能量。
+Minimize energy expectation by optimizing parameters $\\theta$ to approximate the ground state.
 
-## 算法流程
+## Algorithm Flow
 
 \`\`\`
-初始参数 θ
+Initial θ
   ↓
-准备量子态 |ψ(θ)⟩ （ansatz 电路）
+Prepare |ψ(θ)⟩  (ansatz circuit)
   ↓
-测量 Pauli 字符串 ⟨H⟩
+Measure Pauli strings ⟨H⟩
   ↓
-经典优化器更新 θ (COBYLA, BFGS, Adam)
+Classical optimizer updates θ (COBYLA / BFGS / Adam)
   ↓
-收敛 → 得到近似基态能量
+Convergence → approximate ground-state energy
 \`\`\`
 
-## Ansatz 类型
+## Ansatz Types
 
-- **UCCSD** — 化学启发，参数少但深度大
-- **HEA** — 硬件高效，浅但表达力有限
-- **ADAPT** — 自适应，按需添加算子
+| Ansatz | Characteristics |
+|--------|----------------|
+| UCCSD | Chemistry-inspired, compact params, deep circuit |
+| HEA | Hardware-efficient, shallow, limited expressibility |
+| ADAPT | Adaptive, adds operators on demand |
 
-## Qiskit 实现
+## Path
 
-Phase2 Notebook: \`01_VQE原理与实现.ipynb\``,
-      tags: ['VQE', 'ansatz', 'UCCSD', 'Qiskit'],
+\`materials/learning/qc-x-chem/Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb\``,
+      tags: ['VQE', 'ansatz', 'UCCSD', 'Qiskit', 'variational'],
       links: [
-        { label: 'VQE原理与实现.ipynb', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb' },
+        { label: 'VQE Notebook', url: `${BASE}/learning/qc-x-chem/Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb` },
       ],
     },
     {
       id: 'qc-sqd',
       label: 'SQD / SKQD',
-      type: 'topic',
-      description: 'Sample-based Quantum Diagonalization',
+      type: 'leaf',
+      description: 'Sample-based Quantum Diagonalization + Krylov enhancement',
       content: `# SQD — Sample-based Quantum Diagonalization
 
-## 核心思路
+## Core Idea
 
-\`比特串 → 合法组态 → 投影子空间 → 经典对角化\`
+\`Bitstrings → valid configurations → projected subspace → classical diagonalization\`
 
-## 工作流程
+## Workflow
 
-1. 量子电路产生比特串分布
-2. 筛选满足粒子数/自旋对称性的比特串
-3. 投影到这些组态张成的子空间
-4. 在子空间内做经典稀疏对角化（Lanczos）
+1. Quantum circuit produces bitstring distribution
+2. Filter bitstrings satisfying particle-number / spin symmetry
+3. Project onto the subspace spanned by valid configurations
+4. Classical sparse diagonalization (Lanczos) in the subspace
 
-## 优势
+## Advantages over VQE
 
-- 对硬件噪声更鲁棒（比 VQE）
-- 输出"量子数据"可用于 AI/ML
-- 可用 SKQD 引入更多对称性约束
+| | VQE | SQD |
+|--|-----|-----|
+| Quantum output | Energy expectation | Bitstring / config samples |
+| Classical work | Optimizer loop | Subspace construction + diag. |
+| AI interface | Weak | Strong (bitstrings as quantum data) |
+| NISQ-friendliness | Medium | High |
 
-## 参考
+## SKQD Enhancement
 
-- \`SQD.md\` 技术文档
-- Nature Chemistry 2024 SQD 论文复现`,
-      tags: ['SQD', 'SKQD', '量子数据', '对角化'],
+Introduces Krylov time-evolved states to SQD:
+- Systematic subspace expansion via time evolution
+- Combines with qDRIFT for Hamiltonian simulation
+- Stronger theoretical convergence structure
+
+## Path
+
+\`materials/learning/qc-x-chem/SQD.md\``,
+      tags: ['SQD', 'SKQD', 'quantum data', 'diagonalization', 'Krylov'],
       links: [
-        { label: 'SQD.md', url: 'https://github.com/sunhl4/PandM/blob/main/materials/SQD.md' },
+        { label: 'SQD.md', url: `${RAW}/learning/qc-x-chem/SQD.md` },
       ],
     },
     {
       id: 'qc-adaptvqe',
       label: 'ADAPT-VQE',
-      type: 'topic',
-      description: '自适应构建ansatz，最小参数数量',
-      content: `# ADAPT-VQE
+      type: 'leaf',
+      description: 'Adaptive ansatz construction via gradient-driven operator selection',
+      content: `# ADAPT-VQE — Adaptive Variational Quantum Eigensolver
 
-自适应变分量子本征值求解器。
+## Core Idea
 
-## 核心思路
+Rather than fixing the ansatz structure, **greedily select the operator with the largest gradient** from a pool and add it iteratively.
 
-不固定 ansatz 结构，而是**贪心地从算子库中选择梯度最大的算子**逐步添加。
+## Operator Pools
 
-## 算子库
+- Fermionic spin operators (FGSD)
+- Pauli string operator pool
 
-- 费米子自旋算子池 (FGSD)
-- Pauli 字符串算子池
-
-## 迭代流程
+## Iteration
 
 \`\`\`
 while not converged:
-    计算所有算子的梯度 |∂E/∂θ|
-    选择梯度最大的算子 Aₖ
-    将 exp(iθₖAₖ) 添加到 ansatz
-    优化所有参数
+    Compute gradient |∂E/∂θ| for all pool operators
+    Select operator Aₖ with max gradient
+    Append exp(iθₖAₖ) to ansatz
+    Re-optimize all parameters
 \`\`\`
 
-## 优势
+## Advantages
 
-- 参数数量远少于 UCCSD
-- 理论上可达 FCI 精度
-- 适应性强
+- Far fewer parameters than UCCSD
+- Can theoretically reach FCI accuracy
+- Circuit depth grows adaptively
 
-## 参考
+## Reference
 
-\`ADAPT-VQE.md\` 详细推导`,
-      tags: ['ADAPT-VQE', 'ansatz', '变分'],
+\`materials/learning/qc-x-chem/ADAPT-VQE.md\``,
+      tags: ['ADAPT-VQE', 'ansatz', 'variational', 'gradient'],
       links: [
-        { label: 'ADAPT-VQE.md', url: 'https://github.com/sunhl4/PandM/blob/main/materials/ADAPT-VQE.md' },
-      ],
-    },
-    {
-      id: 'qc-md',
-      label: 'QC × 分子动力学',
-      type: 'category',
-      description: '量子增强采样、量子力场数据生成',
-      content: `# 量子计算 × 分子动力学
-
-## 主要方向
-
-### 1. 量子精度 PES 数据生成
-用量子计算机计算高精度势能面，训练神经网络力场：
-\`VQE/SQD PES → NNP训练集 → MD模拟\`
-
-### 2. 量子增强采样
-- 量子退火 (QA) 辅助构象搜索
-- 量子 Monte Carlo
-- 量子随机游走
-
-### 3. QM/MM with quantum solver
-活性区用量子计算机，环境用 MM 力场。
-
-## 现状与展望
-
-近期最可行路径：**量子计算生成高质量训练数据** → 经典 NNP 用于 MD。
-
-直接量子增强 MD 需要等容错量子计算机。`,
-      tags: ['MD', 'QM/MM', '量子采样', 'NNP'],
-      links: [],
-    },
-    {
-      id: 'qc-ml',
-      label: 'QC × 机器学习',
-      type: 'category',
-      description: 'QML、量子核方法、变分量子分类器',
-      content: `# 量子计算 × 机器学习
-
-## 主要方向
-
-### 量子核方法
-- 量子特征映射 $\\phi(x) \\to |\\phi(x)\\rangle$
-- 量子核矩阵 $k(x,x') = |\\langle\\phi(x)|\\phi(x')\\rangle|^2$
-- 量子 SVM
-
-### 变分量子分类器 (VQC)
-- 数据编码层 + 变分层
-- 参数通过梯度优化
-
-### 量子生成模型
-- QGAN (量子生成对抗网络)
-- 量子玻尔兹曼机
-
-### 量子数据 → 经典ML
-- SQD 比特串分布作为特征
-- 量子涨落特征
-
-## 参考框架
-
-- **PennyLane** — 量子机器学习
-- **Qiskit Machine Learning**
-- \`quantum_chem_bench\` — 基准测试`,
-      tags: ['QML', '量子核', 'VQC', 'PennyLane'],
-      links: [],
-    },
-
-    /* ─── Phase1 基础 ─────────────────────────────────────── */
-    {
-      id: 'phase1',
-      label: 'Phase1: 基础',
-      type: 'topic',
-      description: '量子计算基础概念、Qiskit入门',
-      content: `# Phase 1 — 量子计算基础
-
-## 学习目标
-
-建立量子计算与量子化学的概念映射，掌握 Qiskit 基础操作。
-
-## 内容覆盖
-
-### 量子比特与量子门
-- 量子态、叠加态、纠缠
-- 基本量子门 (H, X, CNOT, Rz)
-- 量子电路构建
-
-### 量子化学概念映射
-- 哈密顿量 → 量子算符
-- 波函数 → 量子态
-- 期望值 → 测量
-
-## Notebooks
-
-1. \`01_量子计算基础与概念映射.ipynb\`
-2. \`02_Qiskit入门实践.ipynb\``,
-      tags: ['基础', 'Qiskit', '量子比特', 'Phase1'],
-      links: [
-        { label: '量子计算基础与概念映射', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase1_Fundamentals/01_量子计算基础与概念映射.ipynb' },
-        { label: 'Qiskit入门实践', url: 'https://nbviewer.org/github/sunhl4/PandM/blob/main/materials/Phase1_Fundamentals/02_Qiskit入门实践.ipynb' },
+        { label: 'ADAPT-VQE.md', url: `${RAW}/learning/qc-x-chem/ADAPT-VQE.md` },
       ],
     },
 
-    /* ─── 文献资料 ────────────────────────────────────────── */
+    /* ── 1-4a  Literature ───────────────────────────────────── */
     {
       id: 'literature',
-      label: '文献资料',
+      label: 'Literature',
+      type: 'topic',
+      description: '5 key papers with Chinese translations and Q&A files',
+      content: `# Literature Archive
+
+Path: \`materials/learning/qc-x-chem/literature/\`
+
+## Papers
+
+| Paper | Type | Status |
+|-------|------|--------|
+| RevModPhys 92, 015003 | Review | ✅ zh-CN + QA |
+| QC in the Age of Quantum Computing | Review | ✅ zh-CN + QA |
+| Towards Quantum Advantage in Chemistry | Perspective | ✅ zh-CN + QA |
+| Quantum Advantage in Computational Chemistry | Study | ✅ PDF |
+| arXiv 2508.02578v2 | Preprint | ✅ zh-CN |
+
+## Workflow Standard
+
+\`文献工作流标准.md\` — naming conventions, front-matter, formula rules, QA log format
+
+## Q&A Records
+
+- \`QA_波函数集中性.md\` — wave-function localization Q&A
+- \`学习问答记录.md\` — 1500+ lines interactive learning log`,
+      tags: ['literature', 'translation', 'Q&A', 'review'],
+      links: [],
+    },
+    {
+      id: 'lit-revmodphys',
+      label: 'RevModPhys 92, 015003',
+      type: 'leaf',
+      description: 'Quantum chemistry on quantum computers — comprehensive review',
+      content: `# RevModPhys 92, 015003
+
+**Title**: Quantum computational chemistry  
+**Journal**: Reviews of Modern Physics, 2020
+
+## Key Content
+
+Comprehensive review of quantum algorithms for chemical simulation:
+- Jordan-Wigner and Bravyi-Kitaev mappings
+- VQE theory and implementations
+- QPE for phase estimation
+- Resource estimates for real molecules
+
+## Files
+
+- \`RevModPhys.92.015003.pdf\` — original
+- \`RevModPhys_92_015003.zh-CN.md\` — Chinese translation
+- \`RevModPhys_92_015003.QA.zh-CN.md\` — Q&A notes
+
+## Path
+
+\`materials/learning/qc-x-chem/literature/\``,
+      tags: ['RevModPhys', 'review', 'VQE', 'QPE', 'qubit mapping'],
+      links: [
+        { label: 'zh-CN Translation', url: `${RAW}/learning/qc-x-chem/literature/RevModPhys_92_015003.zh-CN.md` },
+      ],
+    },
+    {
+      id: 'lit-qcage',
+      label: 'QC in the Age of QC',
+      type: 'leaf',
+      description: 'Quantum chemistry in the age of quantum computing — Cao et al.',
+      content: `# Quantum Chemistry in the Age of Quantum Computing
+
+**Authors**: Cao et al.  
+**Journal**: Chemical Reviews, 2019
+
+## Key Content
+
+- Overview of quantum algorithms for electronic structure
+- Comparison of VQE, QPE, quantum phase kick-back
+- Near-term and long-term perspectives
+- Resource analysis for FCI-level calculations
+
+## Files
+
+- \`Quantum_Chemistry_in_the_Age_of_Quantum_Computing.zh-CN.md\`
+- \`Quantum_Chemistry_in_the_Age_of_Quantum_Computing.QA.zh-CN.md\`
+
+## Path
+
+\`materials/learning/qc-x-chem/literature/\``,
+      tags: ['quantum chemistry', 'VQE', 'QPE', 'review', 'Chem. Reviews'],
+      links: [
+        { label: 'zh-CN Translation', url: `${RAW}/learning/qc-x-chem/literature/Quantum_Chemistry_in_the_Age_of_Quantum_Computing.zh-CN.md` },
+      ],
+    },
+    {
+      id: 'lit-towards',
+      label: 'Towards QC Advantage',
+      type: 'leaf',
+      description: 'Towards quantum advantage in chemistry — roadmap paper',
+      content: `# Towards Quantum Advantage in Chemistry
+
+**Paper**: Towards Quantum Advantage in Financial Pricing, adapted for chemistry  
+**Focus**: Concrete pathways to quantum advantage in molecular simulation
+
+## Key Content
+
+- Analysis of problem instances where quantum speedup is achievable
+- Time and space complexity comparisons
+- Practical near-term opportunities (SQD, hybrid embedding)
+- Long-term fault-tolerant targets
+
+## Files
+
+- \`Towards_Quantum_Advantage_in_Chemistry.pdf\`
+- \`Towards_Quantum_Advantage_in_Chemistry.zh-CN.md\`
+- \`Towards_Quantum_Advantage_in_Chemistry.QA.zh-CN.md\`
+
+## Path
+
+\`materials/learning/qc-x-chem/literature/\``,
+      tags: ['quantum advantage', 'roadmap', 'complexity'],
+      links: [
+        { label: 'zh-CN Translation', url: `${RAW}/learning/qc-x-chem/literature/Towards_Quantum_Advantage_in_Chemistry.zh-CN.md` },
+      ],
+    },
+    {
+      id: 'lit-2508',
+      label: 'arXiv 2508.02578',
+      type: 'leaf',
+      description: 'Latest preprint — Chinese translation available',
+      content: `# arXiv 2508.02578v2
+
+**Status**: Latest preprint with Chinese translation
+
+## Files
+
+- \`2508.02578v2.pdf\` — original preprint
+- \`2508.02578v2.zh-CN.md\` — Chinese translation
+
+## Path
+
+\`materials/learning/qc-x-chem/literature/\``,
+      tags: ['arXiv', 'preprint', 'latest'],
+      links: [
+        { label: 'arXiv 2508.02578', url: 'https://arxiv.org/abs/2508.02578' },
+        { label: 'zh-CN Translation', url: `${RAW}/learning/qc-x-chem/literature/2508.02578v2.zh-CN.md` },
+      ],
+    },
+
+    /* ── 1-5  QC × Machine Learning ─────────────────────────── */
+    {
+      id: 'learn-qc-ml',
+      label: 'QC × Machine Learning',
       type: 'category',
-      description: '翻译文献与精读笔记',
-      content: `# 文献资料
+      description: 'QML, quantum kernels, VQC, quantum data → classical ML',
+      content: `# Quantum Computing × Machine Learning
 
-## 已翻译文献
+## Main Directions
 
-| 文献 | 类型 | 状态 |
-|------|------|------|
-| RevModPhys 92, 015003 | 综述 | ✅ 翻译完成 |
-| Quantum Chemistry in the Age of QC | 综述 | ✅ 翻译完成 |
-| Towards Quantum Advantage in Chemistry | 展望 | ✅ 翻译完成 |
+### Quantum Kernel Methods
+- Quantum feature map: $\\phi(x) \\to |\\phi(x)\\rangle$
+- Quantum kernel matrix: $k(x,x') = |\\langle\\phi(x)|\\phi(x')\\rangle|^2$
+- Quantum SVM / Quantum Kernel Ridge Regression
 
-## 精读问答
+### Variational Quantum Classifier (VQC)
+- Data encoding layer + variational layer
+- Gradient-based parameter optimization
 
-每篇文献配套 QA 文件，按统一模板记录：
-- 核心贡献
-- 方法解析
-- 关键公式
-- 与工作的关联
+### Quantum Generative Models
+- QGAN (quantum generative adversarial network)
+- Quantum Boltzmann machine
 
-## 问答记录
+### Quantum Data → Classical ML
+- SQD bitstring distributions as ML features
+- Configuration entropy, subspace dimension tracking
+- Statistical features from quantum sampling
 
-\`学习问答记录.md\` — 累计 1500+ 行交互式学习记录`,
-      tags: ['文献', '翻译', '精读', 'QA'],
+## Frameworks
+
+- **PennyLane** — quantum machine learning
+- **Qiskit Machine Learning** — VQC, QSVC`,
+      tags: ['QML', 'quantum kernel', 'VQC', 'PennyLane', 'quantum feature map'],
+      links: [],
+    },
+
+    /* ── 1-6  QC × Mol. Dynamics ────────────────────────────── */
+    {
+      id: 'learn-qc-md',
+      label: 'QC × Mol. Dynamics',
+      type: 'category',
+      description: 'Quantum-accuracy PES generation, quantum-enhanced sampling, QM/MM',
+      content: `# Quantum Computing × Molecular Dynamics
+
+## Main Directions
+
+### 1. Quantum-Accuracy PES Data Generation
+
+Compute high-accuracy potential energy surfaces with quantum computers to train neural network force fields:
+
+\`\`\`
+VQE/SQD on critical configurations
+  ↓
+High-accuracy PES data points (DFT-weak regions)
+  ↓
+Augment NNP / ReaxFF training set
+  ↓
+Higher-fidelity MD simulation
+\`\`\`
+
+**Near-term viable path**: quantum computing generates high-quality training data → classical NNP runs MD.
+
+### 2. Quantum-Enhanced Sampling
+
+- Quantum annealing (QA) aided conformational search
+- Quantum Monte Carlo
+- Quantum random walk
+
+*(Requires fault-tolerant QC — medium/long-term)*
+
+### 3. QM/MM with Quantum Solver
+
+Active region solved by quantum computer; environment by MM force field.
+
+## Connection to NNP
+
+| Quantum contribution | NNP usage |
+|---------------------|-----------|
+| High-accuracy TS energies | Improve reaction description |
+| Strongly-correlated active-site configs | Enrich training diversity |
+| Multi-spin-state energy gaps | Improve catalytic simulation |`,
+      tags: ['MD', 'QM/MM', 'quantum sampling', 'NNP', 'PES', 'force field'],
+      links: [],
+    },
+
+    /* ════════════════════════════════════════════════════════
+       MODULE 2: Research Plans
+       ════════════════════════════════════════════════════════ */
+    {
+      id: 'work-plan',
+      label: 'Research Plans',
+      type: 'module',
+      description: 'Work roadmaps for two research directions',
+      content: `# Research Plans
+
+Two core research directions:
+
+## QC × Comp. Chem.
+
+**Logic**: \`concept mapping → few-qubit algorithms → quantum advantage → SQD quantum data → catalysis & force field\`
+
+- **Few-Qubit Applications** — method validation, active-space workflows
+- **Quantum Advantage** — when / what system / what resources beats classical
+- **Chem. Applications** — strongly-correlated active sites, catalysis
+
+## QC × Machine Learning
+
+- **Quantum Data** — SQD bitstrings → quantum data assets → AI collaboration
+- **QML & Force Fields** — quantum-accuracy PES augmentation + quantum kernel
+
+## Full Reference
+
+\`materials/work-plan/qc-x-chem/工作计划.md\`  
+Complete research report: 10 sections including PPT outline, milestones, Q&A bank.`,
+      tags: ['planning', 'roadmap', 'research direction'],
+      links: [],
+    },
+
+    /* ── 2-1  QC×Comp.Chem. Plans ───────────────────────────── */
+    {
+      id: 'wp-qc-chem',
+      label: 'QC×Comp.Chem. Plans',
+      type: 'category',
+      description: 'Few-qubit applications, quantum advantage, catalytic active sites',
+      content: `# Research Plans: QC × Computational Chemistry
+
+## Three Core Work Lines
+
+### 1. Few-Qubit Applications
+*"Does quantum computing still have value with few qubits?"*
+
+- Validate algorithms and active-space workflows
+- Model strongly-correlated local problems
+- Build quantum data assets and hybrid QC-classical pipelines
+
+Benchmark systems: H₂ (2Q), LiH (4Q), 2-site Hubbard (2Q), Fe-N4 toy (4Q)
+
+### 2. Quantum Advantage
+**Four-dimensional judgment**: problem type × precision × resource budget × classical baseline
+
+- Near-term (NISQ): shallow circuits, SQD subspace, quantum embedding
+- Long-term (FT): QPE → FCI-level polynomial complexity advantage
+
+### 3. Chemical Applications
+Chemistry is a natural quantum many-body problem. Strongly-correlated systems are the entry point:
+
+| Application | System | Method |
+|-------------|--------|--------|
+| Heterogeneous catalysis | Fe-N4, Co-N4, TM oxide | active space + DMET embedding |
+| Force field data | Critical PES points | VQE/SQD → NNP training |
+
+## Reference
+
+\`materials/work-plan/qc-x-chem/工作计划.md\``,
+      tags: ['planning', 'few-qubit', 'quantum advantage', 'catalysis', 'active space'],
+      links: [
+        { label: 'Full Research Report', url: `${RAW}/work-plan/qc-x-chem/工作计划.md` },
+      ],
+    },
+    {
+      id: 'wp-fewqubit',
+      label: 'Few-Qubit Applications',
+      type: 'topic',
+      description: 'Algorithm validation, strongly-correlated systems, active-space workflow',
+      content: `# Few-Qubit Applications
+
+**Core question**: With limited qubits, does quantum computing still have value?
+
+## Value
+
+- Validate algorithm correctness
+- Characterize strongly-correlated local problems
+- Build active-space workflows
+- Generate quantum data assets for hybrid pipelines
+
+## Benchmark Systems
+
+| System | Size | Significance |
+|--------|------|-------------|
+| H₂ | 2 qubits | Minimal chemical benchmark |
+| LiH | 4 qubits | Bond dissociation verification |
+| 2-site Hubbard | 2 qubits | Strongly-correlated model |
+| Fe-N4 toy | 4 qubits | Catalytic active site |
+
+The real value of the few-qubit stage is **identifying methods and data pipelines that will scale**.`,
+      tags: ['NISQ', 'few-qubit', 'active space', 'H2', 'LiH', 'Hubbard'],
+      links: [
+        { label: 'Phase2: H2/LiH Notebook', url: `${BASE}/learning/qc-x-chem/Phase2_CoreAlgorithms/02_Qiskit_Nature_H2_LiH.ipynb` },
+      ],
+    },
+    {
+      id: 'wp-advantage',
+      label: 'Quantum Advantage',
+      type: 'topic',
+      description: 'Multi-dimensional analysis: precision × resource × classical baseline',
+      content: `# Quantum Advantage Analysis
+
+Quantum advantage is not simply "faster than classical" — it is a **four-dimensional judgment**:
+**problem type × required precision × resource budget × classical baseline**.
+
+## Near-Term Opportunities (NISQ)
+
+- Shallow-circuit algorithms
+- Sampling-based subspace methods (SQD)
+- Quantum embedding (DMET + VQE)
+- Quantum data + QML
+
+## Long-Term Advantage (Fault-Tolerant)
+
+- QPE: polynomial quantum complexity for FCI-level electronic structure
+- Large strongly-correlated systems, FCI-accuracy
+- Requires large physical qubit count and error correction overhead
+
+## Key Judgment Dimensions
+
+| Dimension | Key question |
+|-----------|-------------|
+| Problem type | Does the problem have quantum structural advantage? |
+| Resource | Qubit count, gate depth, sampling shots |
+| Precision | Chemical accuracy / excited states / dynamics? |
+| Classical baseline | vs. HF / DFT / CCSD(T) / DMRG / FCI? |`,
+      tags: ['quantum advantage', 'NISQ', 'fault-tolerant', 'QPE', 'FCI'],
+      links: [
+        { label: 'Quantum Advantage Notebook', url: `${BASE}/learning/qc-x-chem/Phase3_AdvancedMethods/02_量子优势分析.ipynb` },
+      ],
+    },
+    {
+      id: 'wp-chemistry',
+      label: 'Chem. Applications',
+      type: 'topic',
+      description: 'Strongly-correlated active sites, heterogeneous catalysis, force field data',
+      content: `# Chemical Applications
+
+Chemistry is a quantum many-body problem. **The problem structure is highly isomorphic with quantum computing language.**
+
+## Target Systems
+
+- Strongly-correlated systems, near-degenerate states
+- Spin-state competition
+- Bond breaking / forming processes
+- Transition metal active sites (TM oxide, Fe-N4, Co-N4)
+
+## Two Application Stories
+
+### Heterogeneous Catalysis
+\`Fe-N4 / Co-N4 / TM oxide / active space / embedding\`
+
+DFT fails here: strong correlation + near-degeneracy + parameter sensitivity.
+
+Quantum embedding route:
+\`\`\`
+PySCF (DFT full system) → DMET active-site → qubit Hamiltonian → VQE/SQD
+\`\`\`
+
+### Force Field Data Generation
+\`Critical PES points → VQE/SQD high-accuracy calculation → ReaxFF/NNP/QML force field\`
+
+Classical DFT is weakest exactly where industry needs it most.`,
+      tags: ['catalysis', 'force field', 'strongly-correlated', 'DMET', 'Fe-N4'],
+      links: [
+        { label: 'Catalysis Notebook', url: `${BASE}/software/qc-x-chem/Phase4_Applications/01_非均相催化量子计算.ipynb` },
+        { label: 'Force Field Notebook', url: `${BASE}/software/qc-x-chem/Phase4_Applications/02_量子计算辅助力场开发.ipynb` },
+      ],
+    },
+
+    /* ── 2-2  QC×ML Plans ───────────────────────────────────── */
+    {
+      id: 'wp-qc-ml',
+      label: 'QC×ML Plans',
+      type: 'category',
+      description: 'Quantum data + AI, QML force fields, bitstring feature engineering',
+      content: `# Research Plans: QC × Machine Learning
+
+## Core Logic
+
+**Quantum computing provides new high-value data and features; AI amplifies their value.**
+
+\`Quantum data = outputs of quantum state preparation and measurement that can be exploited by physical constraints, statistical processing, and classical algorithms\`
+
+## Two Work Lines
+
+### Quantum Data Line (SQD → AI)
+- Bitstring distribution → valid configuration recovery → subspace feature extraction
+- AI-assisted configuration recovery and sample filtering
+- Quantum-sample-derived features as classical ML inputs
+
+### QML Force Field Direction
+- Quantum kernel exploration on PES
+- Quantum-accuracy PES data augmentation for NNP/ReaxFF
+- Generating high-value sparse data points for force field training
+
+## Four Most Viable Paths (by priority)
+
+1. **Quantum-generated high-value training data** — highest priority
+2. **AI-assisted SQD sample recovery** — engineering entry point
+3. **Quantum sample-derived features** — feature engineering direction
+4. **Quantum kernel methods for force fields / QML** — differentiation`,
+      tags: ['quantum data', 'QML', 'SQD', 'AI', 'force field', 'bitstring'],
+      links: [],
+    },
+    {
+      id: 'wp-qdata',
+      label: 'Quantum Data',
+      type: 'topic',
+      description: 'SQD bitstrings as quantum data assets for AI/ML collaboration',
+      content: `# Quantum Data
+
+**Why do quantum device bitstrings have value?**
+
+## SQD Workflow
+
+\`Bitstrings → valid configurations → projected subspace → classical diagonalization\`
+
+The quantum device outputs not just one energy number, but:
+- Bitstring distributions
+- Configuration samples  
+- Time-evolved sampling snapshots
+
+## Value as Quantum Data
+
+These samples can be **recovered, filtered, projected, and featurized**:
+
+- **High-frequency configuration fraction** → electronic structure signal
+- **Configuration entropy / distribution compactness** → correlation strength indicator
+- **Subspace dimension & convergence rate** → method efficiency metric
+- **Sample fidelity under physical constraints** → noise robustness measure
+
+They enable **collaboration** with classical AI, not mere replacement.
+
+## Reference
+
+\`materials/learning/qc-x-chem/SQD.md\``,
+      tags: ['SQD', 'quantum data', 'QML', 'SKQD', 'bitstring', 'configuration'],
+      links: [
+        { label: 'SQD.md', url: `${RAW}/learning/qc-x-chem/SQD.md` },
+      ],
+    },
+    {
+      id: 'wp-qml',
+      label: 'QML & Force Fields',
+      type: 'topic',
+      description: 'Quantum kernel methods, quantum-accuracy PES augmentation, QML force fields',
+      content: `# QML & Force Field Direction
+
+## Positioning
+
+Quantum computing's value in ML / force fields is not replacing classical ML, but:
+1. **Providing high-accuracy training data inaccessible to classical methods**
+2. **Exploring quantum feature-map expressibility**
+3. **Differentiated competition: quantum-data-driven AI force fields**
+
+## Quantum-Accuracy Data Augmentation
+
+\`\`\`
+Identify DFT-weak configurations
+  ↓
+VQE/SQD: compute quantum-accuracy energy (TS, strongly-correlated points)
+  ↓
+Augment NNP/ReaxFF training set with sparse high-value points
+  ↓
+Force field accuracy improved in critical regimes
+\`\`\`
+
+## Quantum Kernel Methods
+
+- Quantum feature map defines kernel
+- Quantum Kernel Ridge vs. classical RBF kernel
+- Identify regimes where quantum kernels offer better expressibility
+
+## Frameworks
+
+- **PennyLane** — quantum kernel implementation
+- **Qiskit Machine Learning** — VQC, QSVC
+- \`quantum_chem_bench\` — benchmarking framework`,
+      tags: ['QML', 'quantum kernel', 'force field', 'NNP', 'PES', 'data augmentation'],
+      links: [],
+    },
+
+    /* ════════════════════════════════════════════════════════
+       MODULE 3: Software Engineering
+       ════════════════════════════════════════════════════════ */
+    {
+      id: 'software',
+      label: 'Software Engineering',
+      type: 'module',
+      description: 'Three engineering directions with full Python packages',
+      content: `# Software Engineering
+
+Three engineering directions, all source code under \`materials/software/\`.
+
+## QC × Comp. Chem.
+- **dft_qc_pipeline** — full Python package: DFT → DMET → VQE/SQD workflow
+- **quantum_chem_bench** — benchmark platform: HF/CCSD/VQE/SQD/QPE comparison
+- **Reproductions** — SQD Nature Chem. 2024, HF Sycamore Science 2020
+- **Phase4 Notebooks** — catalysis and force field application demos
+
+## QC × Machine Learning
+- QML toolchain (PennyLane + Qiskit ML)
+- Quantum data processing pipeline
+- Quantum kernel vs. classical kernel benchmarks
+
+## QC × Mol. Dynamics
+- Quantum-accuracy PES data generation workflow
+- NNP training data augmentation tools
+- QM/MM interface framework`,
+      tags: ['software engineering', 'toolchain', 'Python package'],
+      links: [],
+    },
+
+    /* ── 3-1  Soft. Eng. / QC×Comp.Chem. ───────────────────── */
+    {
+      id: 'sw-qc-chem',
+      label: 'QC×Comp.Chem.',
+      type: 'category',
+      description: 'dft_qc_pipeline, quantum_chem_bench, reproductions, Phase4 notebooks',
+      content: `# Software Engineering: QC × Computational Chemistry
+
+## Engineering Assets
+
+| Package | Description | Path |
+|---------|-------------|------|
+| \`dft_qc_pipeline\` | DFT → DMET → VQE/SQD pipeline | \`software/qc-x-chem/dft_qc_pipeline/\` |
+| \`quantum_chem_bench\` | Multi-method benchmark platform | \`software/qc-x-chem/quantum_chem_bench/\` |
+| Phase4 notebooks | Catalysis & force field demos | \`software/qc-x-chem/Phase4_Applications/\` |
+| Install scripts | PySCF on Windows / WSL | \`software/qc-x-chem/\` |
+
+## Quick Start
+
+\`\`\`bash
+cd materials/software/qc-x-chem
+pip install -e .    # installs both packages via pyproject.toml
+\`\`\``,
+      tags: ['DMET', 'DFT', 'VQE', 'pipeline', 'benchmark', 'PySCF'],
+      links: [],
+    },
+    {
+      id: 'sw-pipeline',
+      label: 'DFT-QC Pipeline',
+      type: 'topic',
+      description: 'dft_qc_pipeline: DFT → DMET → active-space → VQE/SQD full workflow',
+      content: `# DFT-QC Pipeline
+
+**Package**: \`dft_qc_pipeline\`  
+**Path**: \`materials/software/qc-x-chem/dft_qc_pipeline/\`
+
+## Architecture
+
+\`\`\`
+core/                   # pipeline.py, config.py, registry.py
+embedding/              # dmet.py, avas.py, simple_cas.py, projector.py
+hamiltonian/            # builder.py, mappers.py, localizer.py
+quantum_solvers/        # vqe_solver.py, sqd_solver.py, adapt_vqe_solver.py
+classical_backends/     # pyscf_backend.py, toy_backend.py
+postprocessing/         # ml_export.py, rdm_extractor.py, benchmark.py
+configs/                # YAML config files (h2, lih, n2, fen4, hubbard)
+examples/               # 3 demo notebooks
+tests/                  # 12 test modules with pytest
+\`\`\`
+
+## Typical Workflow
+
+1. DFT full-system calculation (PySCF backend)
+2. DMET active-site partitioning
+3. Active-space Hamiltonian construction
+4. VQE / SQD solver
+5. Result export (energy, RDM, ML features)
+
+## Example Notebooks
+
+- \`01_H2_minimal.ipynb\` — minimal working example
+- \`02_N2_multisolver.ipynb\` — multi-solver comparison
+- \`03_FeN4_DMET_SQD.ipynb\` — catalytic active-site with SQD
+
+## YAML Config Example
+
+\`\`\`yaml
+# configs/h2_vqe.yaml
+molecule: h2
+basis: sto-3g
+embedding: simple_cas
+solver: vqe
+active_space: [2, 2]
+\`\`\``,
+      tags: ['DMET', 'DFT', 'VQE', 'SQD', 'pipeline', 'PySCF', 'Python package'],
+      links: [
+        { label: 'Phase4: Catalysis Demo', url: `${BASE}/software/qc-x-chem/Phase4_Applications/01_非均相催化量子计算.ipynb` },
+        { label: 'Phase4: Force Field Demo', url: `${BASE}/software/qc-x-chem/Phase4_Applications/02_量子计算辅助力场开发.ipynb` },
+      ],
+    },
+    {
+      id: 'sw-bench',
+      label: 'Benchmark Platform',
+      type: 'topic',
+      description: 'quantum_chem_bench: HF/CCSD/VQE/SQD/QPE multi-method comparison',
+      content: `# Quantum Chemistry Benchmark Platform
+
+**Package**: \`quantum_chem_bench\`  
+**Path**: \`materials/software/qc-x-chem/quantum_chem_bench/\`
+
+## Architecture
+
+\`\`\`
+core/               # runner.py, config.py, registry.py
+molecule/           # builder.py, hamiltonian.py
+classical_solvers/  # hf, mp2, ccsd, cisd, fci solvers
+quantum_solvers/    # vqe, sqd, adapt_vqe, qpe, qse solvers
+analysis/           # benchmark.py, pes_scanner.py
+error_mitigation/   # zne.py (zero-noise extrapolation)
+reproductions/      # two paper reproductions (see below)
+configs/            # h2_sto3g.yaml, lih_sto3g.yaml, n2_631g.yaml
+examples/           # 3 benchmark notebooks
+tests/              # 5 test modules
+\`\`\`
+
+## Supported Methods
+
+| Type | Methods |
+|------|---------|
+| Classical | HF, MP2, CCSD, CISD, FCI |
+| Quantum | VQE, ADAPT-VQE, SQD, QPE, QSE |
+| Error mitigation | ZNE (zero-noise extrapolation) |
+
+## YAML Config Example
+
+\`\`\`yaml
+# configs/h2_sto3g.yaml
+molecule: h2
+basis: sto-3g
+methods: [hf, vqe, sqd]
+\`\`\``,
+      tags: ['benchmark', 'VQE', 'QPE', 'SQD', 'HF', 'CCSD', 'FCI', 'ZNE'],
+      links: [],
+    },
+    {
+      id: 'sw-repro',
+      label: 'Reproductions',
+      type: 'topic',
+      description: 'SQD Nature Chem. 2024 and HF Sycamore Science 2020 reproductions',
+      content: `# Paper Reproductions
+
+**Path**: \`materials/software/qc-x-chem/quantum_chem_bench/reproductions/\`
+
+## SQD — Nature Chemistry 2024
+
+\`reproductions/sqd_nat_chem_2024/\`
+
+Reproduction of the IBM SQD paper demonstrating sample-based quantum diagonalization on real quantum hardware.
+
+- \`run.py\` — main reproduction script
+- \`README.md\` — setup and expected results
+
+## HF Sycamore — Science 2020
+
+\`reproductions/hf_sycamore_science2020/\`
+
+Reproduction of the Google Hartree-Fock calculation on Sycamore quantum processor.
+
+- \`run.py\` — main reproduction script
+- \`README.md\` — methodology and results
+
+## Purpose
+
+- Validate \`quantum_chem_bench\` against published results
+- Understand hardware-level quantum chemistry workflow
+- Build intuition for noise effects and error mitigation`,
+      tags: ['SQD', 'Nature Chemistry', 'Sycamore', 'HF', 'reproduction', 'Science 2020'],
+      links: [
+        { label: 'SQD Paper (Nature Chem. 2024)', url: 'https://www.nature.com/articles/s41557-024-01578-z' },
+      ],
+    },
+
+    /* ── 3-2  Soft. Eng. / QC×ML ────────────────────────────── */
+    {
+      id: 'sw-qc-ml',
+      label: 'QC×Machine Learning',
+      type: 'category',
+      description: 'QML toolchain, quantum data pipeline, kernel benchmarks',
+      content: `# Software Engineering: QC × Machine Learning
+
+**Path**: \`materials/software/qc-x-ml/\`
+
+## Engineering Directions
+
+### QML Toolchain
+- **PennyLane** — quantum kernel methods, VQC implementation
+- **Qiskit Machine Learning** — QSVC, VQC
+- Quantum kernel matrix computation and visualization
+
+### Quantum Data Processing Pipeline
+- Bitstring preprocessing and valid configuration filtering
+- Statistical feature extraction (configuration entropy, top-K frequency)
+- Subspace dimension and convergence rate tracking
+- AI-assisted configuration recovery
+
+### Benchmark Framework
+- Quantum kernel vs. classical RBF kernel
+- QML molecular property prediction vs. classical GNN
+- SQD quantum features vs. pure classical features`,
+      tags: ['QML', 'PennyLane', 'quantum kernel', 'quantum data', 'bitstring'],
+      links: [],
+    },
+    {
+      id: 'sw-qml-pipeline',
+      label: 'Quantum Data Eng.',
+      type: 'leaf',
+      description: 'Bitstring processing, feature engineering, AI-assisted recovery pipeline',
+      content: `# Quantum Data Engineering
+
+## Full Pipeline
+
+\`\`\`
+Quantum circuit sampling → bitstring set
+  ↓
+Valid configuration filtering (particle number, spin symmetry)
+  ↓
+Configuration recovery (rule-based + ML-assisted)
+  ↓
+Subspace construction → classical diagonalization
+         ↓
+Statistical feature extraction → classical ML input
+\`\`\`
+
+## Key Modules
+
+### Feature Extraction
+- High-frequency configuration fraction (Top-K bitstrings)
+- Configuration entropy: $H = -\\sum_i p_i \\log p_i$
+- Subspace dimension convergence curve
+- Temporal sampling distribution differences (SKQD time evolution)
+
+### AI-Assisted Recovery
+- Rule filtering + machine learning hybrid
+- Learn noisy → valid configuration mapping
+- Improves SQD engineering usability
+
+## Deliverables
+
+- Bitstring data processing template
+- SQD workflow demo
+- Quantum features vs. classical features comparison`,
+      tags: ['quantum data', 'bitstring', 'SQD', 'AI', 'feature engineering'],
+      links: [],
+    },
+
+    /* ── 3-3  Soft. Eng. / QC×Mol.Dynamics ─────────────────── */
+    {
+      id: 'sw-qc-md',
+      label: 'QC×Mol. Dynamics',
+      type: 'category',
+      description: 'Quantum-accuracy PES generation, NNP augmentation, QM/MM interface',
+      content: `# Software Engineering: QC × Molecular Dynamics
+
+**Path**: \`materials/software/qc-x-md/\`
+
+## Engineering Directions
+
+### Quantum-Accuracy PES Data Generation
+- Identify DFT-weak configurations (strongly-correlated, transition states)
+- Batch-call VQE/SQD for critical points
+- PES data storage and formatting (ASE / extended XYZ)
+
+### NNP Training Data Augmentation
+- Integrate quantum data points into DeepMD-kit / NequIP / MACE training
+- Active learning loop: model uncertainty regions → quantum computing supplement
+- Comparative experiments: pure DFT vs. quantum-augmented data
+
+### QM/MM Interface Framework
+- PySCF (QM region) + OpenMM/LAMMPS (MM region)
+- Quantum computer as QM solver (future direction)
+- Active-site embedding → quantum computation → force feedback`,
+      tags: ['MD', 'NNP', 'PES', 'DeepMD', 'QM/MM', 'ReaxFF'],
+      links: [],
+    },
+    {
+      id: 'sw-nnp-workflow',
+      label: 'NNP Training Tools',
+      type: 'leaf',
+      description: 'Quantum-accuracy data points → NNP training set augmentation workflow',
+      content: `# NNP Training Data Augmentation Workflow
+
+## Workflow Design
+
+\`\`\`
+Classical MD initial sampling
+  ↓
+Uncertainty analysis (query-by-committee)
+  ↓
+Identify configurations needing high-accuracy calculation
+  ↓
+VQE/SQD: quantum-accuracy energy / force
+  ↓
+Incrementally update NNP training set
+  ↓
+Retrain → iterate until convergence
+\`\`\`
+
+## Target Scenarios
+
+| Scenario | Quantum contribution |
+|----------|---------------------|
+| Near transition states | DFT error large; quantum accuracy determines mechanism |
+| Spin-state crossing | Multi-reference effects; quantum methods have natural advantage |
+| Strongly-correlated active sites | Embedding + VQE/SQD |
+| Bond breaking/forming | Strong correlation + near-degeneracy, DFT fails |
+
+## Tool Integration
+
+- **ASE** — atomic simulation environment interface
+- **PySCF + qiskit-addon-sqd** — quantum computing module
+- **DeepMD-kit / MACE** — NNP training framework
+- Quantum-augmented vs. pure DFT comparison template`,
+      tags: ['NNP', 'PES', 'active learning', 'DeepMD', 'VQE', 'SQD'],
       links: [],
     },
   ],
 
   /* ─── EDGES ─────────────────────────────────────────────── */
   edges: [
-    { source: 'root', target: 'work-plan' },
+    /* Root → three modules */
     { source: 'root', target: 'learning' },
+    { source: 'root', target: 'work-plan' },
+    { source: 'root', target: 'software' },
 
-    // 工作计划分支
-    { source: 'work-plan', target: 'wp-fewqubit' },
-    { source: 'work-plan', target: 'wp-advantage' },
-    { source: 'work-plan', target: 'wp-chemistry' },
-    { source: 'work-plan', target: 'wp-qdata' },
-    { source: 'work-plan', target: 'wp-pipeline' },
-    { source: 'work-plan', target: 'wp-bench' },
+    /* Learning → 6 branches */
+    { source: 'learning', target: 'learn-classical-chem' },
+    { source: 'learning', target: 'learn-qc' },
+    { source: 'learning', target: 'learn-ml' },
+    { source: 'learning', target: 'learn-qc-chem' },
+    { source: 'learning', target: 'learn-qc-ml' },
+    { source: 'learning', target: 'learn-qc-md' },
 
-    // 学习资料分支
-    { source: 'learning', target: 'classical' },
-    { source: 'learning', target: 'quantum-comp' },
-    { source: 'learning', target: 'literature' },
+    /* Learning → leaves */
+    { source: 'learn-qc',      target: 'phase1' },
+    { source: 'learn-qc-chem', target: 'qc-vqe' },
+    { source: 'learn-qc-chem', target: 'qc-sqd' },
+    { source: 'learn-qc-chem', target: 'qc-adaptvqe' },
+    { source: 'learn-qc-chem', target: 'literature' },
+    { source: 'literature',    target: 'lit-revmodphys' },
+    { source: 'literature',    target: 'lit-qcage' },
+    { source: 'literature',    target: 'lit-towards' },
+    { source: 'literature',    target: 'lit-2508' },
 
-    // 经典方法
-    { source: 'classical', target: 'comp-chem' },
-    { source: 'classical', target: 'md' },
-    { source: 'classical', target: 'ml-classical' },
+    /* Research Plans → 2 branches */
+    { source: 'work-plan', target: 'wp-qc-chem' },
+    { source: 'work-plan', target: 'wp-qc-ml' },
 
-    // 量子计算
-    { source: 'quantum-comp', target: 'qc-chem' },
-    { source: 'quantum-comp', target: 'qc-md' },
-    { source: 'quantum-comp', target: 'qc-ml' },
+    /* Research Plans → topics */
+    { source: 'wp-qc-chem', target: 'wp-fewqubit' },
+    { source: 'wp-qc-chem', target: 'wp-advantage' },
+    { source: 'wp-qc-chem', target: 'wp-chemistry' },
+    { source: 'wp-qc-ml',   target: 'wp-qdata' },
+    { source: 'wp-qc-ml',   target: 'wp-qml' },
 
-    // QC×计算化学 子节点
-    { source: 'qc-chem', target: 'phase1' },
-    { source: 'qc-chem', target: 'qc-vqe' },
-    { source: 'qc-chem', target: 'qc-sqd' },
-    { source: 'qc-chem', target: 'qc-adaptvqe' },
+    /* Software → 3 branches */
+    { source: 'software', target: 'sw-qc-chem' },
+    { source: 'software', target: 'sw-qc-ml' },
+    { source: 'software', target: 'sw-qc-md' },
 
-    // 跨模块连接（虚线）
-    { source: 'wp-qdata', target: 'qc-sqd', type: 'cross' },
-    { source: 'wp-chemistry', target: 'qc-chem', type: 'cross' },
-    { source: 'wp-pipeline', target: 'qc-chem', type: 'cross' },
-    { source: 'ml-classical', target: 'qc-ml', type: 'cross' },
-    { source: 'md', target: 'qc-md', type: 'cross' },
+    /* Software → topics/leaves */
+    { source: 'sw-qc-chem', target: 'sw-pipeline' },
+    { source: 'sw-qc-chem', target: 'sw-bench' },
+    { source: 'sw-qc-chem', target: 'sw-repro' },
+    { source: 'sw-qc-ml',   target: 'sw-qml-pipeline' },
+    { source: 'sw-qc-md',   target: 'sw-nnp-workflow' },
+
+    /* Cross-module links (dashed) */
+    { source: 'wp-qc-chem',   target: 'learn-qc-chem',      type: 'cross' },
+    { source: 'wp-qc-ml',     target: 'learn-qc-ml',         type: 'cross' },
+    { source: 'sw-qc-chem',   target: 'wp-qc-chem',          type: 'cross' },
+    { source: 'sw-qc-ml',     target: 'wp-qc-ml',            type: 'cross' },
+    { source: 'sw-qc-md',     target: 'learn-qc-md',         type: 'cross' },
+    { source: 'wp-qdata',     target: 'qc-sqd',              type: 'cross' },
+    { source: 'wp-chemistry',  target: 'sw-pipeline',         type: 'cross' },
+    { source: 'sw-bench',     target: 'sw-repro',             type: 'cross' },
+    { source: 'learn-ml',     target: 'learn-qc-ml',          type: 'cross' },
+    { source: 'learn-classical-chem', target: 'learn-qc-chem', type: 'cross' },
+    { source: 'sw-nnp-workflow', target: 'learn-ml',          type: 'cross' },
+    { source: 'lit-towards',  target: 'wp-advantage',         type: 'cross' },
   ],
 }
 
 export const NODE_TYPE_CONFIG = {
-  root: { color: '#00d4ff', radius: 36, glowColor: 'rgba(0,212,255,0.6)' },
-  module: { color: '#8b5cf6', radius: 28, glowColor: 'rgba(139,92,246,0.5)' },
+  root:     { color: '#00d4ff', radius: 36, glowColor: 'rgba(0,212,255,0.6)' },
+  module:   { color: '#8b5cf6', radius: 28, glowColor: 'rgba(139,92,246,0.5)' },
   category: { color: '#10b981', radius: 22, glowColor: 'rgba(16,185,129,0.4)' },
-  topic: { color: '#f97316', radius: 16, glowColor: 'rgba(249,115,22,0.35)' },
-  leaf: { color: '#f472b6', radius: 12, glowColor: 'rgba(244,114,182,0.3)' },
+  topic:    { color: '#f97316', radius: 16, glowColor: 'rgba(249,115,22,0.35)' },
+  leaf:     { color: '#f472b6', radius: 12, glowColor: 'rgba(244,114,182,0.3)' },
 }

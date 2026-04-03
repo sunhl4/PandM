@@ -69,7 +69,7 @@ export default function App() {
   }, [selectedNode, focusNodeId, deleteNode])
 
   const handleResetGraph = useCallback(() => {
-    if (window.confirm('确定要重置知识图谱吗？所有自定义内容将被清除。')) {
+    if (window.confirm('Reset the knowledge graph? All custom content will be lost.')) {
       localStorage.removeItem('pandm-graph-v1')
       window.location.reload()
     }
@@ -121,7 +121,7 @@ export default function App() {
             </div>
             <div>
               <span className="text-sm font-bold tracking-wide gradient-text">PandM</span>
-              <span className="text-xs ml-1.5" style={{ color: '#334155' }}>量子知识图谱</span>
+              <span className="text-xs ml-1.5" style={{ color: '#334155' }}>Quantum Knowledge Graph</span>
             </div>
           </div>
 
@@ -257,19 +257,19 @@ export default function App() {
         }}
       >
         <div className="flex items-center gap-4 text-xs" style={{ color: '#334155' }}>
-          <span>{graph.nodes.length} 节点</span>
-          <span>{graph.edges.length} 连接</span>
+          <span>{graph.nodes.length} nodes</span>
+          <span>{graph.edges.length} connections</span>
           {searchQuery && (
             <span style={{ color: '#00d4ff' }}>
-              搜索到 {searchResultCount} 个匹配
+              {searchResultCount} matches
             </span>
           )}
         </div>
         <div className="text-xs flex items-center gap-3" style={{ color: '#334155' }}>
-          <span>点击选中 · 双击聚焦 · 滚轮缩放 · 拖拽移动</span>
+          <span>Click to select · Double-click to focus · Scroll to zoom · Drag to pan</span>
           <div className="flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#10b981' }} />
-            <span style={{ color: '#10b981' }}>已连接本地存储</span>
+            <span style={{ color: '#10b981' }}>Local storage connected</span>
           </div>
         </div>
       </div>
@@ -300,11 +300,11 @@ export default function App() {
 
 function LegendPanel({ onClose }) {
   const items = [
-    { type: 'root', label: '根节点', color: '#00d4ff', desc: '知识宇宙入口' },
-    { type: 'module', label: '模块', color: '#8b5cf6', desc: '工作计划 / 学习资料' },
-    { type: 'category', label: '分类', color: '#10b981', desc: '经典方法 / 量子计算' },
-    { type: 'topic', label: '主题', color: '#f97316', desc: '具体知识点' },
-    { type: 'leaf', label: '资料', color: '#f472b6', desc: '具体学习材料' },
+    { type: 'root',     label: 'Root',     color: '#00d4ff', desc: 'Knowledge Universe entry' },
+    { type: 'module',   label: 'Module',   color: '#8b5cf6', desc: 'Learning · Research Plans · Software' },
+    { type: 'category', label: 'Direction', color: '#10b981', desc: '6 learning · 2 plan · 3 engineering' },
+    { type: 'topic',    label: 'Topic',    color: '#f97316', desc: 'Specific research topic' },
+    { type: 'leaf',     label: 'Resource', color: '#f472b6', desc: 'Notebooks / papers / tools' },
   ]
 
   return (
@@ -323,7 +323,7 @@ function LegendPanel({ onClose }) {
     >
       <div className="px-4 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold" style={{ color: '#94a3b8' }}>节点类型图例</span>
+          <span className="text-xs font-semibold" style={{ color: '#94a3b8' }}>Node Type Legend</span>
           <button onClick={onClose} className="p-0.5 rounded hover:bg-white/10 transition-all" style={{ color: '#475569' }}>
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -349,11 +349,11 @@ function LegendPanel({ onClose }) {
         <div className="pt-2 mt-2 space-y-1.5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="flex items-center gap-2 text-xs" style={{ color: '#475569' }}>
             <div className="w-6 h-px" style={{ background: 'rgba(0,212,255,0.5)' }} />
-            <span>层级连接</span>
+            <span>Hierarchy link</span>
           </div>
           <div className="flex items-center gap-2 text-xs" style={{ color: '#475569' }}>
             <div className="w-6 h-px" style={{ background: 'rgba(139,92,246,0.5)', borderTop: '1px dashed rgba(139,92,246,0.5)' }} />
-            <span>跨模块关联</span>
+            <span>Cross-module link</span>
           </div>
         </div>
       </div>

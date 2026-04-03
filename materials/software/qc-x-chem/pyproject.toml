@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qc-learning-platform"
+version = "0.3.1"
+description = "DFT + quantum embedding pipeline and quantum chemistry benchmark platform (PySCF + Qiskit)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "scipy",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "nbmake>=1.5", "matplotlib>=3.7"]
+qc = [
+    "qiskit>=1.3",
+    "qiskit-nature>=0.7.2",
+    "qiskit-algorithms",
+]
+bench = [
+    "qiskit>=1.3",
+    "qiskit-nature>=0.7.2",
+    "qiskit-algorithms",
+    "matplotlib>=3.7",
+    "pandas",
+]
+full = [
+    "qiskit>=1.3",
+    "qiskit-nature>=0.7.2",
+    "qiskit-algorithms",
+    "pyscf>=2.6",
+    "qiskit-aer>=0.15",
+    "qiskit-addon-sqd>=0.8.0",
+    "matplotlib>=3.7",
+    "pandas",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dft_qc_pipeline*", "quantum_chem_bench*"]
+
+[tool.pytest.ini_options]
+testpaths = ["dft_qc_pipeline/tests", "quantum_chem_bench/tests"]
+markers = [
+    "requires_pyscf: needs PySCF (integral backend)",
+    "requires_qiskit_nature: needs qiskit-nature",
+    "requires_sqd: needs qiskit-addon-sqd",
+    "slow: slow test (skipped in CI_FAST_NB mode)",
+]

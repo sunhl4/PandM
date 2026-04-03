@@ -1,0 +1,39 @@
+backend:
+  type: pyscf
+  # Fe-N4 porphyrin-like toy model (minimal geometry)
+  # In a real run replace with a full Fe-N4 optimised geometry
+  geometry: >
+    Fe  0.000  0.000  0.000;
+    N   0.000  1.980  0.000;
+    N   0.000 -1.980  0.000;
+    N   1.980  0.000  0.000;
+    N  -1.980  0.000  0.000
+  basis: def2-SVP
+  method: dft
+  xc: pbe
+  charge: 0
+  spin: 4          # S=2 high-spin Fe(II) quintet: 2S=4
+
+regions:
+  - name: Fe_d_active
+    atom_indices: [0]      # Fe only
+    nelec: 6               # Fe 3d^6
+    norb: 5                # 3d shell
+    localization: iao
+
+embedding:
+  type: dmet
+  max_iter: 20
+  conv_tol: 1.0e-5
+
+mapper:
+  type: parity
+  z2symmetry_reduction: false
+
+solver:
+  type: sqd
+  sqd_shots: 10000
+  sqd_iterations: 8
+  ansatz: hea
+  optimizer: cobyla
+  max_iter: 100

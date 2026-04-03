@@ -1,0 +1,45 @@
+# N₂ 6-31G — multireference benchmark
+# Bond length ~1.098 Å (equilibrium)
+# Strongly correlated near dissociation; CCSD breaks down
+# Active space: 6 electrons in 6 orbitals (valence π + σ)
+
+name: "N2_6-31G_benchmark"
+
+molecule:
+  geometry: "N 0 0 0; N 0 0 1.098"
+  basis: 6-31g
+  charge: 0
+  spin: 0
+  n_active_electrons: [3, 3]   # 6 valence electrons
+  n_active_orbitals: 6
+
+solvers:
+  classical: [hf, mp2, cisd, ccsd, fci]
+  quantum:   [vqe_uccsd, vqe_kupccgsd, adapt_vqe, qpe]
+
+mapper:
+  type: jw
+  z2symmetry_reduction: false
+
+solver_options:
+  vqe_uccsd:
+    optimizer: slsqp
+    max_iter: 500
+    mapper_type: jw
+    z2symmetry_reduction: false
+  vqe_kupccgsd:
+    optimizer: slsqp
+    max_iter: 500
+    k: 2
+    mapper_type: jw
+    z2symmetry_reduction: false
+  adapt_vqe:
+    max_iter: 60
+    gradient_threshold: 5.0e-4
+    vqe_max_iter: 300
+    mapper_type: jw
+    z2symmetry_reduction: false
+  qpe:
+    num_iterations: 10
+    mapper_type: jw
+    z2symmetry_reduction: false

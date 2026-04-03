@@ -1,0 +1,44 @@
+# H₂ STO-3G — full benchmark: all classical + 3 quantum methods
+# Equilibrium geometry at ~0.735 Å bond length
+# 2 electrons, 2 spatial orbitals → 2 qubits with parity+Z2 reduction
+
+name: "H2_STO-3G_full_benchmark"
+
+molecule:
+  geometry: "H 0 0 0; H 0 0 0.735"
+  basis: sto-3g
+  charge: 0
+  spin: 0
+  n_active_electrons: [1, 1]   # (n_alpha, n_beta)
+  n_active_orbitals: 2
+
+solvers:
+  classical: [hf, mp2, cisd, ccsd, fci]
+  quantum:   [vqe_uccsd, vqe_hea, adapt_vqe, qpe, sqd]
+
+mapper:
+  type: parity
+  z2symmetry_reduction: true
+
+solver_options:
+  vqe_uccsd:
+    optimizer: slsqp
+    max_iter: 300
+  vqe_hea:
+    optimizer: cobyla
+    max_iter: 500
+    reps: 2
+  adapt_vqe:
+    max_iter: 30
+    gradient_threshold: 1.0e-3
+    vqe_max_iter: 200
+  qpe:
+    num_iterations: 6
+    mapper_type: jw
+    z2symmetry_reduction: false
+  sqd:
+    shots: 5000
+    iterations: 8
+    ansatz: hea
+    mapper_type: jw
+    z2symmetry_reduction: false

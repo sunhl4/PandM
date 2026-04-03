@@ -1,0 +1,40 @@
+# LiH STO-3G — benchmark with 4-electron/4-orbital active space
+# Bond length ~1.595 Å
+# Focus: CCSD vs VQE-UCCSD vs FCI comparison
+
+name: "LiH_STO-3G_benchmark"
+
+molecule:
+  geometry: "Li 0 0 0; H 0 0 1.595"
+  basis: sto-3g
+  charge: 0
+  spin: 0
+  n_active_electrons: [2, 2]   # 4 active electrons (Li 2s + H 1s)
+  n_active_orbitals: 4
+
+solvers:
+  classical: [hf, mp2, cisd, ccsd, ccsd_t, fci]
+  quantum:   [vqe_uccsd, adapt_vqe, qpe, sqd]
+
+mapper:
+  type: parity
+  z2symmetry_reduction: true
+
+solver_options:
+  vqe_uccsd:
+    optimizer: slsqp
+    max_iter: 300
+  adapt_vqe:
+    max_iter: 40
+    gradient_threshold: 1.0e-3
+    vqe_max_iter: 200
+  qpe:
+    num_iterations: 8
+    mapper_type: jw
+    z2symmetry_reduction: false
+  sqd:
+    shots: 10000
+    iterations: 10
+    ansatz: hea
+    mapper_type: jw
+    z2symmetry_reduction: false

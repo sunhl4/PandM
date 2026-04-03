@@ -1,0 +1,31 @@
+# Two-site one-band Hubbard model — no PySCF. Toy backend + hubbard embedding + NumPy FCI.
+# Half filling: 2 electrons on 2 sites → (n_alpha, n_beta) = (1, 1).
+backend:
+  type: toy
+  geometry: "hubbard"
+  basis: "none"
+  norb: 2
+
+regions:
+  - name: chain
+    atom_indices: [0, 1]
+    nelec: 2
+    norb: 2
+    localization: none
+
+embedding:
+  type: hubbard
+  max_iter: 1
+  conv_tol: 1.0e-8
+  t: 1.0
+  U: 4.0
+  n_sites: 2
+  periodic: false
+
+mapper:
+  type: jw
+  z2symmetry_reduction: false
+
+solver:
+  type: numpy
+  compute_rdm: true

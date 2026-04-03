@@ -1,0 +1,30 @@
+benchmark_mode: true
+benchmark_solvers: [numpy, vqe, adapt_vqe]
+
+backend:
+  type: pyscf
+  geometry: "N 0 0 0; N 0 0 1.098"
+  basis: sto-3g
+  method: hf
+  charge: 0
+  spin: 0
+
+regions:
+  - name: N2_active
+    atom_indices: [0, 1]
+    nelec: 6
+    norb: 6
+    localization: none
+
+embedding:
+  type: simple_cas
+  max_iter: 1
+  conv_tol: 1.0e-6
+
+mapper:
+  type: jw
+  z2symmetry_reduction: false
+
+solver:
+  type: numpy
+  compute_rdm: true

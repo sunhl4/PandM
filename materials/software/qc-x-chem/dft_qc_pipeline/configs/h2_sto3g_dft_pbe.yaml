@@ -1,0 +1,29 @@
+# H₂ DFT/PBE reference geometry — checks DFT code path in PySCFBackend.
+backend:
+  type: pyscf
+  geometry: "H 0 0 0; H 0 0 0.735"
+  basis: sto-3g
+  method: dft
+  xc: pbe
+  charge: 0
+  spin: 0
+
+regions:
+  - name: H2_full
+    atom_indices: [0, 1]
+    nelec: 2
+    norb: 2
+    localization: none
+
+embedding:
+  type: simple_cas
+  max_iter: 1
+  conv_tol: 1.0e-6
+
+mapper:
+  type: parity
+  z2symmetry_reduction: true
+
+solver:
+  type: numpy
+  compute_rdm: false
