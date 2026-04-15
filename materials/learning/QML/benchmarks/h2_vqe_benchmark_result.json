@@ -1,0 +1,25 @@
+{
+  "schema": "qml.h2_vqe_benchmark.v1",
+  "seed": 42,
+  "bond_length_A": 0.74,
+  "basis_note": "STO-3G (from tutorial get_h2_integrals)",
+  "pyscf_integrals": false,
+  "energies_hartree": {
+    "vqe": -1.3620390212640274,
+    "exact_diagonalization": -2.1200860486226003,
+    "fci_reference": -1.1372838344,
+    "hf": -1.1167593073
+  },
+  "errors_hartree": {
+    "vqe_minus_exact": 0.7580470273585729,
+    "vqe_minus_fci": 0.2247551868640274,
+    "exact_ed_minus_fci": 0.9828022142226003
+  },
+  "checks": {
+    "ed_matches_fci_within_1e-3": false,
+    "vqe_matches_fci_within_1e-2": false,
+    "note": "If exact_ed_minus_fci is large, compare tutorial Hamiltonian to PySCF; install pyscf for consistent integrals."
+  },
+  "wall_time_seconds": 1.6693388749990845,
+  "n_iterations": 21
+}

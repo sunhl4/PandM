@@ -1,0 +1,8 @@
+# Optional dependencies for gnn_adsorption/
+ase>=3.23
+
+# torch_geometric installation is platform-specific.
+# Follow the official PyG install guide for your torch version, then you can run:
+#   python -m gnn_adsorption.train_gnn_regressor ...
+
+

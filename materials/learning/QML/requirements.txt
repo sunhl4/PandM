@@ -1,0 +1,24 @@
+# Core scientific stack used across the QML demos
+numpy>=1.24
+scikit-learn>=1.3
+matplotlib>=3.8
+seaborn>=0.13
+joblib>=1.3
+
+# QML
+pennylane>=0.36
+
+# Torch (install a build appropriate for your machine: CPU/CUDA/MPS)
+torch>=2.1
+
+# Structure parsing / neighbor lists (for CONTCAR/POSCAR)
+ase>=3.23
+
+# arXiv digest (tools/arxiv_qchem_digest.py)
+arxiv>=2.1.0
+
+# NOTE:
+# - torch_geometric (PyG) is used by gnn_adsorption/, but its installation is platform-specific.
+#   Please follow the official PyG install instructions for your PyTorch version.
+
+

@@ -1,0 +1,4 @@
+{
+  "gnn_csv": "fixtures/gnn_smoke/adsorption.csv",
+  "zno_npz": "fixtures/zno_smoke/dataset.npz"
+}
