@@ -71,8 +71,9 @@ class HamiltonianBuilder:
         h2e = integrals.h2e
         e_core = integrals.e_core
 
-        # Build FermionicOp from integrals
-        fermionic_op = self._integrals_to_fermionic_op(h1e, h2e, norb, e_core)
+        # Build FermionicOp from integrals (electronic terms only; e_core is added
+        # by individual solvers after computing the eigenvalue, not in the Hamiltonian).
+        fermionic_op = self._integrals_to_fermionic_op(h1e, h2e, norb)
 
         # Select mapper
         mapper = self._build_mapper(nelec, norb)
@@ -96,15 +97,14 @@ class HamiltonianBuilder:
         h1e: np.ndarray,
         h2e: np.ndarray,
         norb: int,
-        e_core: float,
     ):
-        """Convert 1e/2e integrals to a FermionicOp (Qiskit Nature v0.7+)."""
+        """Convert 1e/2e integrals to a FermionicOp (Qiskit Nature v0.7+).
+        The e_core (nuclear repulsion) is NOT included here; the caller adds it
+        directly to the mapped SparsePauliOp to avoid identity-key handling bugs.
+        """
         from qiskit_nature.second_q.operators import FermionicOp
 
         terms: dict[str, complex] = {}
-
-        # Nuclear repulsion / core energy as identity
-        terms[""] = complex(e_core)
 
         # One-electron terms
         for p in range(norb):
@@ -137,7 +137,7 @@ class HamiltonianBuilder:
                             key = f"+_{sp} +_{sr} -_{ss} -_{sq}"
                             terms[key] = terms.get(key, 0.0) + val
 
-        return FermionicOp(terms, num_spin_orbs=2 * norb)
+        return FermionicOp(terms, num_spin_orbitals=2 * norb)
 
     def _build_mapper(self, nelec: tuple[int, int], norb: int):
         """Instantiate the requested Qiskit Nature QubitMapper."""

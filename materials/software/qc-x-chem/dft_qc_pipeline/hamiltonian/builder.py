@@ -111,10 +111,10 @@ def build_fragment_hamiltonian(
         for k in core_idx:
             C_k = C[:, k]
             # Coulomb: 2 * <ij|kk>
-            J = ao2mo.kernel(mol, [C_act, C_act, C_k[:, None], C_k[:, None]])
+            J = ao2mo.kernel(mol, [C_act, C_act, C_k[:, None], C_k[:, None]], compact=False)
             J = J.reshape(norb, norb)
             # Exchange: <ik|jk>
-            K = ao2mo.kernel(mol, [C_act, C_k[:, None], C_act, C_k[:, None]])
+            K = ao2mo.kernel(mol, [C_act, C_k[:, None], C_act, C_k[:, None]], compact=False)
             K = K.reshape(norb, norb)
             h1e_eff += 2.0 * J - K
             e_core += 2.0 * float(np.einsum("ij,ji->", h1e_ao, np.outer(C_k, C_k)))

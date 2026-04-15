@@ -147,6 +147,9 @@ class Pipeline:
             mapped_last = mapper.map(emb_H)
             H_qubit, n_particles, n_orbs = mapped_last
 
+            # Expose EmbeddedHamiltonian to solvers that need raw integrals (SQD).
+            solver._emb_H = emb_H
+
             sol = solver.solve(H_qubit, n_particles, n_orbs)
             logger.debug(
                 "region=%r solver=%s fragment_energy=%.10f Ha",

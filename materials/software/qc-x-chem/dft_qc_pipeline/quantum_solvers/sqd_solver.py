@@ -23,7 +23,6 @@ import numpy as np
 from ..core.interfaces import QuantumSolver, SolverResult
 from ..core.registry import registry
 from ._rng import apply_solver_seed
-from .ci_subspace_rdm import subspace_1rdm_spatial
 
 logger = logging.getLogger(__name__)
 
@@ -103,179 +102,91 @@ class SQDSolver(QuantumSolver):
     def _solve_with_sqd(
         self, hamiltonian, num_particles, num_spatial_orbitals
     ) -> SolverResult:
-        """Full SQD loop using qiskit-addon-sqd."""
-        try:
-            from qiskit_addon_sqd.fermion import (
-                bitstring_matrix_to_ci_strs,
-                optimize_ci_strings_reduce_memory,
-            )
-            from qiskit_addon_sqd.counts import counts_to_arrays
-            from qiskit_addon_sqd.subspace import (
-                build_subspace_matrix,
-                solve_subspace,
-            )
-            from qiskit.primitives import StatevectorSampler
-        except ImportError as exc:
-            raise ImportError(
-                "qiskit-addon-sqd ≥0.8 required. "
-                "pip install qiskit-addon-sqd"
-            ) from exc
+        """
+        SQD using qiskit-addon-sqd 0.12.x API (solve_fermion with integrals).
 
-        logger.info(
-            "[SQDSolver] Starting SQD: %d qubits, %d shots, %d iterations",
-            hamiltonian.num_qubits, self.sqd_shots, self.sqd_iterations,
-        )
+        Requires that ``self._emb_H`` (EmbeddedHamiltonian) is set by the
+        Pipeline before calling solve().  Without it we fall back to NumPy.
+        """
+        import qiskit_addon_sqd.fermion as sqd_fermion
+        from qiskit_addon_sqd.configuration_recovery import recover_configurations
 
-        # --- Build and pre-optimize ansatz ---
-        ansatz = self._build_ansatz(num_particles, num_spatial_orbitals, hamiltonian)
-        params = self._preopimize_ansatz(ansatz, hamiltonian, num_particles)
+        emb_H = getattr(self, "_emb_H", None)
+        if emb_H is None:
+            logger.warning(
+                "[SQDSolver] EmbeddedHamiltonian not available "
+                "(set solver._emb_H before calling solve). "
+                "Falling back to NumPy exact diagonalization."
+            )
+            from .numpy_solver import NumPySolver
+            return NumPySolver().solve(hamiltonian, num_particles, num_spatial_orbitals)
+
+        norb = int(emb_H.norb)
+        n_alpha, n_beta = int(num_particles[0]), int(num_particles[1])
+        h1e = np.asarray(emb_H.h1e, dtype=float)
+        h2e = np.asarray(emb_H.h2e, dtype=float)
+        e_core = float(emb_H.e_core)
+        open_shell = (n_alpha != n_beta)
+
+        rng = np.random.default_rng(self.seed if self.seed is not None else 42)
+
+        # --- initial random bitstrings (cols 0..norb-1 = alpha, norb..2*norb-1 = beta) ---
+        n_samples = self.sqd_shots
+        bsm = np.zeros((n_samples, 2 * norb), dtype=np.int8)
+        for k in range(n_samples):
+            occ_a = rng.choice(norb, n_alpha, replace=False)
+            occ_b = rng.choice(norb, n_beta, replace=False)
+            bsm[k, occ_a] = 1
+            bsm[k, occ_b + norb] = 1
+        probs = np.ones(n_samples) / n_samples
+
+        avg_occ_a = np.full(norb, n_alpha / norb)
+        avg_occ_b = np.full(norb, n_beta / norb)
 
         best_energy = float("inf")
-        best_rdm1 = None
-        energy_history = []
+        best_rdm1: np.ndarray | None = None
+        energy_history: list[float] = []
 
         for iteration in range(self.sqd_iterations):
-            logger.debug("[SQDSolver] Iteration %d/%d", iteration + 1, self.sqd_iterations)
+            # Returns (new_bitstring_matrix, new_probabilities) in SQD 0.12.x.
+            bsm, probs = recover_configurations(
+                bsm, probs,
+                (avg_occ_a, avg_occ_b),
+                n_alpha, n_beta,
+                rand_seed=rng,
+            )
 
-            # Sample bitstrings from the current ansatz
-            bound_circuit = ansatz.assign_parameters(params)
-            bound_circuit.measure_all()
-
-            sampler = StatevectorSampler()
-            job = sampler.run([bound_circuit], shots=self.sqd_shots)
-            pub_result = job.result()[0]
-            counts = pub_result.data.meas.get_counts()
-
-            # Convert counts to bitstring matrices
-            try:
-                bitstring_arrays, _ = counts_to_arrays(counts)
-                ci_strs_a, ci_strs_b = bitstring_matrix_to_ci_strs(
-                    bitstring_arrays,
-                    num_elec_a=num_particles[0],
-                    num_elec_b=num_particles[1],
-                    norb=num_spatial_orbitals,
-                )
-            except Exception as exc:
-                logger.warning("[SQDSolver] Config recovery failed: %s", exc)
+            ci_strs = sqd_fermion.bitstring_matrix_to_ci_strs(bsm, open_shell=open_shell)
+            if len(ci_strs[0]) == 0 or len(ci_strs[1]) == 0:
+                logger.warning("[SQDSolver] iter %d: empty CI strings, skipping.", iteration + 1)
                 continue
 
-            if len(ci_strs_a) == 0 or len(ci_strs_b) == 0:
-                logger.warning("[SQDSolver] Empty CI string set, skipping iteration.")
-                continue
+            energy_raw, _, (rdm1a, rdm1b), _ = sqd_fermion.solve_fermion(
+                ci_strs, h1e, h2e, open_shell=open_shell,
+            )
+            energy = float(energy_raw) + e_core
+            energy_history.append(energy)
+            logger.info("[SQDSolver] iter %d  E=%.10f Ha", iteration + 1, energy)
 
-            # Build and diagonalize subspace Hamiltonian
-            try:
-                H_sub = build_subspace_matrix(
-                    hamiltonian,
-                    ci_strs_a,
-                    ci_strs_b,
-                    norb=num_spatial_orbitals,
-                )
-                energy, coeff = solve_subspace(H_sub)
-                energy_history.append(float(energy))
+            if energy < best_energy:
+                best_energy = energy
+                # solve_fermion 0.12.x returns 1-D diagonal occupancies; build 2-D RDM
+                occ_a = np.asarray(rdm1a).ravel()
+                occ_b = np.asarray(rdm1b).ravel()
+                best_rdm1 = np.diag(occ_a + occ_b)  # (norb, norb) diagonal RDM
 
-                if energy < best_energy:
-                    best_energy = energy
-                    try:
-                        n_cf = min(
-                            int(np.asarray(coeff).size),
-                            len(ci_strs_a),
-                            len(ci_strs_b),
-                        )
-                        c_use = np.asarray(coeff).ravel()[:n_cf]
-                        best_rdm1 = subspace_1rdm_spatial(
-                            c_use,
-                            ci_strs_a[:n_cf],
-                            ci_strs_b[:n_cf],
-                            num_spatial_orbitals,
-                        )
-                    except Exception as exc:
-                        logger.debug(
-                            "[SQDSolver] subspace 1-RDM failed, fallback: %s", exc
-                        )
-                        best_rdm1 = self._rdm1_from_ci(
-                            coeff, ci_strs_a, ci_strs_b, num_spatial_orbitals
-                        )
-                logger.info("[SQDSolver] iter %d  E=%.10f Ha", iteration + 1, energy)
-            except Exception as exc:
-                logger.warning("[SQDSolver] Subspace solve failed: %s", exc)
-                continue
+            avg_occ_a = np.asarray(rdm1a).ravel().clip(0.0, 1.0)
+            avg_occ_b = np.asarray(rdm1b).ravel().clip(0.0, 1.0)
 
         if best_energy == float("inf"):
-            logger.error("[SQDSolver] No valid subspace found; returning 0.")
-            best_energy = 0.0
+            logger.error("[SQDSolver] No valid subspace found; returning e_core.")
+            best_energy = e_core
 
         return SolverResult(
             energy=best_energy,
             rdm1=best_rdm1,
             rdm2=None,
             converged=True,
-            extra={
-                "energy_history": energy_history,
-                "rdm1_model": (
-                    "subspace_slater_basis: exact γ_pq=⟨E_pq⟩ for the sampled "
-                    "Slater determinant basis (single-particle excitation graph); "
-                    "truncation error remains from the finite SQD subspace."
-                ),
-            },
+            extra={"energy_history": energy_history},
         )
 
-    # ------------------------------------------------------------------
-    # Ansatz and pre-optimization helpers
-    # ------------------------------------------------------------------
-
-    def _build_ansatz(self, num_particles, num_spatial_orbitals, hamiltonian):
-        if self.ansatz_type == "uccsd":
-            try:
-                from qiskit_nature.second_q.circuit.library import UCCSD, HartreeFock
-                from qiskit_nature.second_q.mappers import ParityMapper
-                mapper = ParityMapper(num_particles=num_particles)
-                hf = HartreeFock(num_spatial_orbitals, num_particles, mapper)
-                return UCCSD(num_spatial_orbitals, num_particles, mapper, initial_state=hf)
-            except Exception:
-                pass  # fall through to HEA
-        from qiskit.circuit.library import EfficientSU2
-        return EfficientSU2(hamiltonian.num_qubits, reps=2)
-
-    def _preopimize_ansatz(self, ansatz, hamiltonian, num_particles) -> np.ndarray:
-        """Quick VQE pre-optimization to get a reasonable starting point."""
-        try:
-            from qiskit_algorithms import VQE
-            from qiskit_algorithms.optimizers import COBYLA
-            from qiskit.primitives import StatevectorEstimator
-
-            vqe = VQE(StatevectorEstimator(), ansatz, COBYLA(maxiter=self.max_iter))
-            result = vqe.compute_minimum_eigenvalue(hamiltonian)
-            if result.optimal_parameters is not None:
-                return np.array(list(result.optimal_parameters.values()))
-        except Exception as exc:
-            logger.debug("[SQDSolver] Pre-optimization failed: %s", exc)
-
-        # Random initial point as fallback
-        rng = np.random.default_rng(self.seed if self.seed is not None else 42)
-        return rng.uniform(-np.pi, np.pi, ansatz.num_parameters)
-
-    # ------------------------------------------------------------------
-    # 1-RDM from CI coefficients (approximate)
-    # ------------------------------------------------------------------
-
-    @staticmethod
-    def _rdm1_from_ci(
-        coeff: np.ndarray,
-        ci_strs_a: np.ndarray,
-        ci_strs_b: np.ndarray,
-        norb: int,
-    ) -> np.ndarray | None:
-        """Approximate 1-RDM from dominant CI string and coefficient (diagonal only)."""
-        try:
-            rdm1 = np.zeros((norb, norb))
-            # Use the dominant determinant for a rough diagonal approximation
-            idx = np.argmax(np.abs(coeff))
-            # ci_strs_a[idx] is an integer bitstring; extract occupations
-            occ_a = [(ci_strs_a[idx % len(ci_strs_a)] >> bit) & 1 for bit in range(norb)]
-            occ_b = [(ci_strs_b[idx % len(ci_strs_b)] >> bit) & 1 for bit in range(norb)]
-            for p in range(norb):
-                rdm1[p, p] = float(occ_a[p] + occ_b[p])
-            return rdm1
-        except Exception:
-            return None

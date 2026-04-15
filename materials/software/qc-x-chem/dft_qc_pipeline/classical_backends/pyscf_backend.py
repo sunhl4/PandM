@@ -62,6 +62,8 @@ class PySCFBackend(ClassicalBackend):
         max_cycle: int = 100,
         density_fit: bool = False,
         auxbasis: str | None = None,
+        level_shift: float = 0.0,
+        init_guess: str | None = None,
         **kwargs: Any,
     ) -> None:
         self.method = method.lower()
@@ -73,6 +75,8 @@ class PySCFBackend(ClassicalBackend):
         self.max_cycle = max_cycle
         self.density_fit = bool(density_fit)
         self.auxbasis = auxbasis
+        self.level_shift = float(level_shift)
+        self.init_guess = init_guess  # e.g. "atom", "minao", None → PySCF default
 
     def run(self, geometry: str, basis: str, **kwargs) -> BackendResult:
         """
@@ -133,7 +137,15 @@ class PySCFBackend(ClassicalBackend):
 
         mf.conv_tol  = self.conv_tol
         mf.max_cycle = self.max_cycle
-        e_hf = mf.kernel()
+        if self.level_shift:
+            mf.level_shift = self.level_shift
+            logger.info("SCF level_shift=%.3f applied.", self.level_shift)
+
+        if self.init_guess:
+            dm0 = mf.init_guess_by_atom() if self.init_guess == "atom" else None
+            e_hf = mf.kernel(dm0)
+        else:
+            e_hf = mf.kernel()
 
         if not mf.converged:
             logger.warning("SCF did not converge for geometry: %s", geometry[:60])

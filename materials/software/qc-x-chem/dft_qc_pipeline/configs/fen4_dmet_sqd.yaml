@@ -13,6 +13,9 @@ backend:
   xc: pbe
   charge: 0
   spin: 4          # S=2 high-spin Fe(II) quintet: 2S=4
+  max_cycle: 300   # extra SCF cycles for open-shell Fe
+  level_shift: 0.3 # level-shift stabilises ROKS convergence for heavy metals
+  init_guess: atom # atom-based initial guess improves open-shell starting point
 
 regions:
   - name: Fe_d_active

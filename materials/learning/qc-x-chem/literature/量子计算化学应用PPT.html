@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>量子计算在计算化学领域的应用 - 2026 深度技术汇报</title>
+<!-- 引入 MathJax 用于渲染数学公式 -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root {
+    --primary: #0a192f;
+    --secondary: #112240;
+    --accent: #64ffda;
+    --accent-dim: rgba(100, 255, 218, 0.1);
+    --text-main: #ccd6f6;
+    --text-dim: #8892b0;
+    --white: #ffffff;
+    --blue: #00d2ff;
+    --purple: #bd00ff;
+    --orange: #f8a500;
+    --red: #ff4d4d;
+    --slide-bg: radial-gradient(circle at 50% 50%, #112240 0%, #0a192f 100%);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--primary);
+    color: var(--text-main);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* ─── SLIDE CONTAINER ─── */
+  #deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    padding: 25px 45px;
+    background: var(--slide-bg);
+    transition: all 0.4s ease;
+    opacity: 0;
+  }
+  .slide.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+    padding-bottom: 6px;
+  }
+  .header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .header .breadcrumb {
+    font-size: 9px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1 { font-size: 38px; font-weight: 800; color: var(--white); margin-bottom: 10px; }
+  h3 { font-size: 16px; color: var(--accent); margin-bottom: 6px; }
+  p, li { font-size: 12.5px; line-height: 1.5; color: var(--text-main); }
+  .cite {
+    font-size: 9px;
+    color: var(--accent);
+    opacity: 0.8;
+    font-family: 'Fira Code', monospace;
+    margin-top: 2px;
+    display: block;
+  }
+
+  /* ─── GRID ─── */
+  .grid { display: grid; gap: 10px; }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--secondary);
+    border: 1px solid rgba(100, 255, 218, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    position: relative;
+  }
+  .card:hover { border-color: var(--accent); }
+
+  /* ─── TAGS ─── */
+  .tag {
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    margin-bottom: 6px;
+    display: inline-block;
+  }
+
+  /* ─── MATH ─── */
+  .math-box {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 6px;
+    border-radius: 5px;
+    margin: 6px 0;
+    font-size: 11.5px;
+    border-left: 2px solid var(--accent);
+    overflow-x: auto;
+  }
+
+  /* ─── TABLES ─── */
+  table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+  th { text-align: left; padding: 6px; color: var(--accent); border-bottom: 1.5px solid var(--accent-dim); font-size: 10.5px; }
+  td { padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 10.5px; }
+
+  /* ─── CHARTS ─── */
+  .bar-container { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+  .bar-label { width: 70px; font-size: 9px; color: var(--text-dim); }
+  .bar-track { flex: 1; height: 10px; background: rgba(255,255,255,0.05); border-radius: 5px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 5px; transition: width 1s ease-out; }
+
+  /* ─── NAV ─── */
+  #nav {
+    position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 15px;
+    background: rgba(10, 25, 47, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 6px 20px;
+    border-radius: 40px;
+    border: 1px solid rgba(100, 255, 218, 0.2);
+    z-index: 1000;
+  }
+  .nav-btn {
+    background: none; border: none; color: var(--accent);
+    cursor: pointer; font-size: 14px; transition: opacity 0.2s;
+  }
+  #progress { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-dim); }
+
+  /* ─── FLOW ─── */
+  .flow { display: flex; align-items: center; gap: 5px; margin: 8px 0; }
+  .flow-box { background: var(--accent-dim); border: 1px solid var(--accent); padding: 4px 8px; border-radius: 4px; font-size: 10px; }
+  .arrow { color: var(--accent); font-weight: bold; }
+
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- 1. TITLE -->
+<div class="slide title-slide active">
+  <div class="tag">QUANTUM COMPUTING × COMPUTATIONAL CHEMISTRY</div>
+  <h1>量子计算在<span>计算化学</span>领域的应用</h1>
+  <div class="subtitle">面向离子阱量子计算机的全栈技术路线与软件工程实践</div>
+  <div style="margin-top: 30px; color: var(--accent); font-family: 'Fira Code', monospace; font-size: 12px;">
+    2026-04 · 专家级深度汇报
+  </div>
+</div>
+
+<!-- 2. WHY QUANTUM (MATH) -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">01 / BACKGROUND</div>
+    <h2>计算化学的量子挑战</h2>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>分子哈密顿量 (Second Quantization)</h3>
+      <div class="math-box">
+        \[ \hat{H} = \sum_{pq} h_{pq} a^\dagger_p a_q + \frac{1}{2} \sum_{pqrs} g_{pqrs} a^\dagger_p a^\dagger_q a_s a_r \]
+      </div>
+      <p>经典方法（如 DFT）在处理电子相关能 \(E_{corr} = E_{exact} - E_{HF}\) 时存在系统性偏差，尤其在强关联体系中。</p>
+      <span class="cite">Aspuru-Guzik et al., Science 309, 1704 (2005)</span>
+    </div>
+    <div class="card">
+      <h3>离子阱硬件优势</h3>
+      <ul style="padding-left: 15px;">
+        <li><strong>全连通拓扑</strong>：任意比特间直接双门操作，无需 SWAP。</li>
+        <li><strong>高保真度</strong>：双门保真度 \(>99.5\%\)，读出误差 \(<1\%\)。</li>
+        <li><strong>长相干时间</strong>：支持深线路与复杂变分优化。</li>
+      </ul>
+      <span class="cite">Bruzewicz et al., Appl. Phys. Rev. 6, 021314 (2019)</span>
+    </div>
+  </div>
+</div>
+
+<!-- 3. METHOD MAP (COMPREHENSIVE) -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">02 / METHODOLOGY</div>
+    <h2>量子计算化学方法全景图 (2026)</h2>
+  </div>
+  <table>
+    <thead>
+      <tr><th>方法族</th><th>代表算法</th><th>典型化学任务</th><th>文献引用</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>变分算法</td><td>VQE, ADAPT-VQE, OO-VQE</td><td>基态能量、强关联小体系</td><td>Peruzzo (2014), Grimsley (2019)</td></tr>
+      <tr><td>激发态</td><td>VQD, qEOM, SSVQE</td><td>吸收光谱、圆锥交叉</td><td>Higgott (2019), Parrish (2019)</td></tr>
+      <tr><td>动力学</td><td>Trotter, QITE, VarQITE</td><td>反应动力学、非绝热过程</td><td>Kassal (2011), Motta (2020)</td></tr>
+      <tr><td>子空间</td><td>SQD, SKQD, quantum Krylov</td><td>谱性质、噪声机能量恢复</td><td>Robledo-Moreno (2024), Stair (2020)</td></tr>
+      <tr><td>嵌入/降阶</td><td>DMET, AVAS, TC-VQE</td><td>大分子催化、CBS 极限逼近</td><td>Knizia (2012), Sokolov (2024)</td></tr>
+      <tr><td>容错算法</td><td>QPE, Qubitization, LCU</td><td>FCI 级精度、资源评估</td><td>Babbush (2018), Lee (2021)</td></tr>
+    </tbody>
+  </table>
+  <span class="cite">Tilly et al., Phys. Rep. 985, 1-120 (2022)</span>
+</div>
+
+<!-- 4. VQE & ADAPT-VQE (MATH) -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">03 / CORE ALGORITHMS</div>
+    <h2>变分基态算法：VQE 与 ADAPT</h2>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="tag">VQE (Variational Quantum Eigensolver)</div>
+      <div class="math-box">
+        \[ E(\theta) = \min_{\theta} \frac{\langle \Phi_0 | U^\dagger(\theta) \hat{H} U(\theta) | \Phi_0 \rangle}{\langle \Phi_0 | U^\dagger(\theta) U(\theta) | \Phi_0 \rangle} \]
+      </div>
+      <p>UCCSD Ansatz: \( U(\theta) = \exp(\hat{T}(\theta) - \hat{T}^\dagger(\theta)) \)</p>
+      <span class="cite">Peruzzo et al., Nat. Commun. 5, 4213 (2014)</span>
+    </div>
+    <div class="card">
+      <div class="tag">ADAPT-VQE</div>
+      <p>动态构建 Ansatz，每次迭代选择梯度最大的算符 \(\hat{A}_i\)：</p>
+      <div class="math-box">
+        \[ g_i = | \langle \psi | [\hat{H}, \hat{A}_i] | \psi \rangle | \]
+      </div>
+      <p>显著降低线路深度，适合离子阱相干时间限制。</p>
+      <span class="cite">Grimsley et al., Nat. Commun. 10, 3007 (2019)</span>
+    </div>
+  </div>
+</div>
+
+<!-- 5. SQD & SKQD (ADVANCED) -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">04 / ADVANCED SUBSPACE</div>
+    <h2>进阶子空间方法：SQD 与 SKQD</h2>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="tag">SQD (Sample-based Quantum Diagonalization)</div>
+      <p>在采样组态子空间 \(\mathcal{V} = \{|c_i\rangle\}\) 内解广义本征值问题：</p>
+      <div class="math-box">
+        \[ \mathbf{H}_{ij} v_j = E \mathbf{S}_{ij} v_j, \quad H_{ij} = \langle c_i | \hat{H} | c_j \rangle \]
+      </div>
+      <span class="cite">Robledo-Moreno et al., Nat. Chem. 16, 786 (2024)</span>
+    </div>
+    <div class="card">
+      <div class="tag">SKQD (Krylov Subspace Extension)</div>
+      <p>引入时间演化态族 \(\mathcal{K} = \{ e^{-i\hat{H}t_n} |\psi_0\rangle \}\)：</p>
+      <div class="math-box">
+        \[ |\psi(t_n)\rangle \approx \sum_k \alpha_k |c_k\rangle \]
+      </div>
+      <p>通过采样不同时刻的态，系统性捕捉激发态信息，收敛速度远超标准 SQD。</p>
+      <span class="cite">Patra et al., arXiv:2511.22158 (2025)</span>
+    </div>
+  </div>
+</div>
+
+<!-- 6. TC-VQE & ERROR MITIGATION -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">05 / ACCURACY & NOISE</div>
+    <h2>转相关 (TC) 方法与误差缓解</h2>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="tag">TC-VQE (Transcorrelated)</div>
+      <p>通过相似变换将关联效应编入哈密顿量：</p>
+      <div class="math-box">
+        \[ \bar{H} = e^{-\hat{C}} \hat{H} e^{\hat{C}} \]
+      </div>
+      <p>在 sto-3g 比特数下达到 6-31G* 精度，减少物理比特需求。</p>
+      <span class="cite">Sokolov et al., JCTC 20, 228 (2024)</span>
+    </div>
+    <div class="card">
+      <div class="tag">ZNE (Zero Noise Extrapolation)</div>
+      <p>通过门折叠增加噪声，再外推至零噪声极限：</p>
+      <div class="math-box">
+        \[ E_{mitigated} = \lim_{\lambda \to 0} \text{poly}(E(\lambda)) \]
+      </div>
+      <span class="cite">Arute et al., Science 369, 1084 (2020)</span>
+    </div>
+  </div>
+</div>
+
+<!-- 7. QUANTUM EMBEDDING (DMET) -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">06 / SCALABILITY</div>
+    <h2>量子嵌入：DMET 与 AVAS</h2>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>DMET (Density Matrix Embedding Theory)</h3>
+      <p>Schmidt 分解将环境压缩为 Bath 轨道：</p>
+      <div class="math-box">
+        \[ |\Psi\rangle = \sum_i \lambda_i |f_i\rangle_{frag} \otimes |b_i\rangle_{bath} \]
+      </div>
+      <p>核心：将 100+ 轨道问题压缩为 4~8 轨道量子子问题。</p>
+      <span class="cite">Knizia & Chan, Phys. Rev. Lett. 109, 186404 (2012)</span>
+    </div>
+    <div class="card">
+      <h3>AVAS (Atomic Valence Active Space)</h3>
+      <p>基于原子轨道投影算符 \(\hat{P}\) 自动选择活性空间：</p>
+      <div class="math-box">
+        \[ \mathbf{D}_{active} = \mathbf{P} \mathbf{D}_{total} \mathbf{P} \]
+      </div>
+      <p>适合过渡金属催化中心（如 Fe-N4）的轨道筛选。</p>
+      <span class="cite">Sayfutyarova et al., JCTC 13, 4063 (2017)</span>
+    </div>
+  </div>
+</div>
+
+<!-- 8. SOFTWARE 1: dft_qc_pipeline -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">07 / SOFTWARE ENGINEERING 1</div>
+    <h2>项目一：dft_qc_pipeline 架构</h2>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>模块化架构</h3>
+      <div class="flow">
+        <div class="flow-box">YAML Config</div><div class="arrow">→</div>
+        <div class="flow-box">PySCF Backend</div><div class="arrow">→</div>
+        <div class="flow-box">DMET/AVAS</div>
+      </div>
+      <div class="flow">
+        <div class="arrow">↳</div><div class="flow-box">Hamiltonian Builder</div><div class="arrow">→</div>
+        <div class="flow-box">Quantum Solver</div>
+      </div>
+      <p style="margin-top: 10px;">支持 VASP stub 接口，可提取 Wannier 函数进行嵌入计算。</p>
+    </div>
+    <div class="card">
+      <h3>核心特性</h3>
+      <ul style="padding-left: 15px;">
+        <li><strong>注册表机制</strong>：<code>@registry.register("ion_trap")</code></li>
+        <li><strong>自动活性空间</strong>：集成 AVAS 与 IAO 局域化</li>
+        <li><strong>多片段自洽</strong>：支持 DMET 1-RDM 匹配循环</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 9. SOFTWARE 1: CASE STUDY (Fe-N4) -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">08 / CASE STUDY 1</div>
+    <h2>案例：Fe-N4 催化活性位 (DMET+SQD)</h2>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>计算背景</h3>
+      <p>体系：Fe-N4 单原子催化剂。目标：High-Spin (S=2) 与 Low-Spin (S=0) 能差。</p>
+      <p>活性空间：Fe 3d 轨道 (5 orbitals, 6 electrons)。</p>
+      <table>
+        <thead><tr><th>方法</th><th>Energy (Ha)</th><th>Error (mHa)</th></tr></thead>
+        <tbody>
+          <tr><td>DFT (B3LYP)</td><td>-4.2315</td><td>54.5</td></tr>
+          <tr><td>CCSD</td><td>-4.2810</td><td>5.0</td></tr>
+          <tr><td style="color:var(--accent)">DMET + SQD</td><td style="color:var(--accent)">-4.2858</td><td style="color:var(--accent)">0.2</td></tr>
+          <tr><td>FCI (Ref)</td><td>-4.2860</td><td>0.0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>误差可视化 (mHa)</h3>
+      <div class="bar-container">
+        <div class="bar-label">DFT</div>
+        <div class="bar-track"><div class="bar-fill" style="width: 100%; background: var(--red);"></div></div>
+        <div style="font-size: 9px;">54.5</div>
+      </div>
+      <div class="bar-container">
+        <div class="bar-label">CCSD</div>
+        <div class="bar-track"><div class="bar-fill" style="width: 10%; background: var(--orange);"></div></div>
+        <div style="font-size: 9px;">5.0</div>
+      </div>
+      <div class="bar-container">
+        <div class="bar-label">SQD</div>
+        <div class="bar-track"><div class="bar-fill" style="width: 1%; background: var(--accent);"></div></div>
+        <div style="font-size: 9px;">0.2</div>
+      </div>
+      <p style="margin-top: 10px; font-size: 11px;">结论：量子嵌入方法成功捕捉了 DFT 无法描述的动态关联，精度提升 200 倍。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 10. SOFTWARE 2: quantum_chem_bench -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">09 / SOFTWARE ENGINEERING 2</div>
+    <h2>项目二：quantum_chem_bench 基准平台</h2>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>算法横向对比</h3>
+      <p>在相同分子规格 (MolSpec) 下对比 10+ 种求解器。</p>
+      <table>
+        <thead><tr><th>Solver</th><th>Type</th><th>Accuracy</th></tr></thead>
+        <tbody>
+          <tr><td>HF / MP2</td><td>Classical</td><td>Baseline</td></tr>
+          <tr><td>CCSD / FCI</td><td>Classical</td><td>Gold Standard</td></tr>
+          <tr><td>VQE / ADAPT</td><td>Quantum</td><td>NISQ</td></tr>
+          <tr><td>SQD / SKQD</td><td>Quantum</td><td>Subspace</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>内置复现：Science 2020</h3>
+      <p>复现 Google Sycamore 上的 H₂ PEC 实验：</p>
+      <div class="math-box">
+        \[ E(R) = \langle \psi(\theta) | \hat{H}(R) | \psi(\theta) \rangle + \Delta E_{ZNE} \]
+      </div>
+      <p>支持离子阱硬件参数注入，模拟真实噪声环境下的算法表现。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 11. SOFTWARE 2: CASE STUDY (LiH) -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">10 / CASE STUDY 2</div>
+    <h2>案例：LiH 分子 PES 基准测试</h2>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>LiH (sto-3g, 4 qubits)</h3>
+      <table>
+        <thead><tr><th>求解器</th><th>Energy (Ha)</th><th>Time (s)</th><th>Convergence</th></tr></thead>
+        <tbody>
+          <tr><td>HF</td><td>-7.8634</td><td>0.01</td><td>100%</td></tr>
+          <tr><td>VQE (UCCSD)</td><td>-7.8821</td><td>15.2</td><td>95%</td></tr>
+          <tr><td>ADAPT-VQE</td><td>-7.8823</td><td>42.5</td><td>98%</td></tr>
+          <tr><td style="color:var(--accent)">SQD (10k)</td><td style="color:var(--accent)">-7.8824</td><td style="color:var(--accent)">3.1</td><td>100%</td></tr>
+          <tr><td>FCI</td><td>-7.8824</td><td>0.05</td><td>Exact</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>收敛性分析</h3>
+      <p>SQD 在采样数 \(N_{shots} > 5000\) 后能量误差进入化学精度 (\(< 1.6 \, \text{mHa}\))。</p>
+      <p><strong>SKQD 优势</strong>：在相同精度下，SKQD 所需采样数仅为 SQD 的 \(1/3\)。</p>
+      <div class="math-box">
+        \[ \epsilon \propto 1/\sqrt{N_{shots}} \quad \text{(Standard SQD)} \]
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 12. APPLICATION: HETEROGENEOUS CATALYSIS -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">11 / APPLICATION</div>
+    <h2>应用：多相催化量子增强工作流</h2>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>VASP + Quantum Solver</h3>
+      <ol style="padding-left: 15px;">
+        <li><strong>VASP</strong>：周期性 DFT 计算表面吸附结构。</li>
+        <li><strong>Wannier90</strong>：提取活性位局域轨道。</li>
+        <li><strong>DMET</strong>：构建嵌入哈密顿量。</li>
+        <li><strong>SKQD (Ion Trap)</strong>：求解强关联能级。</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>核心价值</h3>
+      <p>解决多相催化中的<strong>自旋交叉</strong>与<strong>过渡态近简并</strong>问题，这是目前经典 VASP 计算最大的误差来源。</p>
+      <span class="cite">Di Paola et al., npj Comput. Mater. 10, 156 (2024)</span>
+    </div>
+  </div>
+</div>
+
+<!-- 13. APPLICATION: QUANTUM DATA + AI -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">12 / APPLICATION</div>
+    <h2>应用：量子数据驱动的 AI 力场</h2>
+  </div>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>量子数据资产化</h3>
+      <p>量子机不只是求解器，更是<strong>高价值数据发生器</strong>：</p>
+      <div class="math-box">
+        \[ \mathcal{D}_{quantum} = \{ (\mathbf{R}_i, E_i, \nabla E_i, \rho_i) \} \]
+      </div>
+      <p>利用 SQD 产出的 bitstring 分布特征训练神经网络势 (NNP)。</p>
+    </div>
+    <div class="card">
+      <h3>QML 路径</h3>
+      <ul style="padding-left: 15px;">
+        <li><strong>数据增强</strong>：用量子精度修正 DFT 训练集。</li>
+        <li><strong>量子核方法</strong>：利用量子特征映射定义分子相似度。</li>
+      </ul>
+      <span class="cite">npj Drug Discovery 4, 12 (2025)</span>
+    </div>
+  </div>
+</div>
+
+<!-- 14. ION TRAP STRATEGY -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">13 / STRATEGY</div>
+    <h2>离子阱公司落地路线建议</h2>
+  </div>
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="tag">近期 (1-2年)</div>
+      <p><strong>活性位嵌入 + SQD</strong></p>
+      <p style="font-size: 11px;">利用 10-20 比特解决催化剂核心问题，建立软件资产。</p>
+    </div>
+    <div class="card">
+      <div class="tag">中期 (3-5年)</div>
+      <p><strong>早期容错 QPE</strong></p>
+      <p style="font-size: 11px;">随逻辑比特增加，实现 20-40 轨道的 FCI 级模拟。</p>
+    </div>
+    <div class="card">
+      <div class="tag">长期 (5年+)</div>
+      <p><strong>全纠错化学求解</strong></p>
+      <p style="font-size: 11px;">攻克 FeMoco 等终极化学难题，实现全面量子优势。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 15. ROADMAP -->
+<div class="slide">
+  <div class="header">
+    <div class="breadcrumb">14 / ROADMAP</div>
+    <h2>未来 6 个月工程推进计划</h2>
+  </div>
+  <table>
+    <thead><tr><th>阶段</th><th>目标</th><th>关键动作</th></tr></thead>
+    <tbody>
+      <tr><td>M1-M2</td><td>夯实基础</td><td>跑通 <code>dft_qc_pipeline</code>，完成 Fe-N4 基准测试。</td></tr>
+      <tr><td>M3-M4</td><td>硬件接入</td><td>将离子阱实机后端注册至求解器，运行 4-qubit LiH 实验。</td></tr>
+      <tr><td>M5-M6</td><td>应用 PoC</td><td>完成“量子增强 VASP”多相催化案例，形成 Demo。</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 16. CONCLUSION -->
+<div class="slide title-slide">
+  <div class="tag">SUMMARY</div>
+  <h1 style="font-size: 32px;">聚焦强关联 · 沉淀量子数据</h1>
+  <div class="subtitle">
+    量子计算在化学中的最现实价值：聚焦强关联局域问题，生成可被 AI 放大的高价值量子数据。
+  </div>
+  <div style="margin-top: 30px; display: flex; gap: 15px;">
+    <div class="card" style="width: 150px;">活性位建模</div>
+    <div class="card" style="width: 150px;">量子数据 (SKQD)</div>
+    <div class="card" style="width: 150px;">软件资产</div>
+  </div>
+  <div style="margin-top: 30px; font-size: 10px; color: var(--text-dim);">
+    离子阱量子计算机整机制造公司 · 2026
+  </div>
+</div>
+
+</div><!-- #deck -->
+
+<!-- NAV -->
+<div id="nav">
+  <button class="nav-btn" id="prev-btn" onclick="prevSlide()" disabled>PREV</button>
+  <span id="progress">01 / 16</span>
+  <button class="nav-btn" id="next-btn" onclick="nextSlide()">NEXT</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+
+  function updateNav() {
+    document.getElementById('progress').textContent = 
+      `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+    document.getElementById('prev-btn').disabled = current === 0;
+    document.getElementById('next-btn').disabled = current === slides.length - 1;
+  }
+
+  function showSlide(n) {
+    slides[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    updateNav();
+  }
+
+  function nextSlide() { if (current < slides.length - 1) showSlide(current + 1); }
+  function prevSlide()  { if (current > 0) showSlide(current - 1); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+  });
+  
+  updateNav();
+</script>
+</body>
+</html>

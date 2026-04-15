@@ -117,7 +117,17 @@ class ADAPTVQESolver(BaseSolver):
         adapt = AdaptVQE(vqe)
         adapt.gradient_threshold = self.gradient_threshold
 
-        result = adapt.compute_minimum_eigenvalue(qubit_op)
+        try:
+            result = adapt.compute_minimum_eigenvalue(qubit_op)
+        except AttributeError as exc:
+            # Qiskit 2.x / qiskit-algorithms compatibility: AdaptVQE._compute_gradients
+            # accesses self.solver.ansatz.layout which can be None in newer Qiskit.
+            logger.warning(
+                "AdaptVQE raised AttributeError (%s); falling back to UCCSD VQE.", exc
+            )
+            return self._fallback_uccsd(
+                mol_spec, integrals, qubit_op, n_particles, n_orbs, n_qubits, t0
+            )
 
         energy = float(result.eigenvalue.real) + integrals.e_core
         n_iters = getattr(result, "num_iterations", None)

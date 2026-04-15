@@ -1,0 +1,33 @@
+<!-- Pandoc --include-in-header：补充排版与目录样式（与默认 pandoc 样式叠加） -->
+<style>
+  html { scroll-behavior: smooth; }
+  html[lang="zh-CN"] body {
+    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    max-width: 46em;
+    line-height: 1.65;
+  }
+  #TOC {
+    background: #f4f6f9;
+    padding: 1rem 1.25rem 1rem 1.5rem;
+    margin: 1.5rem 0 2rem;
+    border: 1px solid #d8dee9;
+    border-radius: 8px;
+    font-size: 0.95em;
+  }
+  #TOC > ul { margin-top: 0.5rem; }
+  #TOC a { color: #1e3a5f; }
+  table {
+    border: 1px solid #c5cdd8;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  th, td {
+    border: 1px solid #d8dee9;
+    padding: 0.35em 0.65em;
+    vertical-align: top;
+  }
+  thead th { background: #eef2f7; }
+  blockquote { border-left-color: #94a3b8; }
+  a:hover { text-decoration: underline; }
+  .math.display { margin: 1em 0; overflow-x: auto; }
+</style>

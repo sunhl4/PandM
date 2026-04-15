@@ -108,54 +108,63 @@ class SQDSolver(BaseSolver):
     # ------------------------------------------------------------------
 
     def _run_sqd(self, integrals) -> tuple[float, dict]:
-        """Run SQD iterations using qiskit-addon-sqd."""
+        """Run SQD iterations using qiskit-addon-sqd 0.12.x API."""
         import qiskit_addon_sqd.fermion as sqd_fermion
         from qiskit_addon_sqd.configuration_recovery import recover_configurations
-        from qiskit_addon_sqd.subspace_expansion import expand_subspace
 
         norb = integrals.norb
-        nelec = integrals.nelec
-        h1e = integrals.h1e
-        h2e = integrals.h2e
-        e_core = integrals.e_core
+        n_alpha, n_beta = integrals.nelec
+        h1e = np.asarray(integrals.h1e)
+        h2e = np.asarray(integrals.h2e)
+        e_core = float(integrals.e_core)
+        open_shell = (n_alpha != n_beta)
 
-        # Generate initial bit-string samples from a sampled circuit
-        bitstring_matrix = self._sample_bitstrings(norb, nelec)
+        # Initial bitstring matrix: random valid configurations
+        # Convention: cols 0..norb-1 = alpha, cols norb..2*norb-1 = beta
+        bitstring_matrix, probabilities = self._sample_bitstrings(norb, n_alpha, n_beta)
 
-        energies_per_iter = []
+        # Uniform occupancy estimates for the first recover_configurations call
+        avg_occ_a = np.full(norb, n_alpha / norb)
+        avg_occ_b = np.full(norb, n_beta / norb)
+
+        energies_per_iter: list[float] = []
         energy = 0.0
 
         for i in range(self.iterations):
-            # Configuration recovery: enforce correct electron count
-            bs_mat, _ = recover_configurations(
+            # Enforce correct electron counts via configuration recovery.
+            # Returns (new_bitstring_matrix, new_probabilities) in SQD 0.12.x.
+            bitstring_matrix, probabilities = recover_configurations(
                 bitstring_matrix,
-                nelec,
-                norb,
-                num_attempts=10,
+                probabilities,
+                (avg_occ_a, avg_occ_b),
+                n_alpha,
+                n_beta,
+                rand_seed=self._rng,
             )
 
-            # SQD diagonalization
-            result = sqd_fermion.solve_fermion(
-                bs_mat,
-                (h1e, h1e),        # (alpha, beta) h1e
+            # Convert binary matrix to integer-encoded CI strings
+            ci_strs = sqd_fermion.bitstring_matrix_to_ci_strs(
+                bitstring_matrix, open_shell=open_shell
+            )
+            if len(ci_strs[0]) == 0 or len(ci_strs[1]) == 0:
+                logger.warning("SQD iter %d: empty CI string set, skipping.", i + 1)
+                continue
+
+            # Diagonalise in the sampled CI subspace
+            energy_raw, _, (rdm1a, rdm1b), _ = sqd_fermion.solve_fermion(
+                ci_strs,
+                h1e,
                 h2e,
-                nelec,
-                num_orbitals=norb,
+                open_shell=open_shell,
             )
-            energy = float(result[0]) + e_core
+            energy = float(energy_raw) + e_core
             energies_per_iter.append(energy)
-
             logger.debug("SQD iter %d: E = %.10f Ha", i + 1, energy)
 
-            # Update bit-string samples using recovered coefficients
-            occupancies = result[2]  # CI coefficients / occupancy info
-            if occupancies is not None:
-                try:
-                    bitstring_matrix = self._resample_from_occupancies(
-                        occupancies, norb, nelec
-                    )
-                except Exception:  # noqa: BLE001
-                    pass
+            # Update occupancies for the next recover_configurations call
+            # solve_fermion 0.12.x returns 1-D diagonal occupancies (not full 2D RDM)
+            avg_occ_a = np.asarray(rdm1a).ravel().clip(0.0, 1.0)
+            avg_occ_b = np.asarray(rdm1b).ravel().clip(0.0, 1.0)
 
         return energy, {
             "sqd_energies_per_iter": energies_per_iter,
@@ -163,67 +172,31 @@ class SQDSolver(BaseSolver):
             "iterations": self.iterations,
         }
 
-    def _sample_bitstrings(self, norb: int, nelec: tuple[int, int]) -> np.ndarray:
+    def _sample_bitstrings(
+        self, norb: int, n_alpha: int, n_beta: int
+    ) -> tuple[np.ndarray, np.ndarray]:
         """
-        Generate initial bit-string samples via a sampled quantum circuit.
+        Generate an initial set of random, valid fermionic bitstrings.
 
-        Uses an HEA circuit on a statevector simulator to obtain an initial
-        distribution of electronic configurations.
+        Each row has exactly *n_alpha* ones in the alpha block (cols 0..norb-1)
+        and *n_beta* ones in the beta block (cols norb..2*norb-1), which matches
+        the bitstring_matrix convention expected by qiskit-addon-sqd 0.12.x.
+
+        Returns
+        -------
+        bitstring_matrix : ndarray shape (shots, 2*norb) dtype int8
+        probabilities    : ndarray shape (shots,) uniform weights
         """
-        from qiskit.circuit.library import EfficientSU2
-        from qiskit_algorithms import VQE
-        from qiskit.primitives import StatevectorSampler as Sampler
-        from qiskit_algorithms.optimizers import COBYLA
-        import qiskit_addon_sqd.fermion as sqd_fermion
-
-        n_qubits = 2 * norb
-        circuit = EfficientSU2(n_qubits, reps=1, entanglement="linear")
-        circuit.measure_all()
-
-        sampler = Sampler()
-        shots = self.shots
-
-        # Sample with random initial parameters (self._rng set in solve())
-        params = self._rng.uniform(-np.pi, np.pi, circuit.num_parameters)
-
-        pub = (circuit, params, shots)
-        job = sampler.run([pub])
-        result = job.result()[0]
-
-        # Convert counts to bitstring matrix
-        counts = result.data.meas.get_counts()
-        bitstrings = []
-        for bs, count in counts.items():
-            bits = [int(b) for b in bs[::-1]]
-            bitstrings.extend([bits] * count)
-
-        return np.array(bitstrings, dtype=np.int8)
-
-    def _resample_from_occupancies(
-        self, occupancies, norb: int, nelec: tuple[int, int]
-    ) -> np.ndarray:
-        """Update bit-string samples based on CI vector occupancies."""
         rng = self._rng
-        n_alpha, n_beta = nelec
-        n_total = self.shots
-
-        # Simple random resample weighted by occupancy (proxy)
-        if hasattr(occupancies, "__len__") and len(occupancies) > 0:
-            probs = np.abs(np.array(occupancies, dtype=float)) ** 2
-            probs /= probs.sum() + 1e-30
-        else:
-            probs = None
-
-        # Fall back to random valid configurations
-        configs = []
-        for _ in range(n_total):
-            alpha_occ = rng.choice(norb, n_alpha, replace=False)
-            beta_occ = rng.choice(norb, n_beta, replace=False)
-            row = np.zeros(2 * norb, dtype=np.int8)
-            row[alpha_occ] = 1
-            row[beta_occ + norb] = 1
-            configs.append(row)
-        return np.array(configs, dtype=np.int8)
+        n = self.shots
+        bsm = np.zeros((n, 2 * norb), dtype=np.int8)
+        for k in range(n):
+            occ_a = rng.choice(norb, n_alpha, replace=False)
+            occ_b = rng.choice(norb, n_beta, replace=False)
+            bsm[k, occ_a] = 1
+            bsm[k, occ_b + norb] = 1
+        probs = np.ones(n) / n
+        return bsm, probs
 
     # ------------------------------------------------------------------
     # Fallback: NumPy FCI

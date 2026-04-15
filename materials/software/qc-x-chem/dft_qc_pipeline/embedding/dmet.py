@@ -125,7 +125,9 @@ class DMETEmbedding(EmbeddingMethod):
         ovlp = backend_result.ovlp
 
         # --- Full-system 1-RDM in AO basis ---
-        dm_ao = mf.make_rdm1()            # (nao, nao)
+        dm_ao = mf.make_rdm1()            # (nao, nao) for RHF; (2, nao, nao) for ROHF/UHF
+        if dm_ao.ndim == 3:
+            dm_ao = dm_ao.sum(axis=0)     # sum alpha + beta → (nao, nao)
 
         # --- Identify fragment AOs ---
         frag_ao_idx = self._get_fragment_ao_indices(mol, region)
@@ -360,5 +362,5 @@ class DMETEmbedding(EmbeddingMethod):
     ) -> int:
         """Estimate the number of electrons in the embedding space."""
         dm_emb = C_emb.T @ ovlp @ dm_ao @ ovlp @ C_emb
-        nelec_float = np.trace(dm_emb).real
+        nelec_float = float(np.real(np.trace(dm_emb)))
         return max(2, int(round(nelec_float)))

@@ -11,6 +11,12 @@ Thumbs.db
 *.suo
 *.user
 
+# Python virtual environments (do not commit; WSL venvs break `git add` on Windows)
+.venv/
+.venv_*/
+venv/
+ENV/
+
 # Python cache (in materials/)
 __pycache__/
 *.pyc

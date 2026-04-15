@@ -78,8 +78,16 @@ def localize_orbitals(
         logger.info("Pipek-Mezey localization: %d occupied MOs.", int(occ_mask.sum()))
 
     elif scheme_lower == "iao":
-        # IAO localization (Knizia, JCTC 2013)
-        C_loc[:, occ_mask] = lo.iao.iao(mol, C_occ)
+        # IAO localization (Knizia, JCTC 2013).
+        # lo.iao.iao() returns a minimal-basis set of IAOs with shape (nao, n_minbas)
+        # where n_minbas ≥ n_occ in general.  We project the occupied MOs onto the
+        # IAO span so the result keeps the original (nao, n_occ) shape.
+        S = mol.intor("int1e_ovlp")
+        C_iao = lo.iao.iao(mol, C_occ)                # (nao, n_minbas)
+        C_iao = lo.vec_lowdin(C_iao, S)               # orthonormalize IAOs
+        # Express each occupied MO as a linear combination of IAOs, then reconstruct
+        C_occ_loc = C_iao @ (C_iao.T @ S @ C_occ)     # (nao, n_occ)
+        C_loc[:, occ_mask] = lo.vec_lowdin(C_occ_loc, S)
         logger.info("IAO localization applied to occupied block.")
 
     else:
@@ -88,8 +96,8 @@ def localize_orbitals(
             "Choose one of: boys, pm, iao, none."
         )
 
-    # Orthogonalize to preserve idempotency (IAO may need it)
-    if scheme_lower == "iao":
+    # Orthogonalize to preserve idempotency (IAO already handled inside its branch)
+    if scheme_lower in ("boys", "pm"):
         C_loc[:, occ_mask] = lo.vec_lowdin(C_loc[:, occ_mask], mf.get_ovlp())
 
     return C_loc
