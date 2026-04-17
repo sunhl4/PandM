@@ -66,7 +66,7 @@ Six learning directions:
 - **QC × Mol. Dynamics** — Quantum-accuracy PES, QM/MM, enhanced sampling
 
 ## Literature Archive
-\`materials/learning/qc-x-chem/literature/\`  
+\`materials/learning/quantum-chem/literature/\`  
 5 papers with Chinese translations and Q&A files.`,
       tags: ['learning', 'knowledge base'],
       links: [],
@@ -264,8 +264,8 @@ This is one of the most actionable near-term industrial value paths for quantum 
 | Phase | Content | Path |
 |-------|---------|------|
 | 1 | Qubits, gates, concept mapping | \`learning/quantum-computing/\` |
-| 2 | VQE, H₂/LiH | \`learning/qc-x-chem/Phase2_CoreAlgorithms/\` |
-| 3 | ADAPT-VQE, SQD, quantum advantage | \`learning/qc-x-chem/Phase3_AdvancedMethods/\` |
+| 2 | VQE, H₂/LiH | \`learning/quantum-chem/learning-ms/\` |
+| 3 | ADAPT-VQE, SQD, quantum advantage | \`learning/quantum-chem/learning-ms/\` |
 | 4 | Catalysis, force field applications | \`software/qc-x-chem/Phase4_Applications/\` |
 
 ## Full Method Reference
@@ -273,11 +273,11 @@ This is one of the most actionable near-term industrial value paths for quantum 
 See: \`literature/量子计算在计算化学中的方法与文献地图.md\``,
       tags: ['VQE', 'ADAPT-VQE', 'SQD', 'QPE', 'DMET', 'TC', 'GBS', 'Gibbs', 'CQE', 'NEO', 'quantum embedding', 'barren plateau'],
       links: [
-        { label: 'Phase2: VQE Theory & Impl.', url: `${BASE}/learning/qc-x-chem/Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb` },
-        { label: 'Phase2: H2/LiH', url: `${BASE}/learning/qc-x-chem/Phase2_CoreAlgorithms/02_Qiskit_Nature_H2_LiH.ipynb` },
-        { label: 'Phase3: Advanced Algorithms', url: `${BASE}/learning/qc-x-chem/Phase3_AdvancedMethods/01_进阶算法综述.ipynb` },
-        { label: 'Phase3: Quantum Advantage', url: `${BASE}/learning/qc-x-chem/Phase3_AdvancedMethods/02_量子优势分析.ipynb` },
-        { label: 'Method & Literature Map', url: `${RAW}/learning/qc-x-chem/literature/量子计算在计算化学中的方法与文献地图.md` },
+        { label: 'Phase2: VQE Theory & Impl.', url: `${BASE}/learning/quantum-chem/learning-ms/01_VQE原理与实现.ipynb` },
+        { label: 'Phase2: H2/LiH', url: `${BASE}/learning/quantum-chem/learning-ms/02_Qiskit_Nature_H2_LiH.ipynb` },
+        { label: 'Phase3: Advanced Algorithms', url: `${BASE}/learning/quantum-chem/learning-ms/01_进阶算法综述.ipynb` },
+        { label: 'Phase3: Quantum Advantage', url: `${BASE}/learning/quantum-chem/learning-ms/02_量子优势分析.ipynb` },
+        { label: 'Method & Literature Map', url: `${RAW}/learning/quantum-chem/literature/量子计算在计算化学中的方法与文献地图.md` },
       ],
     },
     {
@@ -317,10 +317,10 @@ Convergence → approximate ground-state energy
 
 ## Path
 
-\`materials/learning/qc-x-chem/Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb\``,
+\`materials/learning/quantum-chem/learning-ms/01_VQE原理与实现.ipynb\``,
       tags: ['VQE', 'ansatz', 'UCCSD', 'Qiskit', 'variational'],
       links: [
-        { label: 'VQE Notebook', url: `${BASE}/learning/qc-x-chem/Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb` },
+        { label: 'VQE Notebook', url: `${BASE}/learning/quantum-chem/learning-ms/01_VQE原理与实现.ipynb` },
       ],
     },
     {
@@ -359,10 +359,10 @@ Introduces Krylov time-evolved states to SQD:
 
 ## Path
 
-\`materials/learning/qc-x-chem/SQD.md\``,
+\`materials/learning/quantum-chem/literature/SQD.md\``,
       tags: ['SQD', 'SKQD', 'quantum data', 'diagonalization', 'Krylov'],
       links: [
-        { label: 'SQD.md', url: `${RAW}/learning/qc-x-chem/SQD.md` },
+        { label: 'SQD.md', url: `${RAW}/learning/quantum-chem/literature/SQD.md` },
       ],
     },
     {
@@ -393,11 +393,11 @@ Beyond the core VQE / SQD / QPE triad, these directions are actively shaping the
 
 ## Full Reference
 
-See: \`materials/learning/qc-x-chem/literature/量子计算在计算化学中的方法与文献地图.md\`  
+See: \`materials/learning/quantum-chem/literature/量子计算在计算化学中的方法与文献地图.md\`  
 Sections §4.0–§4.18 cover each method with key papers and GitHub links.`,
       tags: ['TC', 'GBS', 'Gibbs', 'CQE', 'NEO', 'barren plateau', 'OO-VQE', 'classical shadows', 'periodic', 'QA', 'frontier', '2026'],
       links: [
-        { label: 'Full Method & Literature Map', url: `${RAW}/learning/qc-x-chem/literature/量子计算在计算化学中的方法与文献地图.md` },
+        { label: 'Full Method & Literature Map', url: `${RAW}/learning/quantum-chem/literature/量子计算在计算化学中的方法与文献地图.md` },
       ],
     },
     {
@@ -434,10 +434,10 @@ while not converged:
 
 ## Reference
 
-\`materials/learning/qc-x-chem/ADAPT-VQE.md\``,
+\`materials/learning/quantum-chem/literature/ADAPT-VQE.md\``,
       tags: ['ADAPT-VQE', 'ansatz', 'variational', 'gradient'],
       links: [
-        { label: 'ADAPT-VQE.md', url: `${RAW}/learning/qc-x-chem/ADAPT-VQE.md` },
+        { label: 'ADAPT-VQE.md', url: `${RAW}/learning/quantum-chem/literature/ADAPT-VQE.md` },
       ],
     },
 
@@ -449,7 +449,7 @@ while not converged:
       description: '5 key papers with Chinese translations and Q&A files',
       content: `# Literature Archive
 
-Path: \`materials/learning/qc-x-chem/literature/\`
+Path: \`materials/learning/quantum-chem/literature/\`
 
 ## Papers
 
@@ -498,10 +498,10 @@ Comprehensive review of quantum algorithms for chemical simulation:
 
 ## Path
 
-\`materials/learning/qc-x-chem/literature/\``,
+\`materials/learning/quantum-chem/literature/\``,
       tags: ['RevModPhys', 'review', 'VQE', 'QPE', 'qubit mapping'],
       links: [
-        { label: 'zh-CN Translation', url: `${RAW}/learning/qc-x-chem/literature/RevModPhys_92_015003.zh-CN.md` },
+        { label: 'zh-CN Translation', url: `${RAW}/learning/quantum-chem/literature/RevModPhys_92_015003.zh-CN.md` },
       ],
     },
     {
@@ -528,10 +528,10 @@ Comprehensive review of quantum algorithms for chemical simulation:
 
 ## Path
 
-\`materials/learning/qc-x-chem/literature/\``,
+\`materials/learning/quantum-chem/literature/\``,
       tags: ['quantum chemistry', 'VQE', 'QPE', 'review', 'Chem. Reviews'],
       links: [
-        { label: 'zh-CN Translation', url: `${RAW}/learning/qc-x-chem/literature/Quantum_Chemistry_in_the_Age_of_Quantum_Computing.zh-CN.md` },
+        { label: 'zh-CN Translation', url: `${RAW}/learning/quantum-chem/literature/Quantum_Chemistry_in_the_Age_of_Quantum_Computing.zh-CN.md` },
       ],
     },
     {
@@ -563,11 +563,11 @@ Uses a large-scale classical simulation of the iQCC quantum solver (up to ~200 l
 
 ## Path
 
-\`materials/learning/qc-x-chem/literature/\``,
+\`materials/learning/quantum-chem/literature/\``,
       tags: ['iQCC', 'quantum advantage', 'OLED', 'threshold', 'fault-tolerant', 'iQCC+PT'],
       links: [
         { label: 'arXiv 2512.13657', url: 'https://arxiv.org/abs/2512.13657' },
-        { label: 'zh-CN Translation', url: `${RAW}/learning/qc-x-chem/literature/Towards_Quantum_Advantage_in_Chemistry.zh-CN.md` },
+        { label: 'zh-CN Translation', url: `${RAW}/learning/quantum-chem/literature/Towards_Quantum_Advantage_in_Chemistry.zh-CN.md` },
       ],
     },
     {
@@ -586,11 +586,11 @@ Uses a large-scale classical simulation of the iQCC quantum solver (up to ~200 l
 
 ## Path
 
-\`materials/learning/qc-x-chem/literature/\``,
+\`materials/learning/quantum-chem/literature/\``,
       tags: ['arXiv', 'preprint', 'latest'],
       links: [
         { label: 'arXiv 2508.02578', url: 'https://arxiv.org/abs/2508.02578' },
-        { label: 'zh-CN Translation', url: `${RAW}/learning/qc-x-chem/literature/2508.02578v2.zh-CN.md` },
+        { label: 'zh-CN Translation', url: `${RAW}/learning/quantum-chem/literature/2508.02578v2.zh-CN.md` },
       ],
     },
     {
@@ -629,10 +629,10 @@ A comprehensive, extensible reference covering all major quantum-computing appro
 
 ## File
 
-\`materials/learning/qc-x-chem/literature/量子计算在计算化学中的方法与文献地图.md\``,
+\`materials/learning/quantum-chem/literature/量子计算在计算化学中的方法与文献地图.md\``,
       tags: ['review', 'method map', 'VQE', 'QPE', 'TC', 'GBS', 'Gibbs', 'barren plateau', 'CQE', 'NEO', 'QML', '2026'],
       links: [
-        { label: 'Method & Literature Map', url: `${RAW}/learning/qc-x-chem/literature/量子计算在计算化学中的方法与文献地图.md` },
+        { label: 'Method & Literature Map', url: `${RAW}/learning/quantum-chem/literature/量子计算在计算化学中的方法与文献地图.md` },
       ],
     },
 
@@ -823,7 +823,7 @@ Chemistry is a natural quantum many-body problem. Strongly-correlated systems ar
 The real value of the few-qubit stage is **identifying methods and data pipelines that will scale**.`,
       tags: ['NISQ', 'few-qubit', 'active space', 'H2', 'LiH', 'Hubbard'],
       links: [
-        { label: 'Phase2: H2/LiH Notebook', url: `${BASE}/learning/qc-x-chem/Phase2_CoreAlgorithms/02_Qiskit_Nature_H2_LiH.ipynb` },
+        { label: 'Phase2: H2/LiH Notebook', url: `${BASE}/learning/quantum-chem/learning-ms/02_Qiskit_Nature_H2_LiH.ipynb` },
       ],
     },
     {
@@ -859,7 +859,7 @@ Quantum advantage is not simply "faster than classical" — it is a **four-dimen
 | Classical baseline | vs. HF / DFT / CCSD(T) / DMRG / FCI? |`,
       tags: ['quantum advantage', 'NISQ', 'fault-tolerant', 'QPE', 'FCI'],
       links: [
-        { label: 'Quantum Advantage Notebook', url: `${BASE}/learning/qc-x-chem/Phase3_AdvancedMethods/02_量子优势分析.ipynb` },
+        { label: 'Quantum Advantage Notebook', url: `${BASE}/learning/quantum-chem/learning-ms/02_量子优势分析.ipynb` },
       ],
     },
     {
@@ -967,10 +967,10 @@ They enable **collaboration** with classical AI, not mere replacement.
 
 ## Reference
 
-\`materials/learning/qc-x-chem/SQD.md\``,
+\`materials/learning/quantum-chem/literature/SQD.md\``,
       tags: ['SQD', 'quantum data', 'QML', 'SKQD', 'bitstring', 'configuration'],
       links: [
-        { label: 'SQD.md', url: `${RAW}/learning/qc-x-chem/SQD.md` },
+        { label: 'SQD.md', url: `${RAW}/learning/quantum-chem/literature/SQD.md` },
       ],
     },
     {

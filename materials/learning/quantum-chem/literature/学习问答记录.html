@@ -1,0 +1,3982 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>量子计算化学学习 · 问答记录</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!-- Pandoc --include-in-header：补充排版与目录样式（与默认 pandoc 样式叠加） -->
+  <style>
+    html { scroll-behavior: smooth; }
+    html[lang="zh-CN"] body {
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      max-width: 46em;
+      line-height: 1.65;
+    }
+    #TOC {
+      background: #f4f6f9;
+      padding: 1rem 1.25rem 1rem 1.5rem;
+      margin: 1.5rem 0 2rem;
+      border: 1px solid #d8dee9;
+      border-radius: 8px;
+      font-size: 0.95em;
+    }
+    #TOC > ul { margin-top: 0.5rem; }
+    #TOC a { color: #1e3a5f; }
+    table {
+      border: 1px solid #c5cdd8;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid #d8dee9;
+      padding: 0.35em 0.65em;
+      vertical-align: top;
+    }
+    thead th { background: #eef2f7; }
+    blockquote { border-left-color: #94a3b8; }
+    a:hover { text-decoration: underline; }
+    .math.display { margin: 1em 0; overflow-x: auto; }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">量子计算化学学习 · 问答记录</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#量子计算化学学习-问答记录"
+id="toc-量子计算化学学习-问答记录">量子计算化学学习 · 问答记录</a>
+<ul>
+<li><a href="#公式如何正确显示三种方式任选其一"
+id="toc-公式如何正确显示三种方式任选其一">公式如何正确显示（三种方式，任选其一）</a>
+<ul>
+<li><a href="#方式-a用浏览器打开-html公式最稳推荐"
+id="toc-方式-a用浏览器打开-html公式最稳推荐">方式 A：用浏览器打开
+HTML（公式最稳，推荐）</a></li>
+<li><a href="#方式-bcursor-vs-code-自带预览"
+id="toc-方式-bcursor-vs-code-自带预览">方式 B：Cursor / VS Code
+自带预览</a></li>
+<li><a href="#方式-c安装扩展" id="toc-方式-c安装扩展">方式
+C：安装扩展</a></li>
+<li><a href="#公式写法速查" id="toc-公式写法速查">公式写法速查</a></li>
+</ul></li>
+<li><a href="#公式示例用于检查预览是否正常"
+id="toc-公式示例用于检查预览是否正常">公式示例（用于检查预览是否正常）</a></li>
+<li><a href="#文献翻译与问答工作流标准可修订"
+id="toc-文献翻译与问答工作流标准可修订">文献翻译与问答工作流标准（可修订）</a>
+<ul>
+<li><a href="#目录与文件命名" id="toc-目录与文件命名">1.
+目录与文件命名</a></li>
+<li><a href="#中文译文.zh-cn.md结构" id="toc-中文译文.zh-cn.md结构">2.
+中文译文（<code>.zh-CN.md</code>）结构</a></li>
+<li><a href="#问答文件.qa.zh-cn.md结构"
+id="toc-问答文件.qa.zh-cn.md结构">3.
+问答文件（<code>.QA.zh-CN.md</code>）结构</a></li>
+<li><a href="#处理新文献清单给协作者-agent"
+id="toc-处理新文献清单给协作者-agent">4. 处理新文献清单（给协作者 /
+Agent）</a></li>
+<li><a href="#完善本节的方式" id="toc-完善本节的方式">5.
+完善本节的方式</a></li>
+</ul></li>
+<li><a href="#文献补充计算化学-量子计算对照本工程缺口"
+id="toc-文献补充计算化学-量子计算对照本工程缺口">文献补充：计算化学 ×
+量子计算（对照本工程缺口）</a>
+<ul>
+<li><a href="#阅读优先级按你的目标调整"
+id="toc-阅读优先级按你的目标调整">阅读优先级（按你的目标调整）</a></li>
+<li><a href="#s1-计算化学与催化优先阅读"
+id="toc-s1-计算化学与催化优先阅读">§S1
+计算化学与催化（优先阅读）</a></li>
+<li><a href="#s2-dft-理论与量子计算如何结合"
+id="toc-s2-dft-理论与量子计算如何结合">§S2 DFT
+理论与量子计算如何结合</a></li>
+<li><a href="#s3-机器学习势能面-mlip次优先"
+id="toc-s3-机器学习势能面-mlip次优先">§S3 机器学习势能面 /
+MLIP（次优先）</a></li>
+<li><a href="#s4-量子算法与资源phase23-支撑"
+id="toc-s4-量子算法与资源phase23-支撑">§S4 量子算法与资源（Phase2–3
+支撑）</a></li>
+<li><a href="#s5-嵌入与量子数据邻域" id="toc-s5-嵌入与量子数据邻域">§S5
+嵌入与「量子数据」邻域</a></li>
+<li><a href="#s6-软件与可复现入口" id="toc-s6-软件与可复现入口">§S6
+软件与可复现入口</a></li>
+<li><a href="#s7-建议使用方式" id="toc-s7-建议使用方式">§S7
+建议使用方式</a></li>
+<li><a href="#附录-a文献精读问答可复制骨架"
+id="toc-附录-a文献精读问答可复制骨架">附录
+A：文献精读问答可复制骨架</a></li>
+</ul></li>
+<li><a href="#问答类型与双模板说明"
+id="toc-问答类型与双模板说明">问答类型与双模板说明</a>
+<ul>
+<li><a href="#场景-a课程-笔记-通用概念默认"
+id="toc-场景-a课程-笔记-通用概念默认">场景 A：课程 / 笔记 /
+通用概念（默认）</a></li>
+<li><a href="#场景-b文献精读" id="toc-场景-b文献精读">场景
+B：文献精读</a></li>
+</ul></li>
+<li><a href="#问答条目按学习资料顺序"
+id="toc-问答条目按学习资料顺序">问答条目（按学习资料顺序）</a>
+<ul>
+<li><a href="#与学习资料的对应关系phase1"
+id="toc-与学习资料的对应关系phase1">与学习资料的对应关系（Phase1）</a></li>
+<li><a href="#与学习资料的对应关系phase2"
+id="toc-与学习资料的对应关系phase2">与学习资料的对应关系（Phase2）</a></li>
+<li><a href="#专题补充跨文献-概念"
+id="toc-专题补充跨文献-概念">专题补充（跨文献 / 概念）</a></li>
+<li><a href="#条目模板课程复制后使用"
+id="toc-条目模板课程复制后使用">条目模板（课程）（复制后使用）</a></li>
+<li><a href="#条目模板文献精读复制后使用"
+id="toc-条目模板文献精读复制后使用">条目模板（文献精读）（复制后使用）</a></li>
+<li><a href="#条目-1" id="toc-条目-1">条目 1</a></li>
+<li><a href="#条目-2" id="toc-条目-2">条目 2</a></li>
+<li><a href="#条目-3" id="toc-条目-3">条目 3</a></li>
+<li><a href="#条目-4" id="toc-条目-4">条目 4</a></li>
+<li><a href="#条目-5" id="toc-条目-5">条目 5</a></li>
+<li><a href="#条目-6" id="toc-条目-6">条目 6</a></li>
+<li><a href="#条目-7" id="toc-条目-7">条目 7</a></li>
+<li><a href="#条目-8" id="toc-条目-8">条目 8</a></li>
+<li><a href="#条目-9" id="toc-条目-9">条目 9</a></li>
+<li><a href="#条目-10" id="toc-条目-10">条目 10</a></li>
+<li><a href="#条目-11" id="toc-条目-11">条目 11</a></li>
+<li><a href="#条目-12" id="toc-条目-12">条目 12</a></li>
+<li><a href="#条目-13" id="toc-条目-13">条目 13</a></li>
+<li><a href="#条目-14" id="toc-条目-14">条目 14</a></li>
+<li><a href="#条目-15" id="toc-条目-15">条目 15</a></li>
+<li><a href="#条目-16" id="toc-条目-16">条目 16</a></li>
+<li><a href="#条目-17" id="toc-条目-17">条目 17</a></li>
+<li><a href="#条目-18" id="toc-条目-18">条目 18</a></li>
+<li><a href="#条目-19" id="toc-条目-19">条目 19</a></li>
+<li><a href="#条目-20" id="toc-条目-20">条目 20</a></li>
+<li><a href="#条目-21" id="toc-条目-21">条目 21</a></li>
+<li><a href="#条目-22" id="toc-条目-22">条目 22</a></li>
+<li><a href="#条目-23" id="toc-条目-23">条目 23</a></li>
+<li><a href="#条目-24" id="toc-条目-24">条目 24</a></li>
+<li><a href="#条目-25专题波函数集中与采样子空间方法"
+id="toc-条目-25专题波函数集中与采样子空间方法">条目
+25（专题：波函数「集中」与采样子空间方法）</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="量子计算化学学习-问答记录">量子计算化学学习 · 问答记录</h1>
+<p>本文件集中保存：<strong>公式与预览说明</strong>、<strong>文献翻译/精读工作流</strong>、<strong>计算化学×量子计算文献补充索引</strong>、<strong>文献精读可复制模板（附录
+A）</strong>，以及按计划学习过程中的<strong>问答条目</strong>。日后检索与复习以本文件（及同目录
+<strong><code>学习问答记录.html</code></strong>）为主。</p>
+<hr />
+<h2
+id="公式如何正确显示三种方式任选其一">公式如何正确显示（三种方式，任选其一）</h2>
+<p>本文件中的数学公式使用 <strong>LaTeX</strong> 写法：行内用
+<code>$...$</code>；<strong>行间（独立）公式</strong>用
+<code>$$</code>，且 <strong><code>$$</code>
+单独占一行</strong>（开始与结束各一行），<strong>结束 <code>$$</code>
+之后空一行</strong>再接正文或列表，否则部分预览器无法稳定渲染（与
+<code>Towards_Quantum_Advantage_in_Chemistry.zh-CN.md</code>
+等译文约定一致）。</p>
+<h3 id="方式-a用浏览器打开-html公式最稳推荐">方式 A：用浏览器打开
+HTML（公式最稳，推荐）</h3>
+<p>同目录下已有 <strong><code>学习问答记录.html</code></strong>（由
+Pandoc 生成，内嵌 <strong>MathJax 3</strong>；页首含
+<strong>目录</strong> 至 <code>h3</code>，便于长文跳转）。用 Chrome /
+Edge <strong>双击打开</strong>
+或将文件拖到浏览器窗口，公式会正常渲染。</p>
+<p>每次修改本 Markdown 后，可在本目录执行：</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> regen_qa_html.py</span></code></pre></div>
+<p>（需已安装 <a href="https://pandoc.org/">Pandoc</a> 并可在终端运行
+<code>pandoc</code>；样式由同目录 <code>qa-html-header.html</code>
+叠加，勿删。）</p>
+<h3 id="方式-bcursor-vs-code-自带预览">方式 B：Cursor / VS Code
+自带预览</h3>
+<p>工作区根目录已添加
+<strong><code>.vscode/settings.json</code></strong>，并开启
+<code>"markdown.math.enabled": true</code>。请
+<strong>重新加载窗口</strong>（命令面板：<code>Developer: Reload Window</code>）后，再打开本文件的
+<strong>Markdown 预览</strong>（<code>Ctrl+Shift+V</code>，或
+<code>Ctrl+K</code> 松开后再按 <code>V</code>）。若仍不显示，请用方式 A
+或 C。</p>
+<h3 id="方式-c安装扩展">方式 C：安装扩展</h3>
+<p>在扩展市场安装 <strong>Markdown+Math</strong> 或 <strong>Markdown
+Preview Enhanced</strong>，用该扩展提供的预览打开本文件。</p>
+<hr />
+<h3 id="公式写法速查">公式写法速查</h3>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 45%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th>类型</th>
+<th>写法示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>行内公式</td>
+<td><span class="math inline">\(E = \hbar\omega\)</span></td>
+<td>单个美元符号包裹</td>
+</tr>
+<tr>
+<td>独立成行（居中）</td>
+<td>见下方「公式示例」</td>
+<td><code>$$</code> 单独成行开始与结束</td>
+</tr>
+<tr>
+<td><strong>Markdown 表格里的 ket</strong></td>
+<td><code>$\vert\psi\rangle$</code></td>
+<td>表格用 <code>\|</code> 分列，单元格内勿写
+<code>$|\psi\rangle$</code>（<code>|</code> 会被当成列分隔）；用
+<code>\vert</code> 代替左侧竖线（与同目录 <code>SQD.md</code>
+约定一致）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>小坑：</strong> 行内公式里若上标是星号，不要写
+<code>$\sigma^\*$</code>（<code>*</code> 紧贴结束符 <code>$</code>
+时，Markdown 常把 <code>*</code> 当成「强调」从而弄断公式）。请改用
+<code>$\sigma^{\ast}$</code> 或 <code>$\sigma^\ast$</code>（无星号与
+<code>$</code> 相邻）。</p>
+<p><strong>导出为 PDF（可选）：</strong> 安装 Pandoc 与 LaTeX 后：</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> <span class="st">&quot;学习问答记录.md&quot;</span> <span class="at">-o</span> <span class="st">&quot;学习问答记录.pdf&quot;</span> <span class="at">--pdf-engine</span><span class="op">=</span>xelatex <span class="at">-V</span> mainfont=<span class="st">&quot;SimSun&quot;</span></span></code></pre></div>
+<hr />
+<h2
+id="公式示例用于检查预览是否正常">公式示例（用于检查预览是否正常）</h2>
+<p>行内：电子在基态的能量下界由变分原理给出，<span
+class="math inline">\(E_0 \leq \langle\psi\vert\hat{H}\vert\psi\rangle /
+\langle\psi\vert\psi\rangle\)</span>。</p>
+<p>独立公式（Jordan–Wigner 思路示意，不必死记）：</p>
+<p><span class="math display">\[
+\hat{a}_j^\dagger \;\longleftrightarrow\; \frac{1}{2}(X_j - iY_j)\otimes
+Z_{j-1}\otimes\cdots\otimes Z_0
+\]</span></p>
+<p>若以上两处公式在预览中显示为排版好的数学式而非原始 <code>$...$</code>
+文本，则说明环境配置正确。</p>
+<hr />
+<h2
+id="文献翻译与问答工作流标准可修订">文献翻译与问答工作流标准（可修订）</h2>
+<p>本节前身是独立文件
+<code>文献工作流标准.md</code>，现已并入本文。<strong>后续同类文献处理以本节为准</strong>；你可直接增删改各节，并在本节末「修订记录」留一行日期与摘要。若希望
+Cursor 自动优先遵循：工作区技能
+<strong><code>quantum-literature-zh</code></strong>（<code>.cursor/skills/quantum-literature-zh/SKILL.md</code>）；修改流程时可同步更新该
+SKILL 中「何时读取本文件」的说明。</p>
+<h3 id="目录与文件命名">1. 目录与文件命名</h3>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 45%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th>类型</th>
+<th>命名规则</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原文 PDF</td>
+<td>与来源一致、便于检索；<strong>无空格</strong></td>
+<td><code>2512.13657v2.pdf</code>、<code>acs.chemrev.8b00803.pdf</code></td>
+</tr>
+<tr>
+<td>中文译文</td>
+<td><strong>英文下划线题名</strong> +
+<code>.zh-CN.md</code>（正文中文）</td>
+<td><code>Towards_Quantum_Advantage_in_Chemistry.zh-CN.md</code></td>
+</tr>
+<tr>
+<td>问答记录</td>
+<td>与译文 <strong>同主干名</strong> + <code>.QA.zh-CN.md</code></td>
+<td><code>Towards_Quantum_Advantage_in_Chemistry.QA.zh-CN.md</code></td>
+</tr>
+<tr>
+<td>独立主题问答（非单篇配套）</td>
+<td>自定短名 +
+<code>.md</code>；<strong>建议最终并入本节问答区</strong></td>
+<td>（例：原 <code>QA_波函数集中性.md</code> → <strong>条目
+25</strong>）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>原则</strong></p>
+<ul>
+<li>译文与问答文件与 PDF <strong>同一目录</strong>（本目录
+<code>literature/</code>），相对链接可写
+<code>./xxx.zh-CN.md</code>。</li>
+<li>文件名用
+<strong>ASCII</strong>（英文、数字、下划线），避免空格与特殊符号，便于跨平台与脚本处理。</li>
+<li>从 PDF / 期刊页无法直接得到英文题名时：可用 <strong>arXiv
+号</strong> 或 <strong>期刊缩写_年份_文章编号</strong>
+作为主干，并在译文题头写清完整中/英文标题。</li>
+</ul>
+<h3 id="中文译文.zh-cn.md结构">2.
+中文译文（<code>.zh-CN.md</code>）结构</h3>
+<p>建议顺序（可按文献类型微调）：</p>
+<ol type="1">
+<li><strong>一级标题</strong>：中文题名（可与官方译名或常用译法一致）。</li>
+<li><strong>元信息块</strong>：作者、单位（可缩写）、日期、期刊或
+<strong>arXiv</strong> 编号等。</li>
+<li><strong>分隔线 <code>---</code></strong></li>
+<li><strong>「说明」小节</strong>（固定保留），建议包含：本文为译文的定位、与原文结构对应关系；<strong>公式渲染</strong>（行内
+<code>$...$</code>；块公式上下各一行 <code>$$</code>，<strong>块末
+<code>$$</code>
+后空一行</strong>）；参考文献与图表编号约定；<strong>指向问答文件</strong>的相对路径。</li>
+<li><strong>正文</strong>：章节编号与原文一致；术语首次出现可加英文或缩写。</li>
+</ol>
+<p><strong>与 PDF 对照</strong>：图表编号、公式
+tag、参考文献序号尽量与原文一致，便于答疑时写「见原文 Fig. 2 / 译文
+§3」。</p>
+<h3 id="问答文件.qa.zh-cn.md结构">3.
+问答文件（<code>.QA.zh-CN.md</code>）结构</h3>
+<p><strong>空白骨架</strong>：直接复制本文 <strong>「附录
+A：文献精读问答可复制骨架」</strong>。</p>
+<p><strong>题头必备字段</strong>（与现有一致）：</p>
+<ul>
+<li>中文书名式标题：<code># 《……》问答记录</code></li>
+<li><strong>对应论文</strong>：作者或预印本编号、英文题名、<strong>PDF
+文件名</strong></li>
+<li><strong>配套译文</strong>：相对链接到 <code>.zh-CN.md</code></li>
+<li><strong>使用说明</strong>：字段 <strong>文献 / 标签（可选）/ 日期 /
+问题 / 回答</strong>；公式规则与译文一致。</li>
+</ul>
+<p><strong>正文区块</strong>：<strong>文章速览</strong>（表格）+
+<strong>问答日志</strong>（条目模板复制追加）。可引用译文章节号
+<code>§x.x</code>。</p>
+<p><strong>与总表同步（可选）</strong>：若在本文件
+<strong>「问答条目」</strong> 区维护总索引，新文献可增加一行或链接到对应
+<code>.QA.zh-CN.md</code>。</p>
+<h3 id="处理新文献清单给协作者-agent">4. 处理新文献清单（给协作者 /
+Agent）</h3>
+<ol type="1">
+<li>确定 <strong>PDF 文件名</strong> 与
+<strong>英文下划线主干名</strong>（译文 + 问答共用）。</li>
+<li>新建 <strong>译文</strong>
+<code>.zh-CN.md</code>，写好「说明」与问答文件双向引用。</li>
+<li>复制 <strong>附录 A</strong> 生成
+<code>.QA.zh-CN.md</code>，填写题头与文章速览。</li>
+<li>（可选）在本文件 <strong>问答条目</strong>
+区或「专题补充」表添加索引。</li>
+</ol>
+<h3 id="完善本节的方式">5. 完善本节的方式</h3>
+<ul>
+<li>直接编辑本文件对应小节。</li>
+<li>每次重要约定变更，在下方 <strong>修订记录</strong>
+增加一行：<code>YYYY-MM-DD — 摘要</code>。</li>
+</ul>
+<h4 id="工作流修订记录">工作流修订记录</h4>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>日期</th>
+<th>摘要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-04-01</td>
+<td>初版（独立 <code>文献工作流标准.md</code>）：命名规则、译文与 QA
+结构、模板路径、流程清单</td>
+</tr>
+<tr>
+<td>2026-04-03</td>
+<td>并入 <code>学习问答记录.md</code>；附录 A；路径对齐
+<code>literature/</code>；HTML 再生脚本增加目录（toc depth
+3）、<code>lang=zh-CN</code>、页标题与
+<code>qa-html-header.html</code>；公式速查补「表格内 ket」</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="文献补充计算化学-量子计算对照本工程缺口">文献补充：计算化学 ×
+量子计算（对照本工程缺口）</h2>
+<p>本节前身是独立文件 <code>文献补充_计算化学与量子计算.md</code>。按
+<strong>本仓库学习路径</strong>（<code>PandM/materials/README.md</code>、<code>quantum-chem/learning-ms/</code>
+下
+Notebook、<code>literature/SQD.md</code>、<code>literature/ADAPT-VQE.md</code>
+等）逐块对照，补充
+<strong>工程内引用偏少或尚未展开的经典/前沿文献</strong>，便于把「量子线路」与
+<strong>DFT/多参考/活性空间/ML 力场/催化</strong> 的经典语境对齐。</p>
+<blockquote>
+<p><strong>说明</strong>：本目录内已有 PDF 见各译文题头与
+<strong><code>量子计算在计算化学中的方法与文献地图.md</code></strong>；本节
+<strong>不重复罗列</strong>，只补 <strong>表外</strong> 与
+<strong>应用向 Notebook</strong> 强相关的入口。</p>
+</blockquote>
+<h3 id="阅读优先级按你的目标调整">阅读优先级（按你的目标调整）</h3>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 20%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>优先级</th>
+<th>内容</th>
+<th>本节中的位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P0</strong></td>
+<td><strong>计算化学 +
+催化</strong>（多参考、活性空间、强关联、表面/单原子催化 ×
+量子路线）</td>
+<td><strong>§S1</strong></td>
+</tr>
+<tr>
+<td><strong>P0</strong></td>
+<td><strong>DFT
+理论如何与量子计算衔接</strong>（同一工作流里的分工）</td>
+<td><strong>§S2</strong></td>
+</tr>
+<tr>
+<td><strong>P1</strong></td>
+<td>机器学习势能面 / 力场（与 Phase4 第二本
+Notebook、量子训练数据叙事衔接）</td>
+<td><strong>§S3</strong></td>
+</tr>
+<tr>
+<td><strong>P2</strong></td>
+<td>量子算法与资源估计（QPE、VQE、低深度模拟等）</td>
+<td><strong>§S4</strong></td>
+</tr>
+<tr>
+<td><strong>P2</strong></td>
+<td>嵌入（DMET 等）与软件入口</td>
+<td><strong>§S5–S6</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="s1-计算化学与催化优先阅读">§S1 计算化学与催化（优先阅读）</h3>
+<p>工程内 <a
+href="../../software/qc-x-chem/Phase4_Applications/01_非均相催化量子计算.ipynb"><code>01_非均相催化量子计算.ipynb</code></a>
+强调 <strong>DFT 在过渡金属 / 强关联活性位的失效</strong> 与
+<strong>active space + 嵌入</strong>。下列文献把
+<strong>经典计算化学语言</strong> 与
+<strong>量子比特「截断子空间」</strong> 对齐；<strong>本地
+<code>acs.chemrev.8b00803.pdf</code>（Cao 等）</strong>
+仍是总入口，此处补 <strong>专题与对标</strong>。</p>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 53%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>主题</th>
+<th>建议补充文献</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>量子计算化学全景（含催化、材料）</td>
+<td>Y. Cao <em>et al.</em>, <em>Chem. Rev.</em> <strong>119</strong>,
+10856 (2019) — <strong>本地 PDF</strong></td>
+<td>https://doi.org/10.1021/acs.chemrev.8b00803</td>
+</tr>
+<tr>
+<td>CASSCF / 活性空间思想与选型评述</td>
+<td>B. O. Roos <em>et al.</em>, <em>Int. J. Quantum Chem.</em>
+<strong>111</strong>, 339 (2011)</td>
+<td>https://doi.org/10.1002/qua.23107</td>
+</tr>
+<tr>
+<td>多参考方法尺度与现代算法（DMRG、选 CI 等脉络）</td>
+<td>S. Guo <em>et al.</em>, <em>Nat. Comput. Sci.</em>
+<strong>1</strong>, 538 (2021)</td>
+<td>https://doi.org/10.1038/s43588-021-00179-9</td>
+</tr>
+<tr>
+<td>量子计算 × <strong>计算催化</strong>（界面、资源、路线）</td>
+<td>M. Kühn <em>et al.</em>, <em>Phys. Rev. Res.</em>
+<strong>3</strong>, 033055 (2021)</td>
+<td>https://doi.org/10.1103/PhysRevResearch.3.033055</td>
+</tr>
+<tr>
+<td>异相催化 × 量子计算：学术与工业视角（预印本）</td>
+<td><em>Modelling Heterogeneous Catalysis using Quantum Computers…</em>,
+<em>ChemRxiv</em></td>
+<td>https://chemrxiv.org/engage/chemrxiv/article-details/673d9e2e5a82cea2fad8c50a</td>
+</tr>
+</tbody>
+</table>
+<p><strong>近期验证线（TM 氧化物片段、活性空间对标）</strong>：在 arXiv
+检索
+<code>transition metal oxide quantum computing catalysis</code>；例：<strong>arXiv:2512.19778</strong>（以正文方法与结论为准）。</p>
+<h3 id="s2-dft-理论与量子计算如何结合">§S2 DFT
+理论与量子计算如何结合</h3>
+<p>下面分 <strong>概念</strong> 与 <strong>文献</strong> 两层回答「DFT
+怎么跟量子计算接在一起」——接点不在「用量子机算 KS 方程」，而在
+<strong>同一套电子结构问题</strong> 上的
+<strong>分工与数据流</strong>。</p>
+<h4 id="s2.1-概念三条主接点">§S2.1 概念：三条主接点</h4>
+<ol type="1">
+<li><strong>单粒子基与二次量子化（最常见工程路径）</strong>
+<ul>
+<li>DFT（<strong>Kohn–Sham 流程</strong>）在经典机上给出
+<strong>一组单粒子轨道</strong>（及占据）、<strong>核–电子与外场几何</strong>。<br />
+</li>
+<li>在这组基下把电子–电子相互作用写成
+<strong>费米子二次量子化哈密顿量</strong>（通常截断到 <strong>活性轨道 /
+活性空间</strong>）。<br />
+</li>
+<li>再经 Jordan–Wigner / Parity / Bravyi–Kitaev 等
+<strong>映射到泡利算符 → 量子比特哈密顿量</strong>。<br />
+<strong>结论</strong>：DFT 在这里的角色是
+<strong>提供轨道与积分（或已聚合的哈密顿量项）</strong>，量子算法解决的是
+<strong>该多体哈密顿量在选定子空间上的本征问题</strong>，而不是替代
+Hohenberg–Kohn 泛函本身。</li>
+</ul></li>
+<li><strong>DFT 的「弱点多体区」= 量子算法的化学动机</strong>
+<ul>
+<li>KS 解是 <strong>单行列式参考</strong>（除非你做多参考
+DFT）；<strong>静态强关联、近简并、自旋态竞争</strong>（单原子催化、部分
+TM 氧化物等）正是催化 Notebook 里 <strong>DFT+U 仍难系统化</strong>
+的区域。<br />
+</li>
+<li>量子侧常用 <strong>CASSCF 型活性空间 + VQE/SQD</strong> 等，在
+<strong>同一几何</strong> 上追求更接近
+<strong>FCI（于活性空间内）</strong> 的基态或低激发态。<br />
+<strong>结论</strong>：理论上的「结合」首先是
+<strong>问题对齐</strong>：<strong>哪里 DFT
+不可靠，就把那部分自由度交给多体量子模拟</strong>。</li>
+</ul></li>
+<li><strong>空间分区：DFT「环境」+ 量子「活性片段」</strong>
+<ul>
+<li>大体系（表面、载体、溶剂）仍用 <strong>经典 DFT（或力场）</strong>
+处理远程与大部分电子；<strong>强关联局域簇</strong> 用 <strong>嵌入 /
+下行折叠</strong> 得到小哈密顿量，在量子设备或模拟器上算。<br />
+</li>
+<li>这与 <strong>QM/MM、DMET、冻结核、downfolding</strong>
+的经典语言同构；量子计算是 <strong>内层求解器</strong> 的候选。<br />
+<strong>结论</strong>：<strong>结合形态 =
+混合量子–经典工作流</strong>，不是全盘替换 DFT。</li>
+</ul></li>
+</ol>
+<h4 id="s2.2-易混淆点一句话辨清">§S2.2 易混淆点（一句话辨清）</h4>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>说法</th>
+<th>更精确的理解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「用量子计算机做 DFT」</td>
+<td>工业界主流路线是
+<strong>用量子算法求多体哈密顿量基态/激发态</strong>；KS
+自洽循环仍在经典端完成（除非研究专门构造「量子
+DFT」类想法，见下文文献）。</td>
+</tr>
+<tr>
+<td>「DFT 哈密顿量」</td>
+<td>常指 <strong>在 KS
+轨道基下写出的二次量子化电子哈密顿量</strong>；交换–相关
+<strong>未</strong> 以泛函形式进入量子线路，而是以 <strong>有效单电子 +
+双电子积分</strong> 形式固定下来再映射到量子比特。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="s2.3-直接讨论dft-vqe-嵌入-活性空间的文献入口">§S2.3
+直接讨论「DFT × VQE / 嵌入 / 活性空间」的文献入口</h4>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>主题</th>
+<th>文献</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>活性空间嵌入的一般框架（与量子计算应用挂钩）</td>
+<td>R. M. Parrish <em>et al.</em>, <em>npj Comput. Mater.</em>
+<strong>10</strong>, article 147 (2024)</td>
+<td>https://doi.org/10.1038/s41524-024-01477-2</td>
+</tr>
+<tr>
+<td>用 VQE <strong>增强</strong> DFT
+表述的近期框架（以摘要/方法为准）</td>
+<td><em>Enhancing density functional theory using the variational
+quantum eigensolver</em> (预印本)</td>
+<td>https://arxiv.org/abs/2402.18534</td>
+</tr>
+<tr>
+<td>量子计算化学总览（含映射、算法与化学问题分类）</td>
+<td>S. McArdle <em>et al.</em>, <em>Rev. Mod. Phys.</em>
+<strong>92</strong>, 015003 (2020) — <strong>本地 PDF</strong></td>
+<td>https://doi.org/10.1103/RevModPhys.92.015003</td>
+</tr>
+</tbody>
+</table>
+<p>读 <strong>§S2.3</strong> 时建议 <strong>对照</strong> <a
+href="../learning-ms/02_Qiskit_Nature_H2_LiH.ipynb"><code>02_Qiskit_Nature_H2_LiH.ipynb</code></a>
+里 <strong>从分子轨道到 qubit 算符</strong> 的步骤，把「DFT/PySCF 输出 →
+<code>ElectronicStructureProblem</code>」看成 <strong>§S2.1
+第一条接点</strong> 的实现实例。</p>
+<h3 id="s3-机器学习势能面-mlip次优先">§S3 机器学习势能面 /
+MLIP（次优先）</h3>
+<p><a
+href="../../software/qc-x-chem/Phase4_Applications/02_量子计算辅助力场开发.ipynb"><code>02_量子计算辅助力场开发.ipynb</code></a>
+提到 NNP、ReaxFF、QC 训练数据。下列为
+<strong>从经典到等变图网络</strong> 的常用引用链。</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>层级</th>
+<th>文献</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高维 PES 的神经网络表示</td>
+<td>J. Behler, M. Parrinello, <em>Phys. Rev. Lett.</em>
+<strong>98</strong>, 146401 (2007)</td>
+<td>https://doi.org/10.1103/PhysRevLett.98.146401</td>
+</tr>
+<tr>
+<td>高斯近似势（GAP）与 SOAP</td>
+<td>A. P. Bartók, R. Kondor, G. Csányi, <em>Phys. Rev. Lett.</em>
+<strong>104</strong>, 136403 (2010)</td>
+<td>https://doi.org/10.1103/PhysRevLett.104.136403</td>
+</tr>
+<tr>
+<td>SchNet</td>
+<td>K. T. Schütt <em>et al.</em>, <em>npj Comput. Mater.</em>
+<strong>3</strong>, 41 (2017)</td>
+<td>https://doi.org/10.1038/s41524-017-0029-8</td>
+</tr>
+<tr>
+<td>NequIP</td>
+<td>S. Batzner <em>et al.</em>, <em>Nat. Commun.</em>
+<strong>13</strong>, 2453 (2022)</td>
+<td>https://doi.org/10.1038/s41467-022-29939-5</td>
+</tr>
+<tr>
+<td>MACE / E(3) 设计空间</td>
+<td>I. Batatia <em>et al.</em>, NeurIPS <strong>35</strong>
+(2022)；arXiv:2205.06643</td>
+<td>https://arxiv.org/abs/2205.06643</td>
+</tr>
+<tr>
+<td>机器学习力场综述</td>
+<td>O. T. Unke <em>et al.</em>, <em>Chem. Rev.</em>
+<strong>121</strong>, 10142 (2021)</td>
+<td>https://doi.org/10.1021/acs.chemrev.0c01111</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>时间紧</strong>：优先 <strong>Unke Chem. Rev.</strong> +
+<strong>Behler–Parrinello</strong> + <strong>NequIP 或
+MACE</strong>；再对照 Notebook 中「用更高阶参考数据训练」的段落。</p>
+</blockquote>
+<h3 id="s4-量子算法与资源phase23-支撑">§S4 量子算法与资源（Phase2–3
+支撑）</h3>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 31%" />
+<col style="width: 36%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>主题</th>
+<th>工程内位置</th>
+<th>建议补充文献</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>量子相位估计 / 本征求解复杂度图像</td>
+<td>VQE、量子优势 Notebook</td>
+<td>D. S. Abrams, S. Lloyd, <em>Phys. Rev. Lett.</em>
+<strong>83</strong>, 5162 (1999)</td>
+<td>https://doi.org/10.1103/PhysRevLett.83.5162</td>
+</tr>
+<tr>
+<td>费米子系统量子模拟</td>
+<td>基础与 Hubbard 示意</td>
+<td>D. S. Abrams, S. Lloyd, <em>Phys. Rev. Lett.</em>
+<strong>79</strong>, 2586 (1997)</td>
+<td>https://doi.org/10.1103/PhysRevLett.79.2586</td>
+</tr>
+<tr>
+<td>VQE 原始实验</td>
+<td><a
+href="../learning-ms/01_VQE原理与实现.ipynb"><code>01_VQE原理与实现.ipynb</code></a></td>
+<td>A. Peruzzo <em>et al.</em>, <em>Nat. Commun.</em>
+<strong>5</strong>, 4213 (2014)</td>
+<td>https://doi.org/10.1038/ncomms5213</td>
+</tr>
+<tr>
+<td>VQE / NISQ 化学算法长篇综述</td>
+<td>Phase2–3</td>
+<td>J. Tilly <em>et al.</em>, <em>Phys. Rep.</em> <strong>986</strong>,
+1 (2022)</td>
+<td>https://doi.org/10.1016/j.physrep.2022.08.003</td>
+</tr>
+<tr>
+<td>低深度电子结构模拟、平面波视角</td>
+<td>优势分析</td>
+<td>R. Babbush <em>et al.</em>, <em>Phys. Rev. X</em>
+<strong>8</strong>, 011044 (2018)</td>
+<td>https://doi.org/10.1103/PhysRevX.8.011044</td>
+</tr>
+</tbody>
+</table>
+<h3 id="s5-嵌入与量子数据邻域">§S5 嵌入与「量子数据」邻域</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>主题</th>
+<th>文献</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>密度矩阵嵌入（DMET）</td>
+<td>G. Knizia, G. K.-L. Chan, <em>Phys. Rev. Lett.</em>
+<strong>109</strong>, 186404 (2012)</td>
+<td>https://doi.org/10.1103/PhysRevLett.109.186404</td>
+</tr>
+</tbody>
+</table>
+<p>SQD / SKQD / 采样 Krylov 的预印本追踪以 <strong><a
+href="./SQD.md"><code>SQD.md</code></a></strong> 与 <strong><a
+href="../learning-ms/01_进阶算法综述.ipynb"><code>01_进阶算法综述.ipynb</code></a></strong>
+为准。</p>
+<h3 id="s6-软件与可复现入口">§S6 软件与可复现入口</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>工具</th>
+<th>文献或文档</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PySCF</td>
+<td>Q. Sun <em>et al.</em>, <em>WIREs Comput. Mol. Sci.</em>
+<strong>8</strong>, e1340 (2018)；<em>J. Chem. Phys.</em>
+<strong>153</strong>, 024109 (2020)</td>
+<td>https://doi.org/10.1002/wcms.1340 ·
+https://doi.org/10.1063/5.0006074</td>
+</tr>
+<tr>
+<td>Qiskit Nature</td>
+<td>官方文档</td>
+<td>https://qiskit-community.github.io/qiskit-nature/</td>
+</tr>
+</tbody>
+</table>
+<h3 id="s7-建议使用方式">§S7 建议使用方式</h3>
+<ol type="1">
+<li><strong>催化向</strong>：先 <strong>§S1</strong> + 本地 <strong>Cao
+Chem. Rev.</strong>，再读 <strong>§S2</strong> 把「DFT
+失效—活性空间—量子求解」串成一条逻辑。<br />
+</li>
+<li><strong>搞清 DFT–QC 接口</strong>：精读
+<strong>§S2.1–S2.2</strong>，并在 <strong>§S2.3</strong> 选 1–2 篇与
+<strong>H₂/LiH Notebook</strong> 对照。<br />
+</li>
+<li><strong>力场向</strong>：在 <strong>§S3</strong> 建 MLIP
+坐标，再回到 Phase4 第二本 Notebook 谈 <strong>数据层级</strong>。<br />
+</li>
+<li><strong>与仓库 PDF</strong>：本节为
+<strong>索引与概念提纲</strong>；完整 PDF
+以本目录及译文题头所列本地文件为主。</li>
+</ol>
+<p><em>标题与 DOI 以出版社页面为准；若链接失效请用 DOI 解析。</em></p>
+<hr />
+<h3 id="附录-a文献精读问答可复制骨架">附录
+A：文献精读问答可复制骨架</h3>
+<p>以下可直接复制为新文件
+<strong><code>English_Underscore_Title.QA.zh-CN.md</code></strong>（与译文、PDF
+同目录）；字段与本文 <strong>问答条目</strong> 中文献精读约定一致。</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># 《（文献中文题名）》问答记录</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>**对应论文：** （作者, 期刊或 arXiv:xxxx.xxxxxvN — 英文题名）  </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>**配套译文：** [English_Underscore_Title.zh-CN.md](./English_Underscore_Title.zh-CN.md)（**建议文件名用英文**，正文仍用中文；与 PDF 同目录）  </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>**PDF：** <span class="in">`（预印本编号或简称）.pdf`</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## 使用说明</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>字段与 <span class="in">`学习问答记录.md`</span> 中文献精读条目一致：**文献 / 标签 / 日期 / 问题 / 回答**。</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>公式：行内 <span class="in">`$...$`</span>；行间 <span class="in">`$$`</span> **独占行**，**块末 `$$` 后空一行**再接文字；HTML 预览可用 Pandoc <span class="in">`--mathjax`</span>（参见本文件开头说明）。</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## 文章速览（便于提问）</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 主题 <span class="pp">|</span> 要点 <span class="pp">|</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|------|</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 问题与背景 <span class="pp">|</span> （一句话） <span class="pp">|</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 方法 <span class="pp">|</span> （核心算法/实验） <span class="pp">|</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 数据与结论 <span class="pp">|</span> （量级、主要图表） <span class="pp">|</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 与课程关联 <span class="pp">|</span> （可选：对应 Phase / 笔记本） <span class="pp">|</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## 问答日志</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### 条目模板（复制后使用）</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>**文献：** （可与文首一致或写「见题头」）  </span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>**标签：** <span class="in">`#`</span>  </span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>**日期：** YYYY-MM-DD  </span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>**问题：**  </span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>**回答：**  </span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="fu">### 条目 1</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>**文献：**  </span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>**标签：**  </span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>**日期：**  </span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>**问题：**  </span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>**回答：**  </span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 追加条目 2、3 … --&gt;</span></span></code></pre></div>
+<hr />
+<h2 id="问答类型与双模板说明">问答类型与双模板说明</h2>
+<p>同一学习过程里常见两类记录方式，可按场景选用；公式<strong>行内</strong>用
+<code>$...$</code>，<strong>独立块</strong>用上下各一行的
+<code>$$</code>（块后空一行，见上文）。</p>
+<h3 id="场景-a课程-笔记-通用概念默认">场景 A：课程 / 笔记 /
+通用概念（默认）</h3>
+<p>适用于 Phase 笔记本、Qiskit
+实践、概念辨析等。<strong>字段固定为：日期 → 问题 → 回答。</strong>
+见下方「### 条目模板（课程）」。</p>
+<h3 id="场景-b文献精读">场景 B：文献精读</h3>
+<p>适用于某篇 arXiv / 期刊读后问答。任选其一：</p>
+<ol type="1">
+<li><strong>独立文件（推荐）</strong>：与译文并列建立
+<strong><code>文献题名.QA.zh-CN.md</code></strong>，内含
+<strong>文章速览表</strong>（主题—要点）+
+<strong>问答日志</strong>，便于长期只围绕一篇论文追加。示例见
+<strong>本目录</strong>（<code>literature/</code>，如
+<code>Towards_Quantum_Advantage_in_Chemistry.*</code>、<code>Quantum_Chemistry_in_the_Age_of_Quantum_Computing.*</code>）：
+<ul>
+<li><a
+href="../../Towards_Quantum_Advantage_in_Chemistry.QA.zh-CN.md">Towards_Quantum_Advantage_in_Chemistry.QA.zh-CN.md</a><br />
+</li>
+<li>配套译文：<a
+href="../../Towards_Quantum_Advantage_in_Chemistry.zh-CN.md">Towards_Quantum_Advantage_in_Chemistry.zh-CN.md</a>（PDF：<code>2512.13657v2.pdf</code>；<strong>文件名英文、正文中文</strong>）<br />
+</li>
+<li><em>Chem. Rev.</em> 综述：<a
+href="../../Quantum_Chemistry_in_the_Age_of_Quantum_Computing.QA.zh-CN.md">Quantum_Chemistry_in_the_Age_of_Quantum_Computing.QA.zh-CN.md</a>
+/ <a
+href="../../Quantum_Chemistry_in_the_Age_of_Quantum_Computing.zh-CN.md">Quantum_Chemistry_in_the_Age_of_Quantum_Computing.zh-CN.md</a>（PDF：<code>acs.chemrev.8b00803.pdf</code>）<br />
+</li>
+<li><strong>空白可复制模板</strong>（新建其它文献时）：见本文
+<strong>「附录 A：文献精读问答可复制骨架」</strong>（原独立文件
+<code>文献精读问答_模板.md</code> 已并入）</li>
+</ul></li>
+<li><strong>仍写在本文件</strong>：复制下方「###
+条目模板（文献精读）」，填写文献、标签与问答。</li>
+</ol>
+<p><strong>文献类条目建议标签（可选）：</strong> <code>#iQCC</code>
+<code>#VQE</code> <code>#OLED</code> <code>#量子优势</code>
+<code>#公式</code> 等，便于全文搜索。</p>
+<hr />
+<h2 id="问答条目按学习资料顺序">问答条目（按学习资料顺序）</h2>
+<blockquote>
+<p><strong>使用约定：</strong> 条目按 <strong>学习资料出现顺序</strong>
+排列（Phase1：<code>01_量子计算基础与概念映射.ipynb</code> →
+<code>02_Qiskit入门实践.ipynb</code>；其后接 Phase2
+等），便于对照教程阅读。<strong>新条目</strong>
+请插在对应教材位置，并更新上方「对应关系」表；若暂无法定位，可先附在文末再归位。回答中的公式同样用
+<code>$...$</code> 或 <code>$$...$$</code>。</p>
+</blockquote>
+<h3 id="与学习资料的对应关系phase1">与学习资料的对应关系（Phase1）</h3>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 66%" />
+</colgroup>
+<thead>
+<tr>
+<th>范围</th>
+<th>教材</th>
+<th>本文件中条目（新编号）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>概念与门</td>
+<td><code>Phase1_Fundamentals/01_量子计算基础与概念映射.ipynb</code>
+§1–§4</td>
+<td><strong>条目 1–11</strong></td>
+</tr>
+<tr>
+<td>H₂、电路与 VQE</td>
+<td>同上 §5–§6；<strong>条目 18</strong> 接续 <strong>条目
+17</strong>（单激发讨论）</td>
+<td><strong>条目 12–18</strong></td>
+</tr>
+<tr>
+<td>Qiskit 入门</td>
+<td><code>Phase1_Fundamentals/02_Qiskit入门实践.ipynb</code> §1–§4</td>
+<td><strong>条目 19–23</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="与学习资料的对应关系phase2">与学习资料的对应关系（Phase2）</h3>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 66%" />
+</colgroup>
+<thead>
+<tr>
+<th>范围</th>
+<th>教材</th>
+<th>本文件中条目（新编号）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VQE 原理、方法对比表</td>
+<td><code>Phase2_CoreAlgorithms/01_VQE原理与实现.ipynb</code>（「试探波函数与计算量」表）</td>
+<td><strong>条目 24</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="专题补充跨文献-概念">专题补充（跨文献 / 概念）</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr>
+<th>主题</th>
+<th>说明</th>
+<th>本文件中条目</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>波函数「集中」与采样子空间对角化</td>
+<td>与 SQD、SKQD、SqDRIFT 等前提；原独立文件
+<code>QA_波函数集中性.md</code> 已并入</td>
+<td><strong>条目 25</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="条目模板课程复制后使用">条目模板（课程）（复制后使用）</h3>
+<p><strong>日期：</strong> YYYY-MM-DD</p>
+<p><strong>问题：</strong></p>
+<p>（在此写下你的问题。）</p>
+<p><strong>回答：</strong></p>
+<p>（在此写下回答；需要时用公式，例如 <span
+class="math inline">\(\hat{H}\lvert\psi\rangle =
+E\lvert\psi\rangle\)</span>。）</p>
+<hr />
+<h3
+id="条目模板文献精读复制后使用">条目模板（文献精读）（复制后使用）</h3>
+<p><strong>文献：</strong> （例：Genin et al., arXiv:2512.13657v2 —
+《迈向化学中的量子优势》）</p>
+<p><strong>标签：</strong> <code>#可选</code> <code>#多个</code></p>
+<p><strong>日期：</strong> YYYY-MM-DD</p>
+<p><strong>问题：</strong></p>
+<p>（针对论文某节、某公式、某结论的提问。）</p>
+<p><strong>回答：</strong></p>
+<p>（回答；需要时引用译文章节，如「见 §2.1 iQCC 概要」。）</p>
+<hr />
+<h3 id="条目-1">条目 1</h3>
+<p><strong>日期：</strong> 2026-03-26</p>
+<p><strong>问题：</strong></p>
+<p>（摘自 Phase1
+<code>01_量子计算基础与概念映射.ipynb</code>）为什么一个自旋轨道要用一个量子比特？FCI
+不应该对应的是整个量子电路吗？为什么说是对应量子态叠加？活性空间是什么，为什么对应逻辑量子比特？</p>
+<p><strong>回答：</strong></p>
+<p><strong>（1）为什么一个自旋轨道对应一个量子比特？</strong></p>
+<p>这是<strong>在「占据数表象」下的一种编码约定</strong>，不是物理上说「一个电子就是一个比特」。</p>
+<p>在二次量子化里，每个自旋轨道 <span class="math inline">\(j\)</span>
+上至多占据一个电子（泡利不相容），因此只有两个可能：<strong>空</strong>
+或 <strong>占</strong>。这正好与量子比特的计算基 <span
+class="math inline">\(\vert 0\rangle\)</span>（空）、<span
+class="math inline">\(\vert 1\rangle\)</span>（占）一一对应。</p>
+<p><span class="math inline">\(M\)</span> 个自旋轨道的一种电子组态（一个
+Slater 行列式在占据数表象下）就对应一个<strong>积态</strong>：</p>
+<p><span class="math display">\[
+\lvert n_1 n_2 \cdots n_M \rangle = \lvert n_1\rangle \otimes \lvert
+n_2\rangle \otimes \cdots \otimes \lvert n_M\rangle,\quad n_j \in
+\{0,1\}.
+\]</span></p>
+<p>注意：若用 Jordan–Wigner
+等映射把费米子算符写成泡利串，<strong>一个费米子模式仍对应一条「占据」自由度</strong>，所以常说「自旋轨道数
+= 量子比特数」（在未做对称性约化之前）。更精细时还会用 <strong>parity /
+tapering</strong> 减少比特数，那是后话。</p>
+<hr />
+<p><strong>（2）FCI
+对应「整个电路」还是「叠加态」？你的直觉对了一半。</strong></p>
+<ul>
+<li><strong>FCI（full CI）</strong>
+指在<strong>给定单粒子基（给定一组自旋轨道）</strong>下，在<strong>所有满足粒子数与自旋约束的行列式张成的空间</strong>里精确对角化
+<span
+class="math inline">\(\hat{H}\)</span>，得到精确基态（在该基下）。<br />
+</li>
+<li>它描述的是<strong>目标波函数</strong>（或等价地：在该子空间里哈密顿量的精确解），<strong>不是</strong>「某一条固定的量子电路」本身。</li>
+</ul>
+<p><strong>量子电路</strong>的作用是：<strong>制备</strong>某个态 <span
+class="math inline">\(\lvert\psi\rangle\)</span>（例如 VQE 里参数化电路
+<span
+class="math inline">\(U(\theta)\lvert\mathrm{ref}\rangle\)</span>），或实现演化、测量等。</p>
+<p>FCI
+基态在占据数基下一般<strong>不是</strong>单个计算基矢（单个行列式），而是<strong>许多组态的线性叠加</strong>：</p>
+<p><span class="math display">\[
+\lvert\psi_{\mathrm{FCI}}\rangle = \sum_k c_k \lvert D_k\rangle,
+\]</span></p>
+<p>其中每个 <span class="math inline">\(\lvert D_k\rangle\)</span>
+对应一个比特串（如 <span
+class="math inline">\(\lvert0110\cdots\rangle\)</span>）。在量子语言里，这就是<strong>对多个计算基态的叠加</strong>。</p>
+<p>所以笔记里写「FCI 波函数 <span
+class="math inline">\(\leftrightarrow\)</span>
+叠加态」指的是：<strong>FCI
+所代表的态矢量，在量子比特计算基下通常表现为叠加</strong>；并不是说「FCI
+= 整条电路」。电路是<strong>制备/近似该态的手段</strong>（例如用 VQE
+逼近这个叠加）。</p>
+<hr />
+<p><strong>（3）活性空间是什么？为什么说它对应「逻辑量子比特」？</strong></p>
+<p><strong>活性空间（active space）</strong>
+是量子化学里为了控制成本、集中描述<strong>强关联区域</strong>而选出的<strong>一部分空间轨道
++ 在其中显式处理的电子</strong>。常见记号 <strong>CAS(<span
+class="math inline">\(n\)</span>, <span
+class="math inline">\(m\)</span>)</strong>：<span
+class="math inline">\(n\)</span> 个活性电子在 <span
+class="math inline">\(m\)</span> 条活性空间轨道里做完全组态相互作用（或
+CASSCF/CASPT2 等）。</p>
+<ul>
+<li><strong>冻芯 /
+冻结占据</strong>：能量很低、化学上少参与成键的轨道，常固定为<strong>全占</strong>；<br />
+</li>
+<li><strong>截断虚轨道</strong>：高能虚轨道先丢掉，认为对目标性质不重要；<br />
+</li>
+<li><strong>活性部分</strong>：金属 d、反应键相关的 <span
+class="math inline">\(\sigma/\sigma^{\ast}\)</span>、近前线轨道等，<strong>必须多组态/高阶关联</strong>才准。</li>
+</ul>
+<p>在量子算法里，<strong>只有活性子空间</strong>会被映射成量子比特上的哈密顿量；<strong>比特数由「活性自旋轨道数」决定</strong>（例如
+<span class="math inline">\(m\)</span> 条空间轨道 <span
+class="math inline">\(\to\)</span> 通常 <span
+class="math inline">\(2m\)</span> 个自旋轨道 <span
+class="math inline">\(\to\)</span> JW 下最多 <span
+class="math inline">\(2m\)</span> 个量子比特，对称性约化后更少）。</p>
+<p>这里说的<strong>「逻辑量子比特」</strong>在<strong>化学文献/算法讨论</strong>里，多指「<strong>这个量子化学问题在算法里用到的、有信息的量子比特个数</strong>」（问题规模），<strong>不要</strong>与<strong>量子纠错里的
+logical qubit</strong>（1 个逻辑比特 =
+很多物理比特）混淆。若上下文是容错量子计算，会单独讨论纠错开销；在
+Phase1
+笔记里，把它理解成<strong>算法希尔伯特空间的维度由活性空间大小决定</strong>即可。</p>
+<hr />
+<p><strong>（4）为何「活性部分」常指金属 d、反应键的 <span
+class="math inline">\(\sigma/\sigma^{\ast}\)</span>、近前线轨道，且须多组态/高阶关联才准？</strong></p>
+<p><strong>单参考（一个 Hartree–Fock 行列式）何时失效：</strong> HF
+假设基态主要由一个 Slater
+行列式支配。若多个电子组态<strong>能量接近、强烈混合</strong>，真实波函数形如
+<span class="math inline">\(\vert\Psi\rangle \approx
+c_1\vert\Phi_1\rangle + c_2\vert\Phi_2\rangle +
+\cdots\)</span>，单靠一个 <span
+class="math inline">\(\vert\Phi_0\rangle\)</span> 误差很大，即存在显著
+<strong>静态相关（static / nondynamical
+correlation）</strong>。<strong>多组态方法</strong>（如
+CASSCF、活性空间内的
+FCI）在选定轨道里<strong>显式叠加多个组态</strong>，正是为捕捉这一块。<strong>高阶关联</strong>（如
+CASPT2、NEVPT2，或在合适参考下的耦合簇等）则主要补
+<strong>动态相关</strong>——电子短程瞬时回避；单组态低阶截断往往不够。</p>
+<ul>
+<li><p><strong>金属 d：</strong> 配体场下 d 分裂后，多种占据方式或
+d–配体电荷转移组态可<strong>近简并</strong>；开壳层、不同自旋态/氧化态能量近时，<strong>单行列式</strong>难以公平描述。M–L
+键共价成分强时，d 与配体 σ/π 强耦合，<strong>一个 HF
+参考</strong>可能选错主导组态。故过渡金属常采用 <strong>CASSCF（含 d
+与关键配体轨道）+ CASPT2/NEVPT2</strong> 一类流程。</p></li>
+<li><p><strong>反应键相关的 <span
+class="math inline">\(\sigma/\sigma^{\ast}\)</span>：</strong>
+均裂或强极化断键时，成键阶段电子主要在 <strong>σ</strong>，拉长过程中
+<strong>σ 与 σ*</strong>
+占据图案<strong>剧烈重组</strong>，常出现<strong>多个行列式几乎简并</strong>（键断裂的多参考「教科书」情形）。单参考
+HF
+易给出<strong>错误的势能面形状</strong>（非物理尖点、能垒偏差）。沿反应路径需
+<strong>多组态或 CASSCF</strong> 等使 PES 连续、合理。</p></li>
+<li><p><strong>近前线轨道（HOMO、LUMO
+及其邻近，及与之相关的低激发）：</strong>
+<strong>能隙小</strong>则与单激发组态的<strong>能量分母小</strong>，低阶截断或单参考
+CI 不稳定；基态中可混有显著 <strong>双激发/多组态</strong>
+成分。<strong>单参考 TDDFT/CIS</strong>
+在电荷转移、双激发、简并/锥交叉附近常失效；光谱与光化学常需
+<strong>多参考</strong>（如 SA-CASSCF + CASPT2、MRCI 等）。</p></li>
+</ul>
+<p>与上文「活性空间」的关系：<strong>FCI
+在全基下精确但太大</strong>；<strong>活性空间</strong>把<strong>最易强相关、又决定键能/能垒/激发</strong>的那一段希尔伯特空间切出来做
+<strong>FCI/CASSCF</strong>，其余用冻结核与微扰等处理。量子算法里<strong>映射到量子比特的，正是这类活性自旋轨道</strong>；<strong>选哪些轨道进活性空间</strong>，在化学上就由
+<strong>d、σ–σ*、近前线</strong> 的角色决定。</p>
+<hr />
+<p><em>（以上与 <code>01_量子计算基础与概念映射.ipynb</code>
+中的「概念双语字典」一致，只是把电路 / FCI /
+活性空间三者的分工说细了。）</em></p>
+<hr />
+<h3 id="条目-2">条目 2</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>为什么任意二阶厄米矩阵都可以展开成泡利算符串的张量积？</p>
+<p><strong>回答：</strong></p>
+<p>先把说法对齐一下：</p>
+<ul>
+<li><strong>「二阶」</strong>在教材里常指 <strong><span
+class="math inline">\(2\times 2\)</span></strong>
+矩阵（单量子比特算符）。<br />
+</li>
+<li><strong>「泡利算符串」</strong>一般指 <strong><span
+class="math inline">\(n\)</span> 个量子比特</strong>上形如 <span
+class="math inline">\(\sigma_{i_1}\otimes\sigma_{i_2}\otimes\cdots\otimes\sigma_{i_n}\)</span>
+的算符，其中每个 <span
+class="math inline">\(\sigma_{i_k}\in\{I,X,Y,Z\}\)</span>（有的书用
+<span
+class="math inline">\(\sigma_0=I,\sigma_1=X,\ldots\)</span>）。</li>
+</ul>
+<p>量子化学 / VQE 里真正常用的是 <strong><span
+class="math inline">\(2^n\)</span> 维</strong>（<span
+class="math inline">\(n\)</span>
+个量子比特）的厄米算符分解；<strong><span class="math inline">\(2\times
+2\)</span></strong> 是它的 <strong><span
+class="math inline">\(n=1\)</span></strong> 特例。下面两层一起说明。</p>
+<hr />
+<p><strong>（1）<span class="math inline">\(2\times
+2\)</span>：为什么任意厄米矩阵都能写成 <span
+class="math inline">\(I,X,Y,Z\)</span> 的线性组合？</strong></p>
+<p>记泡利矩阵为 <span
+class="math inline">\(I,X,Y,Z\)</span>（均厄米）。四个矩阵在
+<strong>Hilbert–Schmidt 内积</strong></p>
+<p><span class="math display">\[
+\langle A,B\rangle_{\mathrm{HS}} = \mathrm{Tr}(A^\dagger B)
+\]</span></p>
+<p>下 <strong>两两正交</strong>（相差常数因子）：例如 <span
+class="math inline">\(\mathrm{Tr}(X)=\mathrm{Tr}(Y)=\mathrm{Tr}(Z)=0\)</span>，且
+<span
+class="math inline">\(\mathrm{Tr}(XY)=\mathrm{Tr}(XZ)=\cdots=0\)</span>，而
+<span class="math inline">\(\mathrm{Tr}(I^2)=2\)</span>，<span
+class="math inline">\(\mathrm{Tr}(X^2)=\mathrm{Tr}(Y^2)=\mathrm{Tr}(Z^2)=2\)</span>。</p>
+<p>全体 <span class="math inline">\(2\times 2\)</span>
+<strong>复</strong>矩阵构成的向量空间维数是 <span
+class="math inline">\(2^2=4\)</span>；线性无关的 <span
+class="math inline">\(I,X,Y,Z\)</span> 共 <strong>4</strong> 个，因此
+<strong>张成整个</strong> <span
+class="math inline">\(M_2(\mathbb{C})\)</span>。</p>
+<p>任一 <span class="math inline">\(2\times 2\)</span> 厄米矩阵 <span
+class="math inline">\(H\)</span> 可唯一写成</p>
+<p><span class="math display">\[
+H = c_0 I + c_1 X + c_2 Y + c_3 Z,\quad c_k\in\mathbb{R},
+\]</span></p>
+<p>系数可用投影得到，例如 <span class="math inline">\(c_0 =
+\frac{1}{2}\mathrm{Tr}(H)\)</span>，<span class="math inline">\(c_1 =
+\frac{1}{2}\mathrm{Tr}(HX)\)</span> 等（前面的 <span
+class="math inline">\(\frac{1}{2}\)</span>
+来自归一化）。<strong>厄米</strong>保证这些 <span
+class="math inline">\(\mathrm{Tr}(H\sigma)\)</span> 都是
+<strong>实数</strong>，故 <span class="math inline">\(c_k\)</span>
+为实。</p>
+<hr />
+<p><strong>（2）<span class="math inline">\(n\)</span>
+量子比特：为什么任意 <span class="math inline">\(2^n\times 2^n\)</span>
+厄米矩阵都能写成泡利串的实系数线性组合？</strong></p>
+<p>令</p>
+<p><span class="math display">\[
+\mathcal{P}_n = \{\sigma_{i_1}\otimes\cdots\otimes\sigma_{i_n} \mid
+\sigma_{i_k}\in\{I,X,Y,Z\}\}.
+\]</span></p>
+<ul>
+<li><strong>个数</strong>：每个位置 4 选 1，共 <strong><span
+class="math inline">\(4^n\)</span></strong> 个串。<br />
+</li>
+<li><strong>全体 <span class="math inline">\(2^n\times 2^n\)</span>
+复矩阵</strong>的维数也是 <span class="math inline">\((2^n)^2 =
+4^n\)</span>。<br />
+</li>
+<li>在 <span class="math inline">\(\langle
+A,B\rangle_{\mathrm{HS}}=\mathrm{Tr}(A^\dagger B)\)</span>
+下，<strong>不同</strong>泡利串 <strong>正交</strong>（可用张量积与
+<span class="math inline">\(\mathrm{Tr}(A\otimes
+B)=\mathrm{Tr}(A)\mathrm{Tr}(B)\)</span> 归纳验证）。因此这 <span
+class="math inline">\(4^n\)</span> 个串
+<strong>线性无关</strong>，从而构成 <span
+class="math inline">\(M_{2^n}(\mathbb{C})\)</span> 的一组
+<strong>基</strong>。</li>
+</ul>
+<p>于是 <strong>任意</strong>（不必厄米）<span
+class="math inline">\(2^n\times 2^n\)</span> 矩阵 <span
+class="math inline">\(M\)</span> 都可写成</p>
+<p><span class="math display">\[
+M = \sum_{P\in\mathcal{P}_n} a_P\,P,\quad a_P\in\mathbb{C},
+\]</span></p>
+<p>其中 <span class="math inline">\(a_P =
+\mathrm{Tr}(PM)/\mathrm{Tr}(P^2)=
+\mathrm{Tr}(PM)/2^n\)</span>（因每个泡利串平方为 <span
+class="math inline">\(I^{\otimes n}\)</span>，迹为 <span
+class="math inline">\(2^n\)</span>）。</p>
+<p>若 <span class="math inline">\(M=H\)</span>
+<strong>厄米</strong>，每个 <span
+class="math inline">\(P\in\mathcal{P}_n\)</span> 也
+<strong>厄米</strong>（张量积保持厄米），则 <span
+class="math inline">\(a_P = 2^{-n}\mathrm{Tr}(HP)\)</span> 为
+<strong>实数</strong>。即</p>
+<p><span class="math display">\[
+H = \sum_{P\in\mathcal{P}_n} a_P\,P,\quad a_P\in\mathbb{R}.
+\]</span></p>
+<p>这就是量子计算里把 <strong>哈密顿量写成泡利项之和</strong>
+的线性代数依据：不是额外假设，而是
+<strong>泡利串构成算符空间的正交基</strong>。</p>
+<hr />
+<p><strong>（3）小结</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>要点</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>为什么能展开？</td>
+<td><span class="math inline">\(4^n\)</span> 个泡利串在 HS
+内积下正交且非零范数，张成 <span
+class="math inline">\(M_{2^n}(\mathbb{C})\)</span>。</td>
+</tr>
+<tr>
+<td>为什么厄米对应实系数？</td>
+<td>每个泡利串厄米，<span class="math inline">\(\mathrm{Tr}(HP)\)</span>
+为实。</td>
+</tr>
+<tr>
+<td>与「张量积」的关系？</td>
+<td>每个基元本身就是
+<strong>单比特泡利的张量积</strong>，线性组合仍是「泡利串的叠加」。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="条目-3">条目 3</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>泡利展开会随着哈密顿算符变复杂而「指数」增加，尤其多电子体系；这种增加会体现在门电路变多。怎么解决这个问题？</p>
+<p><strong>回答：</strong></p>
+<p>先分清 <strong>两件事</strong>：<strong>(A)</strong> 形式上有多少个
+<strong>可能的</strong> 泡利串；<strong>(B)</strong> 你手头这个
+<strong>具体哈密顿量</strong> 实际出现多少 <strong>非零项</strong>，以及
+<strong>电路/测量</strong> 上怎么付代价。</p>
+<hr />
+<p><strong>（1）「指数」在哪里、哪里其实常常是多项式？</strong></p>
+<ul>
+<li><p><strong>全集</strong>：<span class="math inline">\(n\)</span>
+个量子比特上，不同的泡利串最多 <strong><span
+class="math inline">\(4^n\)</span></strong> 条——这是对
+<strong>全体</strong> <span class="math inline">\(2^n\times 2^n\)</span>
+矩阵作为线性空间维数 <span class="math inline">\((2^n)^2=4^n\)</span>
+的计数。若哈密顿量是 <strong>稠密、任意</strong>
+的，最坏情况确实可能需要 <strong><span
+class="math inline">\(\Theta(4^n)\)</span></strong> 项。</p></li>
+<li><p><strong>多电子量子化学里常用的模型</strong>（二次量子化 +
+给定单粒子基）：</p></li>
+</ul>
+<p><span class="math display">\[
+\hat{H} = E_0 + \sum_{pq} h_{pq}\,\hat{a}_p^\dagger \hat{a}_q +
+\frac{1}{2}\sum_{pqrs} h_{pqrs}\,\hat{a}_p^\dagger \hat{a}_q^\dagger
+\hat{a}_r \hat{a}_s.
+\]</span></p>
+<p>其中 <strong>非零</strong> <span
+class="math inline">\(h_{pq}\)</span>、<span
+class="math inline">\(h_{pqrs}\)</span> 的个数由
+<strong>积分稀疏性</strong> 决定；对固定基组，<strong>两体项规模大致是
+<span class="math inline">\(O(N^4)\)</span></strong>（<span
+class="math inline">\(N\)</span> 为自旋轨道数），<strong>不是</strong>
+<span class="math inline">\(4^N\)</span>。</p>
+<p>经 Jordan–Wigner、Bravyi–Kitaev
+等映射后，<strong>每一项费米子算符</strong>会变成
+<strong>若干条</strong> 泡利串的线性组合，但 <strong>总项数仍通常是
+<span class="math inline">\(N\)</span> 的多项式</strong>（常见量级 <span
+class="math inline">\(\sim O(N^4)\)</span>
+再乘上每个两体项映射出的常数个串）。</p>
+<p>所以：<strong>「理论上基有 <span class="math inline">\(4^n\)</span>
+维」≠「你的化学哈密顿量一定有 <span class="math inline">\(4^n\)</span>
+项」</strong>。多电子体系让人头疼的，更多是 <strong><span
+class="math inline">\(N\)</span> 增大时 <span
+class="math inline">\(O(N^4)\)</span> 仍爆炸</strong>，以及
+<strong>比特数 <span class="math inline">\(n\propto N\)</span></strong>
+带来的 <strong>深度、连通度、噪声</strong> 问题，而不一定是「纯 <span
+class="math inline">\(4^n\)</span> 项」。</p>
+<hr />
+<p><strong>（1′）为何两体项规模是 <span
+class="math inline">\(O(N^4)\)</span>，不是 <span
+class="math inline">\(4^N\)</span>？</strong></p>
+<ul>
+<li><p><strong><span class="math inline">\(N\)</span> 指什么：</strong>
+固定基组下 <strong>自旋轨道</strong>（单粒子模式）条数；下标 <span
+class="math inline">\(p,q,r,s\)</span> 各在 <span
+class="math inline">\(\{1,\ldots,N\}\)</span> 里取值。</p></li>
+<li><p><strong><span class="math inline">\(O(N^4)\)</span>
+从哪来：</strong> 两体部分是 <span class="math inline">\(\sum_{pqrs}
+h_{pqrs}\,\cdots\)</span> —— <strong>四个</strong> 求和下标，每个至多
+<strong><span class="math inline">\(N\)</span></strong> 种取值，故
+<strong>可能的 <span class="math inline">\((p,q,r,s)\)</span>
+组合</strong> 粗计 <strong><span class="math inline">\(N\times N\times
+N\times N\)</span></strong>。电子积分有 <strong>置换对称</strong>（如
+<span class="math inline">\((pq|rs)\)</span>
+的八重等价），<strong>独立非零</strong> 积分个数会乘
+<strong>常数因子</strong>（约 <span class="math inline">\(1/8\)</span>
+量级），但 <strong>随 <span class="math inline">\(N\)</span> 渐近仍是
+<span class="math inline">\(\Theta(N^4)\)</span></strong>：这是
+<strong>「四个指标、每个 <span class="math inline">\(\sim
+N\)</span>」</strong> 的组合计数，写作 <strong><span
+class="math inline">\(N\)</span> 的四次多项式</strong>。</p></li>
+<li><p><strong><span class="math inline">\(4^N\)</span>
+是什么、为何混不进去：</strong> <span class="math inline">\(4^N\)</span>
+随 <span class="math inline">\(N\)</span>
+<strong>指数</strong>增长。它对应的是 <strong>另一类对象</strong>，例如
+<strong><span class="math inline">\(n\)</span> 个量子比特</strong> 上
+<strong>全体泡利串</strong> 的个数 <strong><span
+class="math inline">\(4^n\)</span></strong>（条目 2–3：<span
+class="math inline">\((2^n)^2=4^n\)</span> 维算符空间），这里常
+<strong><span class="math inline">\(n\propto
+N\)</span></strong>，故也可写成 <strong><span
+class="math inline">\(4^{O(N)}\)</span></strong> 量级——但那是
+<strong>「任意算符按泡利基展开时，基向量有多少个」</strong>，<strong>不是</strong>
+「<strong>这一个</strong> 二次量子化哈密顿量里 <strong>有多少个非零
+<span class="math inline">\(h_{pqrs}\)</span></strong>」。后者由
+<strong>积分指标</strong> 决定，是 <strong><span
+class="math inline">\(O(N^4)\)</span></strong>。</p></li>
+<li><p><strong>记忆分辨：</strong> <strong>数积分项</strong> <span
+class="math inline">\(\Rightarrow\)</span> 看 <strong>有几个下标在 <span
+class="math inline">\(1\cdots N\)</span> 上跑</strong>（两体 <span
+class="math inline">\(\Rightarrow\)</span> 四个下标 <span
+class="math inline">\(\Rightarrow\)</span> <span
+class="math inline">\(N^4\)</span>）；<strong>数泡利基大小</strong>
+<span class="math inline">\(\Rightarrow\)</span> 每个比特 4 种字母 <span
+class="math inline">\(\Rightarrow\)</span> <strong><span
+class="math inline">\(4^n\)</span></strong>。<strong>底数是 <span
+class="math inline">\(N\)</span>、指数是 4</strong>（多项式）与
+<strong>底数是 4、指数是 <span class="math inline">\(n\sim
+N\)</span></strong>（指数）不要对调。</p></li>
+</ul>
+<hr />
+<p><strong>（2）代价怎么体现在电路上？</strong></p>
+<p>常见有两条（可叠加）：</p>
+<ol type="1">
+<li><p><strong>估计能量（VQE 等）</strong>：要算 <span
+class="math inline">\(\langle H\rangle = \sum_P a_P \langle
+P\rangle\)</span>。每个 <span class="math inline">\(\langle
+P\rangle\)</span> 要在 <strong>某组旋转 + 计算基测量</strong>
+下得到；项很多 ⇒ <strong>测量次数 / 电路套数</strong>
+上升（不一定每项都单独一条极深线路，见下文 <strong>Pauli
+分组</strong>）。</p></li>
+<li><p><strong>时间演化 / 相位估计</strong>：把 <span
+class="math inline">\(e^{-iHt}\)</span> 分解成电路（乘积公式、LCU
+等），<strong>项数与范数</strong> 进
+<strong>深度或随机采样次数</strong>。</p></li>
+</ol>
+<p>因此你的直觉对：<strong>体系变大 ⇒ 项变多 / 比特变多 ⇒
+实际量子资源（深度、测量、样本）恶化</strong>。只是恶化率对
+<strong>标准电子哈密顿量</strong> 往往是 <strong><span
+class="math inline">\(N\)</span>
+的多项式级别</strong>，外加常数因子与实现细节。</p>
+<hr />
+<p><strong>（3）「怎么解决」——没有单一魔法，是分层缓解</strong></p>
+<p><strong>A. 从源头减少 <span class="math inline">\(N\)</span>
+与有效项数（化学侧）</strong></p>
+<ul>
+<li><strong>活性空间（CAS
+等）</strong>：只保留关键轨道，<strong>直接降低 <span
+class="math inline">\(N\)</span> 与 <span
+class="math inline">\(n\)</span></strong>。<br />
+</li>
+<li><strong>冻结核 / 截断虚轨道 / 积分阈值</strong>：让大量 <span
+class="math inline">\(h_{pqrs}\)</span> 为 0
+或可忽略，<strong>减少非零项</strong>。<br />
+</li>
+<li><strong>低秩、张量分解、密度拟合</strong>：在经典预处理阶段压缩两体部分，再映射到量子比特（减少有效相互作用项）。</li>
+</ul>
+<p><strong>B. 映射与对称性（量子比特侧）</strong></p>
+<ul>
+<li><strong>Bravyi–Kitaev</strong> 等：在同样费米子算符下，有时比 JW
+<strong>更浅的局域性</strong>（依问题而异）。<br />
+</li>
+<li><strong>Tapering / 对称性约化</strong>：利用粒子数、自旋等对称性
+<strong>减掉若干比特</strong> 或 <strong>合并等价自由度</strong>。<br />
+</li>
+<li><strong>Contextual
+subspace、子空间方法</strong>：在更小的有效空间里构造哈密顿量。</li>
+</ul>
+<p><strong>C. 测量与估计（尽量不「一项一电路」）</strong></p>
+<ul>
+<li><strong>Pauli 分组</strong>：将 <strong>两两对易</strong>
+的泡利串放在
+<strong>同一次测量</strong>（同一基旋转）里同时估，<strong>减少测量轮数</strong>。<br />
+</li>
+<li><strong>经典阴影（classical shadows）</strong>、<strong>derandomized
+/ adaptive
+测量</strong>：用更聪明的采样策略压低样本复杂度（各有假设与开销）。</li>
+</ul>
+<p><strong>D. 算法路线</strong></p>
+<ul>
+<li><strong>ADAPT-VQE、启发式 ansatz</strong>：用 <strong>更少参数 /
+更有针对性的幺正</strong>，避免盲目加深。<br />
+</li>
+<li><strong>量子子空间 /
+压缩哈密顿量</strong>：在固定小子空间上对角化，降低有效规模。<br />
+</li>
+<li><strong>以经典为主、量子为辅</strong>：对某些块用 CCSD、DMRG
+等，量子只处理 <strong>硬核关联子问题</strong>（混合方案）。</li>
+</ul>
+<p><strong>E. 若关心的是演化而非 VQE</strong></p>
+<ul>
+<li><strong>qDRIFT、随机编译</strong>：用随机化减轻对
+<strong>细项数</strong> 的线性依赖（换成样本数与精度权衡）。<br />
+</li>
+<li><strong>块编码、QSVT</strong> 等：在特定设定下改善
+<strong>查询复杂度</strong>（实现门数仍要具体分析）。</li>
+</ul>
+<hr />
+<p><strong>（4）一句话收束</strong></p>
+<p><strong>不能指望</strong> 对任意大分子仍用「全空间 + 全项 +
+朴素单项测量」而资源不爆；工程上是用 <strong>化学截断 + 对称性约化 +
+测量/算法设计</strong> 把
+<strong>比特数、项数、电路深度、样本数</strong>
+一起压下来。对标准二次量子化电子哈密顿量，泡利项数通常是 <strong><span
+class="math inline">\(O(N^4)\)</span> 量级</strong>，首要矛盾往往是
+<strong>活性空间选多大</strong> 与
+<strong>测量/编译如何优化</strong>，而不是误以为一定是 <strong><span
+class="math inline">\(4^n\)</span> 项全出现</strong>。</p>
+<hr />
+<h3 id="条目-4">条目 4</h3>
+<p><strong>日期：</strong> 2026-04-02</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1 <code>01_量子计算基础与概念映射.ipynb</code>
+门集表）<strong>T（π/8）</strong> 一行里写「<span
+class="math inline">\(R_z(\pi/2)\)</span>
+的<strong>固定角</strong>」——这句话怎么理解？</p>
+<p><strong>回答：</strong></p>
+<p>分三层：<strong>「固定角」指什么</strong>、<strong>和 <span
+class="math inline">\(R_z(\pi/2)\)</span>
+的准确关系</strong>、<strong>为何又叫 π/8 门</strong>。</p>
+<hr />
+<p><strong>（1）「固定角」相对谁而言？</strong></p>
+<p>在 <strong>NISQ / VQE</strong> 语境里，常见 <strong>连续可调</strong>
+的单比特门 <span class="math inline">\(R_z(\theta)\)</span>（<span
+class="math inline">\(\theta\)</span> 是优化变量）。</p>
+<p><strong>T 门</strong>则是 <strong>角度写死</strong> 的离散门：</p>
+<p><span class="math display">\[
+T = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; e^{\mathrm{i}\pi/4}
+\end{pmatrix},
+\]</span></p>
+<p>不能像 VQE
+那样把相位当成连续参数扫。<strong>容错量子计算</strong>里任意单比特旋转常
+<strong>编译成 Clifford + T</strong>；T 的个数（<strong>T 深度 / T
+计数</strong>）是资源度量之一。这里说的 <strong>固定角</strong>，就是指
+<strong>非变分的、标准离散 Z 型相位门</strong>。</p>
+<hr />
+<p><strong>（2）与表中 <span class="math inline">\(R_z(\pi/2)\)</span>
+的对应（注意：不是矩阵逐元相等）</strong></p>
+<p>该笔记本采用的约定是</p>
+<p><span class="math display">\[
+R_z(\theta) = \begin{pmatrix} e^{-\mathrm{i}\theta/2} &amp; 0 \\ 0 &amp;
+e^{\mathrm{i}\theta/2} \end{pmatrix}.
+\]</span></p>
+<p>于是 <span
+class="math inline">\(R_z(\pi/2)=\mathrm{diag}(e^{-\mathrm{i}\pi/4},\,e^{\mathrm{i}\pi/4})\)</span>，与
+<strong>S 门</strong> <span
+class="math inline">\(S=\mathrm{diag}(1,\mathrm{i})\)</span>
+<strong>只差一个整体相位因子</strong> <span
+class="math inline">\(e^{\mathrm{i}\pi/4}\)</span>（单比特上即全局相位）。</p>
+<p>另一方面 <strong><span
+class="math inline">\(T^2=S\)</span></strong>（同样可差整体相位）。因此：</p>
+<ul>
+<li><strong><span class="math inline">\(R_z(\pi/2)\)</span></strong>
+在本表定义下描述的是 <strong>「相对相位转过 <span
+class="math inline">\(\pi/2\)</span>」那一档</strong> 的 Z 型旋转，与
+<strong>Clifford 的 S</strong> 同级；<br />
+</li>
+<li><strong>T</strong> 是这一档的 <strong>平方根</strong>：再作用一次 T
+才到 S / <span class="math inline">\(R_z(\pi/2)\)</span> 那一级。</li>
+</ul>
+<p>表上写「<span class="math inline">\(R_z(\pi/2)\)</span> 的固定角」是
+<strong>简略说法</strong>：<strong>不是</strong> <span
+class="math inline">\(T=R_z(\pi/2)\)</span>；而是 <strong>T 属于与 <span
+class="math inline">\(R_z(\pi/2)\)</span>（即 S 档）同一族 Z
+旋转的离散序列里、角度取在「一半」的那一步</strong>，且
+<strong>角度不可连续调</strong>。</p>
+<hr />
+<p><strong>（3）为何文献里常叫 T 为「<span
+class="math inline">\(\pi/8\)</span> 门」？</strong></p>
+<p>一种常见说法是：在 <strong>Bloch 球绕 <span
+class="math inline">\(z\)</span> 轴</strong> 的记法里，有的教材把
+<strong>旋转算符</strong> 写成 <span
+class="math inline">\(e^{-\mathrm{i}\alpha Z/2}\)</span>，<strong><span
+class="math inline">\(\alpha=\pi/4\)</span></strong> 时对应
+<strong><span class="math inline">\(\vert 1\rangle\)</span>
+上多出的相位是 <span
+class="math inline">\(\pi/4\)</span></strong>（与上面的 <span
+class="math inline">\(T\)</span> 一致），并把与 <strong><span
+class="math inline">\(\alpha/2=\pi/8\)</span></strong> 相关的因子称作
+<strong><span class="math inline">\(\pi/8\)</span>
+门</strong>（<strong>命名随定义差一个「半角」因子</strong>，不同书符号不完全统一）。与
+<strong>VQE 表里</strong> 的 <span
+class="math inline">\(R_z(\theta)=\exp(-\mathrm{i}\theta Z/2)\)</span>
+对照时，以 <strong>矩阵对角元</strong> 为准最不容易混。</p>
+<hr />
+<p><strong>一句话：</strong> <strong>固定角</strong> =
+离散、非变分的标准相位门；<strong>与 <span
+class="math inline">\(R_z(\pi/2)\)</span> 的关系</strong> = 本表下 <span
+class="math inline">\(R_z(\pi/2)\)</span> 与 <strong>S</strong>
+同档，<strong><span class="math inline">\(T^2=S\)</span></strong>，故 T
+是 <strong>S / <span class="math inline">\(R_z(\pi/2)\)</span>
+那一级的平方根</strong>；<strong>π/8</strong> = 文献对 <strong><span
+class="math inline">\(\pi/4\)</span> 相位门</strong>
+的俗称，读不同定义时注意 <strong>半角</strong>。</p>
+<hr />
+<h3 id="条目-5">条目 5</h3>
+<p><strong>日期：</strong> 2026-04-02</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1 <code>01_量子计算基础与概念映射.ipynb</code>）CNOT：控制为
+<span class="math inline">\(\lvert1\rangle\)</span> 时对目标施加
+<strong>X</strong>，控制为 <span
+class="math inline">\(\lvert0\rangle\)</span> 时目标不变；可生成
+<strong>Bell 态</strong>。<strong>Bell 态和 H 门有什么关系？</strong>
+请仔细说明。</p>
+<p><strong>回答：</strong></p>
+<p><strong>结论先说清：</strong> 常用线路 <strong><span
+class="math inline">\(H\)</span> 打在控制比特上，再接
+CNOT（控制→目标）</strong>，从 <span
+class="math inline">\(\lvert00\rangle\)</span> 得到 <strong>最大纠缠的
+Bell 态</strong> <span
+class="math inline">\(\lvert\Phi^+\rangle=\frac{1}{\sqrt{2}}(\lvert00\rangle+\lvert11\rangle)\)</span>。<strong>H
+负责把控制比特放进 <span
+class="math inline">\(\lvert0\rangle,\lvert1\rangle\)</span>
+的等权叠加；CNOT 把这种「控制取 0 或 1
+的不确定性」翻译成两比特的量子关联。</strong> 仅有 H 或仅有
+CNOT（从乘积初态出发）通常<strong>还不够</strong>得到 Bell 态。</p>
+<hr />
+<p><strong>（1）标准构造逐步算</strong></p>
+<p>初态 <span
+class="math inline">\(\lvert\psi_0\rangle=\lvert00\rangle\)</span>（控制=第一比特，目标=第二比特，按
+<span class="math inline">\(\lvert q_0 q_1\rangle\)</span> 顺序）。</p>
+<ol type="1">
+<li><strong><span class="math inline">\(H\otimes I\)</span></strong>
+只作用在控制（第一比特）：</li>
+</ol>
+<p><span class="math display">\[
+\lvert\psi_1\rangle = (H\otimes I)\lvert00\rangle =
+\frac{1}{\sqrt{2}}(\lvert0\rangle+\lvert1\rangle)\otimes\lvert0\rangle =
+\frac{1}{\sqrt{2}}(\lvert00\rangle+\lvert10\rangle).
+\]</span></p>
+<p>此时态仍是 <strong>乘积态</strong>（可写成「第一比特 ⊗
+第二比特」），<strong>纠缠度仍为 0</strong>。</p>
+<ol start="2" type="1">
+<li><strong>CNOT</strong>（控制第一比特，目标第二比特）：
+<ul>
+<li>支路 <span class="math inline">\(\lvert00\rangle\)</span>：控制为
+<span class="math inline">\(\lvert0\rangle\)</span>，目标
+<strong>不</strong> 翻，得 <span
+class="math inline">\(\lvert00\rangle\)</span>；<br />
+</li>
+<li>支路 <span class="math inline">\(\lvert10\rangle\)</span>：控制为
+<span class="math inline">\(\lvert1\rangle\)</span>，目标
+<strong>X</strong>，<span
+class="math inline">\(\lvert10\rangle\to\lvert11\rangle\)</span>。</li>
+</ul></li>
+</ol>
+<p><span class="math display">\[
+\lvert\psi_2\rangle = \mathrm{CNOT}\,\lvert\psi_1\rangle =
+\frac{1}{\sqrt{2}}(\lvert00\rangle+\lvert11\rangle)=\lvert\Phi^+\rangle.
+\]</span></p>
+<p>可以验证 <strong>不存在</strong> 单比特态 <span
+class="math inline">\(\lvert\phi\rangle,\lvert\chi\rangle\)</span> 使得
+<span
+class="math inline">\(\lvert\Phi^+\rangle=\lvert\phi\rangle\otimes\lvert\chi\rangle\)</span>，故为
+<strong>纠缠态</strong>；对两比特而言与 <strong>完全混合约化态</strong>
+对应的最大纠缠（<strong>Concurrence = 1</strong> 等）。</p>
+<hr />
+<p><strong>（2）H 和 CNOT 各自缺了会怎样？</strong></p>
+<ul>
+<li><strong>只有 CNOT、初态 <span
+class="math inline">\(\lvert00\rangle\)</span>：</strong> 控制恒为 <span
+class="math inline">\(\lvert0\rangle\)</span>，目标永不翻，<strong><span
+class="math inline">\(\lvert00\rangle\to\lvert00\rangle\)</span></strong>，仍是平凡乘积态。<br />
+</li>
+<li><strong>只有 H、不要 CNOT：</strong> <span
+class="math inline">\(H\otimes I\)</span> 作用在 <span
+class="math inline">\(\lvert00\rangle\)</span> 上仍是
+<strong>乘积态</strong> <span
+class="math inline">\(\frac{1}{\sqrt{2}}(\lvert0\rangle+\lvert1\rangle)\otimes\lvert0\rangle\)</span>，<strong>没有两比特关联</strong>。<br />
+</li>
+<li><strong>数学原因：</strong> 单个双比特门若形如 <strong><span
+class="math inline">\(U\otimes I\)</span></strong> 或 <strong><span
+class="math inline">\(I\otimes V\)</span></strong>（可分酉），把
+<strong>乘积态</strong> 变成的仍是 <strong>乘积态</strong>。<strong>CNOT
+不可写成</strong> <span class="math inline">\(U\otimes V\)</span>，才能
+<strong>从某个乘积态</strong> 造出纠缠；但需要
+<strong>合适的乘积态</strong> 作为输入——这里正是 <strong>H
+在控制上造出的 <span
+class="math inline">\(\frac{1}{\sqrt{2}}(\lvert00\rangle+\lvert10\rangle)\)</span></strong>。</li>
+</ul>
+<hr />
+<p><strong>（3）直观图像</strong></p>
+<ul>
+<li><strong>H</strong>：把控制从「确定是 <span
+class="math inline">\(\lvert0\rangle\)</span>」变成「<strong>同时参与</strong>
+<span class="math inline">\(\lvert0\rangle\)</span> 与 <span
+class="math inline">\(\lvert1\rangle\)</span>
+两条支路」，且振幅相等。<br />
+</li>
+<li><strong>CNOT</strong>：<strong>条件翻转</strong>——「若控制是 <span
+class="math inline">\(\lvert1\rangle\)</span> 则目标翻」。于是在 <span
+class="math inline">\(\lvert1\rangle\)</span> 支路上 <span
+class="math inline">\(\lvert0\rangle\to\lvert1\rangle\)</span>，与 <span
+class="math inline">\(\lvert0\rangle\)</span> 支路的「目标仍为 <span
+class="math inline">\(\lvert0\rangle\)</span>」<strong>锁在一起</strong>，两比特
+<strong>只能一起描述</strong>，不能拆开成各自一个态矢量。</li>
+</ul>
+<hr />
+<p><strong>（4）其它 Bell 态与 H / CNOT</strong></p>
+<p>四个标准 Bell 基可在 <strong><span
+class="math inline">\(\lvert00\rangle\)</span> 上先做单比特幺正再
+CNOT</strong> 得到，例如：</p>
+<ul>
+<li><span
+class="math inline">\(\lvert\Phi^-\rangle=\frac{1}{\sqrt{2}}(\lvert00\rangle-\lvert11\rangle)\)</span>：常在控制上加
+<strong><span
+class="math inline">\(Z\)</span></strong>（相对相位）后再接同样
+<strong><span class="math inline">\(H\)</span>+CNOT</strong>。<br />
+</li>
+<li><span
+class="math inline">\(\lvert\Psi^\pm\rangle=\frac{1}{\sqrt{2}}(\lvert01\rangle\pm\lvert10\rangle)\)</span>：常把初态或目标侧换成
+<strong><span class="math inline">\(X\)</span></strong> 等再
+<strong><span class="math inline">\(H\)</span>+CNOT</strong>。</li>
+</ul>
+<p><strong>H + CNOT</strong> 仍是核心
+<strong>纠缠子线路</strong>；差别在 <strong>额外的 Pauli
+相位/比特翻转</strong>。</p>
+<hr />
+<p><strong>一句话：</strong> <strong>H</strong>
+并不「直接等于纠缠」，而是 <strong>在控制线上制备 <span
+class="math inline">\(\lvert0\rangle,\lvert1\rangle\)</span>
+的叠加</strong>；<strong>CNOT</strong> 利用 <strong>控制为 1
+才翻目标</strong> 把两条支路 <strong>缝成</strong> <span
+class="math inline">\(\frac{1}{\sqrt{2}}(\lvert00\rangle+\lvert11\rangle)\)</span>。<strong>Bell
+态 = 该组合的标准输出</strong>，故教材把 <strong>H（控制）+
+CNOT</strong> 称为多比特线路里常用的 <strong>纠缠源</strong>。</p>
+<hr />
+<h3 id="条目-6">条目 6</h3>
+<p><strong>日期：</strong> 2026-04-02</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1 <code>01_量子计算基础与概念映射.ipynb</code>
+§3.5）<strong>Gottesman–Knill</strong>：只有 Clifford +
+计算基测量的线路，经典可高效模拟 → 单靠 Clifford
+不够实现任意指数加速。<strong>Clifford + T</strong>：加上 T
+后可近似通用量子计算；容错里 <strong>T 计数</strong>
+由此而来。请详细解释。</p>
+<p><strong>回答：</strong></p>
+<p>先对齐 <strong>Clifford</strong> 是什么，再讲
+<strong>Gottesman–Knill</strong> 到底「模拟了什么」，最后说明
+<strong>为何要 +T</strong> 以及 <strong>T 计数</strong>
+在容错里的含义。</p>
+<hr />
+<p><strong>（1）Clifford 门（与笔记本「泡利 →
+Clifford」一脉）</strong></p>
+<p><span class="math inline">\(n\)</span> 比特 <strong>Pauli 群</strong>
+<span class="math inline">\(\mathcal{P}_n\)</span> 由 <strong>Pauli
+串</strong> <span class="math inline">\(X\otimes
+Z\otimes\cdots\)</span>（含相位）生成。幺正门 <span
+class="math inline">\(U\)</span> 若对 <strong>任意</strong> <span
+class="math inline">\(P\in\mathcal{P}_n\)</span> 满足</p>
+<p><span class="math display">\[
+U P U^\dagger = \pm \mathrm{i}^k\, Q,\quad Q\in\mathcal{P}_n,
+\]</span></p>
+<p>即 <strong>共轭下仍把 Pauli 映成 Pauli</strong>（允许整体相位），则
+<span class="math inline">\(U\)</span> 属于 <strong>Clifford
+群</strong>。</p>
+<p><strong>常用生成元</strong>（与教材一致）：单比特
+<strong>H、S</strong>（及 Pauli <strong>X,Y,Z</strong>）与双比特
+<strong>CNOT</strong> 即可生成（在等价意义下）整个 Clifford 群。</p>
+<p><strong>直觉：</strong> Clifford 在 <strong>Pauli
+观测量的共轭</strong> 下行为特别规整，因而可用
+<strong>稳定子形式体系（stabilizer formalism）</strong>
+紧凑描述一大类态与演化。</p>
+<hr />
+<p><strong>（2）Gottesman–Knill 定理在说什么？</strong></p>
+<p><strong>定理（常用表述）：</strong> 若量子线路 <strong>仅由 Clifford
+门</strong> 组成，初态为 <strong>计算基态</strong>（如 <span
+class="math inline">\(\lvert0\rangle^{\otimes n}\)</span>），末端对
+<strong>若干量子比特做计算基（Z）测量</strong>（可含经典随测量结果
+<strong>条件</strong> 再做的 <strong>后续 Clifford</strong>，即
+<strong>适应性 Clifford 线路</strong>
+的适当版本仍常被包含在可模拟范围内——细节依模型，本科阶段可记主干结论），则
+<strong>在经典计算机上可在多项式时间内</strong> 模拟
+<strong>测量结果的采样分布</strong>（以及许多相关的 Pauli
+期望值、稳定子更新等）。</p>
+<p><strong>要点不是</strong>「Clifford 线路没有纠缠」——<strong>CNOT +
+H</strong> 可以产生 <strong>Bell 态</strong>
+等高度纠缠；<strong>要点是</strong> 这类纠缠落在
+<strong>稳定子态（stabilizer state）</strong> 子空间里，其结构允许
+<strong>经典跟踪</strong>（稳定子生成元随门
+<strong>共轭更新</strong>，规模 <span
+class="math inline">\(\mathcal{O}(n)\)</span> 比特描述）。</p>
+<p>因此：<strong>仅 Clifford + 计算基测量</strong>
+的模型，<strong>不包含</strong> 已知的 <strong>BQP-完全</strong>
+那类「全量子」难度；教材里写 <strong>单靠 Clifford
+不够实现任意指数加速</strong>，指的是：<strong>若你的算法世界只有
+Clifford 线路这一种量子资源，经典端已有高效模拟途径</strong>，便
+<strong>不能</strong> 指望它像含 <strong>非 Clifford</strong>
+的通用量子线路那样，在复杂度假设下形成
+<strong>对经典世界的根本性分离</strong>（与 Shor、某些采样问题等需
+<strong>非 Clifford</strong> 的图景相对照）。</p>
+<p><strong>措辞注意：</strong>
+「指数加速」在文献里有多层含义；此处与笔记本一致，强调 <strong>Clifford
+子集的可经典模拟性</strong> 与 <strong>通用量子计算</strong> 之间的
+<strong>能力鸿沟</strong>。</p>
+<hr />
+<p><strong>（3）为何要 Clifford + T？「近似通用」</strong></p>
+<p><strong>Clifford 门单独不构成通用量子门集</strong>：不能仅靠 Clifford
+<strong>任意逼近</strong> 任意 <span class="math inline">\(n\)</span>
+比特酉（例如 <strong>T 门</strong> 本身 <strong>不是</strong>
+Clifford）。</p>
+<p><strong>Solovay–Kitaev 定理</strong>（思想）：给定一个
+<strong>稠密</strong>
+的由某有限门集生成的子群，任意目标单比特酉可用该门集 <strong><span
+class="math inline">\(\varepsilon\)</span>-逼近</strong>；<strong>Clifford
++ T</strong> 是实践中常用的 <strong>有限</strong>
+集合，<strong>T</strong>（或等价地，任一 <strong>非 Clifford</strong>
+单比特门）提供 <strong>走出稳定子世界</strong>
+的「缺口」，使得生成的单比特（进而多比特）幺正
+<strong>稠密</strong>，从而 <strong>近似通用</strong>（任意线路可用
+Clifford+T 以可控误差逼近）。</p>
+<p>因此笔记本写：<strong>加上 T（或任一非 Clifford
+单比特门）后，可近似通用</strong>——这是 <strong>容错与编译</strong>
+里把连续 <span class="math inline">\(R_z(\theta)\)</span> 等
+<strong>分解为 Clifford + T</strong> 的理论背景。</p>
+<hr />
+<p><strong>（4）容错里的 T 计数 / T 深度</strong></p>
+<p>在 <strong>容错量子计算</strong> 的标准图景里：<strong>Clifford
+门</strong>（H、S、CNOT 等）常可用 <strong>容错 Clifford 子程序</strong>
+相对「便宜」地实现；<strong>T 门</strong>（或非 Clifford）往往要通过
+<strong>magic state distillation</strong> 等 <strong>额外资源</strong>
+实现，<strong>空间、时间、噪声预算</strong> 常 <strong>主要由 T
+的个数与并行深度主导</strong>。</p>
+<p>因此论文与工程里常报告 <strong>T 深度（T-depth）</strong>、<strong>T
+计数（T-count）</strong> 作为 <strong>线路代价</strong>
+的指标——这正是笔记本「<strong>T 计数</strong>
+的来源」一句的含义：<strong>通用性来自非 Clifford（如
+T），而代价分析盯住 T</strong>。</p>
+<hr />
+<p><strong>（5）和 NISQ / VQE 的对比（笔记本「两套语言」）</strong></p>
+<p><strong>NISQ / VQE</strong> 常直接写连续 <strong><span
+class="math inline">\(R_y(\theta),
+R_z(\theta)\)</span></strong>；<strong>容错线路</strong> 则把同一幺正
+<strong>编译</strong> 成 <strong>Clifford + T</strong> 序列，讨论
+<strong>T 计数</strong>。<strong>同一条物理算法</strong>，只是
+<strong>离散化与计费单位</strong> 不同；<strong>Gottesman–Knill</strong>
+与 <strong>Clifford+T</strong> 主要在
+<strong>容错、复杂性、模拟边界</strong> 语境下最重要。</p>
+<hr />
+<p><strong>一句话：</strong> <strong>Gottesman–Knill</strong> =
+Clifford（+适应测量）线路可在经典上 <strong>多项式模拟</strong>，故
+<strong>单靠 Clifford</strong>
+不能支撑「全量子」意义上的任意硬分离；<strong>+T</strong> 才
+<strong>近似通用</strong>；<strong>T 计数</strong> = 容错实现里
+<strong>非 Clifford 成本</strong> 的常用度量。</p>
+<hr />
+<h3 id="条目-7">条目 7</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>弦算符和泡利串的关系？</p>
+<p><strong>回答：</strong></p>
+<p>以下与 Phase1 <code>01_量子计算基础与概念映射.ipynb</code> 中
+<strong>Jordan–Wigner（JW）</strong>
+一小节的用语一致：<strong>弦算符</strong>即 JW
+里为保证费米统计而出现的那一串 <strong><span
+class="math inline">\(Z\)</span></strong>；<strong>泡利串</strong>是
+<span class="math inline">\(I,X,Y,Z\)</span>
+的张量积。二者关系见下；文末附带 <strong>产生/湮灭算符</strong>
+与泡利串的对应，便于和哈密顿量映射衔接。</p>
+<hr />
+<p><strong>（1）弦算符是什么？</strong></p>
+<p>在 JW 映射里，第 <span class="math inline">\(j\)</span>
+个模式的产生算符写成</p>
+<p><span class="math display">\[
+\hat{a}_j^\dagger = \frac{1}{2}(X_j - iY_j)\otimes
+Z_{j-1}\otimes\cdots\otimes Z_0
+\]</span></p>
+<p>（湮灭算符 <span class="math inline">\(\hat{a}_j\)</span>
+为相应厄米共轭形式。）</p>
+<p>其中 <strong>前缀</strong></p>
+<p><span class="math display">\[
+Z_{j-1}\otimes\cdots\otimes Z_0
+\]</span></p>
+<p>（在有的排序约定里写在 <span
+class="math inline">\((X_j-iY_j)/2\)</span> 的另一侧，本质相同）就叫
+<strong>弦算符</strong>：一串作用在 <strong>更低指标比特</strong> 上的
+<strong><span
+class="math inline">\(Z\)</span></strong>，像一条「尾巴」。</p>
+<hr />
+<p><strong>（2）和泡利串的关系：弦算符本身就是泡利串的一部分</strong></p>
+<ul>
+<li><strong>泡利串</strong>（Pauli string）：<span
+class="math inline">\(n\)</span> 个比特上 <span
+class="math inline">\(I,X,Y,Z\)</span> 的张量积，例如 <span
+class="math inline">\(Z_0 Z_2 X_4\)</span>（省略 <span
+class="math inline">\(\otimes\)</span> 记号）。<br />
+</li>
+<li><strong>弦算符</strong>在 JW 里 <strong>不是</strong>
+另一种矩阵代数对象，它就是 <strong>只含 <span
+class="math inline">\(Z\)</span>（以及其余位置 <span
+class="math inline">\(I\)</span>）</strong> 的那一段张量积。</li>
+</ul>
+<p>因此：<strong>整个</strong> <span
+class="math inline">\(\hat{a}_j^\dagger\)</span>（或 <span
+class="math inline">\(\hat{a}_j\)</span>）在量子比特上
+<strong>不是</strong> 单条泡利串——因为 <span
+class="math inline">\((X_j-iY_j)/2\)</span> 拆开后涉及 <strong><span
+class="math inline">\(X_j\)</span> 与 <span
+class="math inline">\(Y_j\)</span></strong>——但它是
+<strong>少数几条泡利串的线性组合</strong>；而
+<strong>反对易结构</strong>所依赖的
+<strong>相位/符号</strong>，正是由这段 <strong><span
+class="math inline">\(Z\)</span> 弦</strong> 与前面的 <strong><span
+class="math inline">\(X,Y\)</span></strong>
+按泡利乘法规则乘出来保证的。</p>
+<p><strong>一句话</strong>：弦算符 = JW 里为保证费米统计而配的
+<strong><span class="math inline">\(Z\)</span>
+型泡利子串</strong>；<strong>完整的费米子算符</strong> = <strong>局域的
+<span class="math inline">\(X/Y\)</span>（及组合）</strong> ⊗
+<strong>这条 <span class="math inline">\(Z\)</span>
+弦</strong>（再叠加系数）。</p>
+<hr />
+<p><strong>（3）延伸：产生/湮灭算符与泡利串</strong></p>
+<p><span class="math inline">\(\hat{a}_p^\dagger,\hat{a}_q\)</span>
+等本身不是泡利串；经 JW（或 Bravyi–Kitaev
+等）后，<strong>每个</strong>费米子单项式变成
+<strong>若干泡利串的线性组合</strong>（其中含 <strong>弦算符</strong>
+对应的 <span class="math inline">\(Z\)</span> 段）。哈密顿量里 <span
+class="math inline">\(\hat{a}^\dagger\hat{a}\)</span>、<span
+class="math inline">\(\hat{a}^\dagger\hat{a}^\dagger\hat{a}\hat{a}\)</span>
+等乘开、合并后，最终得到程序里的 <strong><code>SparsePauliOp</code>
+那种「很多泡利串 + 实系数」</strong>。</p>
+<hr />
+<p><strong>（4）小结</strong></p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>对象</th>
+<th>与泡利串的关系</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>弦算符</strong>（JW）</td>
+<td><strong><span class="math inline">\(Z\)</span>
+的张量积段</strong>，是某条（或多项展开里共同的）<strong>泡利子串</strong>。</td>
+</tr>
+<tr>
+<td><strong><span
+class="math inline">\(\hat{a}_j^\dagger,\hat{a}_j\)</span></strong></td>
+<td>一般是 <strong>多条</strong> 泡利串的 <strong>线性组合</strong>（含
+<span class="math inline">\(X_j,Y_j\)</span> 与 <span
+class="math inline">\(Z\)</span> 弦）。</td>
+</tr>
+<tr>
+<td><strong>电子哈密顿量 <span
+class="math inline">\(\hat{H}\)</span></strong></td>
+<td>费米子多项式 <span class="math inline">\(\to\)</span>
+<strong>许多泡利串之和</strong>（条目 2、3 讨论的分解）。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="条目-8">条目 8</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>（<code>01_量子计算基础与概念映射.ipynb</code>）<code>return jordan_wigner_creation(j, n_qubits).conj().T</code>
+里 <code>.conj().T</code> 是什么意思？</p>
+<p><strong>回答：</strong></p>
+<p>在 NumPy 里，对矩阵 <code>A</code>：</p>
+<ul>
+<li><strong><code>A.conj()</code></strong>：对每个元素取
+<strong>复共轭</strong> <span
+class="math inline">\(\overline{A_{ij}}\)</span>。<br />
+</li>
+<li><strong><code>.T</code></strong>：<strong>转置</strong>，<span
+class="math inline">\((A^{\mathsf T})_{ij}=A_{ji}\)</span>。</li>
+</ul>
+<p>先后做 <strong>共轭再转置</strong>，得到的就是数学上的
+<strong>厄米共轭（伴随）</strong></p>
+<p><span class="math display">\[
+A^\dagger = (A^{\mathsf T})^\ast,
+\]</span></p>
+<p>在代码里常写成 <strong><code>A.conj().T</code></strong>（与
+<code>np.conjugate(A).T</code> 同义）。</p>
+<hr />
+<p><strong>为什么湮灭算符要这么写？</strong></p>
+<p>费米子代数里 <strong>湮灭算符</strong> 与 <strong>产生算符</strong>
+互为 <strong>厄米共轭</strong>：</p>
+<p><span class="math display">\[
+\hat{a}_j = \bigl(\hat{a}_j^\dagger\bigr)^\dagger.
+\]</span></p>
+<p><code>jordan_wigner_creation</code> 返回的是 <strong><span
+class="math inline">\(\hat{a}_j^\dagger\)</span></strong> 在计算基下的
+<strong>矩阵</strong>。矩阵表示下，伴随就是
+<strong><code>.conj().T</code></strong>，所以</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jordan_wigner_annihilation(j, n_qubits):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jordan_wigner_creation(j, n_qubits).conj().T</span></code></pre></div>
+<p>就是在实现 <strong><span class="math inline">\(\hat{a}_j =
+(\hat{a}_j^\dagger)^\dagger\)</span></strong>，无需把 JW
+公式再抄一遍。</p>
+<hr />
+<p><strong>小注：</strong> 若矩阵全是实数，<code>.conj()</code>
+不变，<code>.conj().T</code> 等价于只 <strong>转置</strong>；但一般 JW
+里会出现 <strong><span class="math inline">\(i\)</span></strong>（如
+<span class="math inline">\(X-iY\)</span>），所以保留
+<strong><code>.conj().T</code></strong> 才始终正确。</p>
+<hr />
+<h3 id="条目-9">条目 9</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>（<code>01_量子计算基础与概念映射.ipynb</code> 中
+<code>decompose_to_pauli</code>）为什么
+<code>abs(coeff) &gt; 1e-12</code> 就和「厄米矩阵系数为实数」有关？</p>
+<p><strong>回答：</strong></p>
+<p><strong>没有因果关系</strong>——这两件事在代码里写在相邻行，但含义不同，容易读成一句因果。</p>
+<hr />
+<p><strong>（1）系数「应该是实数」来自哪里？</strong></p>
+<p><span class="math inline">\(H\)</span> 与泡利矩阵 <span
+class="math inline">\(P\in\{I,X,Y,Z\}\)</span> 都是
+<strong>厄米</strong> 的。</p>
+<p><span class="math display">\[
+c_P = \frac{1}{2}\mathrm{Tr}(PH)
+\]</span></p>
+<p>可以证明 <span class="math inline">\(\mathrm{Tr}(PH)\)</span> 为
+<strong>实数</strong>（用 <span
+class="math inline">\(\mathrm{Tr}(A^\dagger)=\overline{\mathrm{Tr}(A)}\)</span>
+以及 <span
+class="math inline">\(\mathrm{Tr}(PH)=\mathrm{Tr}(HP)\)</span> 等），故
+<strong>在精确算术里</strong> <span
+class="math inline">\(c_P\in\mathbb{R}\)</span>。</p>
+<p>这与 <code>if abs(coeff) &gt; 1e-12</code>
+<strong>无关</strong>。</p>
+<hr />
+<p><strong>（2）<code>abs(coeff) &gt; 1e-12</code>
+在干什么？</strong></p>
+<p>这是 <strong>数值截断</strong>：幅度小于阈值的系数当作
+<strong>0</strong>，不写入字典，打印分解式时更干净，也避免把
+<strong>浮点噪声</strong> 当成一项。</p>
+<p>对「几乎是实数」的 <code>coeff</code>，<code>abs(coeff)</code> 就是其
+<strong>模</strong>；若实部、虚部都极小，整项丢弃。</p>
+<hr />
+<p><strong>（3）<code>np.real(coeff)</code> 在干什么？</strong></p>
+<p>理论上无虚部，但 <code>np.trace(P @ H)</code> 在浮点运算里可能得到
+<code>0.5 + 3e-17j</code> 这类 <strong>垃圾虚部</strong>。</p>
+<p><code>np.real(coeff)</code> 是
+<strong>数值卫生</strong>：去掉应约为零的虚部，避免后续重构或打印时出现假「复数」。</p>
+<hr />
+<p><strong>（4）小结</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>代码</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>abs(coeff) &gt; 1e-12</code></td>
+<td><strong>稀疏化</strong>：忽略数值上可视为 0 的项。</td>
+</tr>
+<tr>
+<td><code>np.real(coeff)</code></td>
+<td><strong>去浮点虚部</strong>：与厄米性保证的「实系数」配套使用。</td>
+</tr>
+</tbody>
+</table>
+<p>笔记本里已把两行注释拆开写清，避免再读成「因为大于阈值所以才是实数」。</p>
+<hr />
+<h3 id="条目-10">条目 10</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>（<code>01_量子计算基础与概念映射.ipynb</code> 里
+<code>H_simple</code>）这个哈密顿量为什么是这个矩阵？随便写的还是真有物理对应？</p>
+<p><strong>回答：</strong></p>
+<p><strong>主要是为教学演示选的「一个」<span
+class="math inline">\(2\times 2\)</span> 厄米矩阵</strong>，用来跑
+<code>decompose_to_pauli</code>，<strong>不是</strong>从某篇论文或某个具体分子计算里<strong>唯一确定</strong>出来的数据。原注释写「单轨道
+Hubbard」容易让人以为已严格对应标准 Hubbard 模型，需要拆开说。</p>
+<hr />
+<p><strong>（1）它在数学上是什么？</strong></p>
+<p><span class="math display">\[
+H_{\mathrm{simple}} = \begin{pmatrix}-1.0 &amp; -0.5\\ -0.5 &amp;
+1.0\end{pmatrix}
+\]</span></p>
+<p>厄米、迹为 0，可看成 <strong>两能级系统</strong>
+的有效哈密顿量：<strong>对角元</strong>像两个「在位」能量（一低一高），<strong>非对角</strong>像两态之间的
+<strong>耦合/跃迁</strong>（实数表示厄米、时间反演下常见的选择）。这类形式在双阱、二能级有效模型里很常见，但
+<strong><span class="math inline">\(-1,-0.5,1\)</span>
+这组具体数字</strong> 在本格代码里 <strong>没有</strong>
+再往下推到「某个 <span
+class="math inline">\(U,t,\varepsilon\)</span>」的固定公式——属于
+<strong>示意数量级</strong>。</p>
+<hr />
+<p><strong>（2）和「单轨道 / Hubbard」字样怎么对齐？</strong></p>
+<ul>
+<li><strong>标准单格点、两自旋</strong> 的 Hubbard
+模型，占据数表象下希尔伯特空间维数是 <strong><span
+class="math inline">\(4\)</span></strong>（空、↑、↓、双占），哈密顿量一般是
+<strong><span class="math inline">\(4\times 4\)</span></strong>，含
+<strong>在位能 <span class="math inline">\(\varepsilon\)</span>、库仑
+<span class="math inline">\(U\)</span>、有时还有杂化</strong>
+等，<strong>不会</strong>自然等同于本例这一个 <strong><span
+class="math inline">\(2\times 2\)</span></strong> 矩阵。<br />
+</li>
+<li>若只在 <strong>一电子</strong> 或 <strong>固定粒子数子空间</strong>
+等情况下做 <strong>有效哈密顿量</strong>，有时会得到 <strong><span
+class="math inline">\(2\times 2\)</span></strong>，但那要
+<strong>明确子空间与参数</strong> 才能说「对应 Hubbard」。本笔记本
+<strong>没有</strong> 写这一步，因此 <strong>不宜</strong> 把
+<code>H_simple</code> 说成「标准单轨道 Hubbard 的矩阵形式」。</li>
+</ul>
+<p>原注释已改为：<strong>演示用任意厄米矩阵 +
+与两能级图像的粗略类比</strong>，并提醒单格点两自旋 Hubbard 常为
+<strong><span class="math inline">\(4\times 4\)</span></strong>。</p>
+<hr />
+<p><strong>（3）若你想要「真有对应」的例子可以怎么做？</strong></p>
+<ul>
+<li>从 <strong>具体二体系</strong>（如 H<span
+class="math inline">\(_2\)</span> 在极小基下经对称性约化后的 <span
+class="math inline">\(2\)</span> 量子比特块）用 Qiskit Nature / PySCF
+读出 <strong>数值矩阵</strong>，再分解泡利；<br />
+</li>
+<li>或自己给定 <strong><span
+class="math inline">\(t,U,\varepsilon\)</span></strong>，在
+<strong>选定的子空间维数</strong> 下写出 Hubbard
+的矩阵，再与这里对照。</li>
+</ul>
+<p>那样「矩阵元素从哪来」就有明确链条；与本格「先给一个小矩阵看分解」的目的不同。</p>
+<hr />
+<h3 id="条目-11">条目 11</h3>
+<p><strong>日期：</strong> 2026-04-02</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1
+<code>01_量子计算基础与概念映射.ipynb</code>，泡利分解代码格注释）「可粗略类比
+<strong>两能级 +
+耦合</strong>：<strong>对角</strong>像在位能，<strong>非对角</strong>像跃迁/杂化；<strong>标准单格点
+Hubbard（两自旋）通常是 4×4</strong>」——分别是什么意思？</p>
+<p><strong>回答：</strong></p>
+<p>这一行是在说明：<strong>示例里的 2×2 厄米矩阵</strong>
+在物理上可以怎么想；并对比 <strong>为什么单格点 Hubbard</strong> 会变成
+<strong>4×4</strong>（与「一个量子比特 =
+2×2」不是同一套希尔伯特空间）。</p>
+<hr />
+<p><strong>（1）2×2 厄米矩阵 = 「两能级」模型</strong></p>
+<p>选定 <strong>两个正交归一基矢</strong>（记作 <span
+class="math inline">\(\lvert\phi_0\rangle,\lvert\phi_1\rangle\)</span>，量子计算里常直接记
+<span
+class="math inline">\(\lvert0\rangle,\lvert1\rangle\)</span>），任意
+<strong>2×2 厄米矩阵</strong> <span class="math inline">\(H\)</span>
+就是 <span
+class="math inline">\(\{\lvert\phi_0\rangle,\lvert\phi_1\rangle\}\)</span>
+张成的 <strong>二维子空间</strong> 上哈密顿量的矩阵元：</p>
+<p><span class="math display">\[
+H_{ij}=\langle\phi_i\lvert \hat{H}\rvert\phi_j\rangle,\quad
+i,j\in\{0,1\}.
+\]</span></p>
+<p>因此它描述的是 <strong>只有两个相关能级（或两种组态）</strong>
+的有效问题——与 <strong>单量子比特</strong> 的 <span
+class="math inline">\(2\)</span> 维希尔伯特空间
+<strong>形式上一致</strong>，故可用 <strong><span
+class="math inline">\(I,X,Y,Z\)</span></strong>
+做泡利分解（代码里做的事）。</p>
+<hr />
+<p><strong>（2）对角元 ≈ 「在位能」</strong></p>
+<p><strong>对角元</strong> <span
+class="math inline">\(H_{00}\)</span>、<span
+class="math inline">\(H_{11}\)</span> 是
+<strong>各自基矢上的能量期望值</strong>（在该基下）。若暂时
+<strong>忽略非对角</strong>（令 <span
+class="math inline">\(H_{01}=0\)</span>），则 <span
+class="math inline">\(\lvert\phi_0\rangle\)</span> 与 <span
+class="math inline">\(\lvert\phi_1\rangle\)</span>
+<strong>不混合</strong>，能量就是 <span
+class="math inline">\(H_{00}\)</span> 与 <span
+class="math inline">\(H_{11}\)</span>，像两个 <strong>彼此独立</strong>
+的「位点」或 <strong>两种组态各自的在位能</strong>。</p>
+<p>化学直觉例子：两 <strong>价键/离子</strong>
+极限结构作为基，对角元对应 <strong>各结构能量</strong>；或格点模型里
+<strong>电子已在某一侧</strong> 的能量。</p>
+<hr />
+<p><strong>（3）非对角元 ≈ 「跃迁 / 杂化」</strong></p>
+<p><strong>非对角</strong> <span
+class="math inline">\(H_{01}=H_{10}^\ast\)</span>
+<strong>不为零</strong> 时，<span
+class="math inline">\(\lvert\phi_0\rangle\)</span> 与 <span
+class="math inline">\(\lvert\phi_1\rangle\)</span>
+<strong>直接耦合</strong>：<span class="math inline">\(\hat{H}\)</span>
+的本征态一般是
+<strong>两者的线性组合</strong>（<strong>杂化</strong>），时间演化下两振幅会
+<strong>交换权重</strong>（<strong>跃迁</strong>、<strong>隧穿</strong>、<strong>hopping</strong>
+等说法，取决于你的基在物理上代表什么）。</p>
+<p>笔记本中的示例</p>
+<p><span class="math display">\[
+H_{\mathrm{simple}}=\begin{pmatrix}-1.0&amp;-0.5\\-0.5&amp;1.0\end{pmatrix}
+\]</span></p>
+<p>即有 <strong>对角能量偏置</strong>（一态偏低、一态偏高）又有
+<strong>非对角耦合</strong>，是典型的 <strong>两能级 + 耦合</strong>
+玩具哈密顿量；分解到泡利后会出现 <strong><span
+class="math inline">\(Z\)</span>（对角差）</strong> 与 <strong><span
+class="math inline">\(X\)</span>（实非对角）</strong> 等项，和
+<strong>横场 Ising / 两能级驱动</strong> 同一类图像。</p>
+<hr />
+<p><strong>（4）为何「单格点、两自旋」Hubbard 是 4×4？</strong></p>
+<p><strong>一个空间格点</strong> 上通常有
+<strong>两条费米子模式</strong>：自旋 <strong>↑</strong> 与
+<strong>↓</strong> 各一条（两条单粒子态）。在
+<strong>占据数表象</strong> 下，每条模式 <strong>空或占</strong>，共
+<strong><span class="math inline">\(2\times2=4\)</span></strong>
+种组态：</p>
+<p><span class="math display">\[
+\lvert\varnothing\rangle,\quad
+c^\dagger_{\uparrow}\lvert\varnothing\rangle,\quad
+c^\dagger_{\downarrow}\lvert\varnothing\rangle,\quad
+c^\dagger_{\uparrow}c^\dagger_{\downarrow}\lvert\varnothing\rangle
+\]</span></p>
+<p>（常简记为 <strong>空、单占↑、单占↓、双占</strong>）。在这
+<strong>四维 Fock 子空间</strong> 里，<span
+class="math inline">\(\hat{H}\)</span> 是 <strong>4×4
+矩阵</strong>。</p>
+<p><strong>Hubbard 相互作用</strong> <span
+class="math inline">\(U\,\hat{n}_\uparrow\hat{n}_\downarrow\)</span>
+等会 <strong>特别改变「双占」态的能量</strong>，故 <strong>不能</strong>
+在不加近似的情况下压成 <strong>单个 2×2</strong> 问题——除非你再做
+<strong>投影 / 有效模型</strong> 只保留其中 <strong>两个</strong>
+态（例如低能两态模型），那时才会又出现 <strong>2×2</strong>。</p>
+<hr />
+<p><strong>（5）和本格代码的关系</strong></p>
+<ul>
+<li><strong>代码里的 2×2</strong>：演示
+<strong>单量子比特哈密顿量</strong> 的 <strong>泡利展开</strong>；注释用
+<strong>两能级 + 耦合</strong> 帮你和 <strong>量子化学 / 固体</strong>
+语言对齐。<br />
+</li>
+<li><strong>4×4 Hubbard</strong>：提醒 <strong>费米子两模式</strong> 的
+<strong>完整小块</strong> 已是 <strong>4
+维</strong>；<strong>多格点</strong> 则维数
+<strong>指数增长</strong>，才需要 <strong>JW
+映射到多量子比特</strong>、或 <strong>活性空间截断</strong> 等。</li>
+</ul>
+<hr />
+<p><strong>一句话：</strong> <strong>对角</strong> =
+两基矢各自的「在位」能量标度；<strong>非对角</strong> = 两基矢
+<strong>混合/跃迁</strong>；<strong>单格点两自旋 Hubbard</strong> =
+<strong>4 个占据组态</strong> ⇒ <strong>4×4</strong>；笔记本
+<strong>2×2</strong> 是 <strong>两能级有效模型 / 单比特</strong>
+的演示，<strong>维数不要和 4×4 混为一谈</strong>。</p>
+<hr />
+<h3 id="条目-12">条目 12</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p><span class="math display">\[
+H_{H_2} = g_0 I + g_1 Z_0 + g_2 Z_1 + g_3 Z_0 Z_1 + g_4 Y_0 Y_1 + g_5
+X_0 X_1
+\]</span></p>
+<p>（Phase1 <code>01_量子计算基础与概念映射.ipynb</code>
+§5）这公式的推导过程是什么？</p>
+<p><strong>回答：</strong></p>
+<p>这条式子 <strong>不是</strong>
+从第一性原理「凭空猜」出来的，而是下面链条的
+<strong>结果</strong>：（1）固定分子与基组，写出
+<strong>二次量子化</strong> 电子哈密顿量；（2）用
+<strong>Jordan–Wigner（或等价费米子–量子比特映射）</strong> 把 <span
+class="math inline">\(\hat{a},\hat{a}^\dagger\)</span>
+换成泡利算符；（3）利用 <strong>对称性 / 子空间编码</strong> 把 STO–3G
+下 <strong>4 个自旋轨道</strong> 的问题 <strong>约化到 2
+个量子比特</strong>；（4）在 2 比特空间里，一般本可出现 <strong>最多 16
+项</strong> 泡利基，但 H<span class="math inline">\(_2\)</span>
+的对称性使 <strong>只有 6 类项系数非零</strong>；<span
+class="math inline">\(g_i\)</span> 由
+<strong>单、双电子积分</strong>（或等价地，由约化后的 <span
+class="math inline">\(4\times 4\)</span>
+矩阵）<strong>算出来</strong>。笔记本里系数来自 <strong>Peruzzo et
+al. (2014)</strong> 一文常用的 STO–3G、平衡键长数据。</p>
+<hr />
+<p><strong>（1）出发点：二次量子化哈密顿量</strong></p>
+<p>在固定单粒子基（自旋轨道指标 <span
+class="math inline">\(p,q,r,s\)</span>）下，</p>
+<p><span class="math display">\[
+\hat{H} = \sum_{pq} h_{pq}\,\hat{a}_p^\dagger \hat{a}_q +
+\frac{1}{2}\sum_{pqrs} h_{pqrs}\,\hat{a}_p^\dagger \hat{a}_q^\dagger
+\hat{a}_r \hat{a}_s + E_{\mathrm{nuc}},
+\]</span></p>
+<p>其中 <span class="math inline">\(h_{pq}\)</span>、<span
+class="math inline">\(h_{pqrs}\)</span> 由
+<strong>量子化学积分</strong>（重叠、动能、核势、电子排斥）在选定基组下算出；H<span
+class="math inline">\(_2\)</span> + STO–3G 时 <strong>4
+条自旋轨道</strong>，故指标跑在 <span
+class="math inline">\(\{0,1,2,3\}\)</span>。</p>
+<hr />
+<p><strong>（2）Jordan–Wigner：把每一项费米子算符变成泡利串</strong></p>
+<p>例如第 <span class="math inline">\(j\)</span>
+个模式（笔记本记号）</p>
+<p><span class="math display">\[
+\hat{a}_j^\dagger = \frac{1}{2}(X_j - iY_j)\otimes
+Z_{j-1}\otimes\cdots\otimes Z_0,\quad
+\hat{a}_j = (\hat{a}_j^\dagger)^\dagger.
+\]</span></p>
+<p>将每个 <span class="math inline">\(\hat{a}_p^\dagger
+\hat{a}_q\)</span>、<span class="math inline">\(\hat{a}_p^\dagger
+\hat{a}_q^\dagger \hat{a}_r \hat{a}_s\)</span> <strong>代入</strong>
+上式，用 <strong>泡利代数</strong>（<span
+class="math inline">\(X^2=Y^2=Z^2=I\)</span>、<span
+class="math inline">\(XY=iZ\)</span>
+等）<strong>乘开、合并同类泡利串</strong>。</p>
+<ul>
+<li><strong>单体项</strong> <span
+class="math inline">\(\hat{a}_p^\dagger \hat{a}_q\)</span>：JW 后得到
+<strong>若干泡利串</strong>，典型会同时出现 <strong><span
+class="math inline">\(Z\)</span> 弦</strong> 与局域 <strong><span
+class="math inline">\(X,Y\)</span></strong>（见条目 7）。<br />
+</li>
+<li><strong>双体项</strong> <span
+class="math inline">\(\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_r
+\hat{a}_s\)</span>：展开后项数更多，但仍是
+<strong>泡利串的线性组合</strong>，系数由 <span
+class="math inline">\(h_{pqrs}\)</span> 与 <span
+class="math inline">\((X\pm iY)\)</span> 展开后的
+<strong>实部、虚部</strong> 组合决定。</li>
+</ul>
+<p>此步完成后，你得到的是 <strong>4 量子比特</strong> 上的
+<strong>长泡利展开</strong>（很多项），还不是题目里的 <strong>2 比特 6
+项</strong>。</p>
+<hr />
+<p><strong>（3）为什么能写成「只有 2 个量子比特」？</strong></p>
+<p>STO–3G 的 H<span class="math inline">\(_2\)</span> 有 <strong>2
+电子</strong>；全希尔伯特空间 <span
+class="math inline">\(2^4=16\)</span> 维，但
+<strong>物理哈密顿量与粒子数算符对易</strong>，关心基态时常在
+<strong><span class="math inline">\(N=2\)</span></strong> 子空间（维数
+<span class="math inline">\(\binom{4}{2}=6\)</span>）内工作。</p>
+<p>进一步，H<span class="math inline">\(_2\)</span> 有
+<strong>额外对称性</strong>（如自旋、部分费米子宇称等，依映射而定），可用
+<strong>tapering / 固定量子数编码</strong>（文献与 Qiskit Nature
+里常称对称性约化）<strong>消去冗余比特</strong>，把有效自由度压到
+<strong>2 个量子比特</strong>（<span
+class="math inline">\(2^2=4\)</span> 维基与某个选定的 4
+维子空间或等价编码对应——具体编码依论文或 <code>qiskit_nature</code>
+选项而定）。</p>
+<p><strong>要点</strong>：式中的 <span
+class="math inline">\(Z_0,X_0\)</span> 等是 <strong>约化后 2
+比特问题</strong> 的泡利算符，<strong>不一定</strong> 等于「未约化时第 0
+号自旋轨道那一格」的同名算符；笔记本括号里写的 <strong>「粒子守恒约化到
+2 量子比特」</strong> 指的就是这一步 <strong>编码/约化</strong>，而不是
+JW 本身。</p>
+<hr />
+<p><strong>（4）为什么偏偏是 <span
+class="math inline">\(I,Z_0,Z_1,Z_0Z_1,X_0X_1,Y_0Y_1\)</span>
+这六类？</strong></p>
+<p>一般 <strong>2 量子比特</strong> 厄米算符可写成 <strong>16
+个</strong> <span class="math inline">\(P_0\otimes P_1\)</span>（<span
+class="math inline">\(P_k\in\{I,X,Y,Z\}\)</span>）的
+<strong>实系数</strong> 线性组合（条目 2 的 <span
+class="math inline">\(n=2\)</span> 特例）。</p>
+<p>H<span class="math inline">\(_2\)</span> 在
+<strong>实数积分、分子对称性（<span class="math inline">\(D_{\infty
+h}\)</span> 等）及所选 2 比特编码</strong> 下，许多泡利项系数
+<strong>严格为 0</strong>，常见 <strong>存活项</strong>
+的结构就是：<strong>常数项</strong>、<strong>局域 <span
+class="math inline">\(Z\)</span></strong>、<strong><span
+class="math inline">\(ZZ\)</span></strong>、以及 <strong><span
+class="math inline">\(XX\)</span> 与 <span
+class="math inline">\(YY\)</span>
+成对出现且系数常相等</strong>（你笔记本代码里 <code>XX</code> 与
+<code>YY</code> 同为 <code>0.1807</code>）。</p>
+<ul>
+<li><strong><span class="math inline">\(Z\)</span>、<span
+class="math inline">\(ZZ\)</span></strong>：多来自 <strong>占据数 /
+库仑–交换</strong> 的对角结构在编码后的表现。<br />
+</li>
+<li><strong><span class="math inline">\(XX\)</span>、<span
+class="math inline">\(YY\)</span></strong>：多来自
+<strong>单激发型</strong> 费米项 <span
+class="math inline">\(\hat{a}_p^\dagger \hat{a}_q +
+\mathrm{h.c.}\)</span> 经 JW 后 <span class="math inline">\(X,Y\)</span>
+组合；在 H<span class="math inline">\(_2\)</span> 这种
+<strong>实哈密顿量 + 对称性</strong> 下，往往以 <strong><span
+class="math inline">\(X_0X_1\)</span> 与 <span
+class="math inline">\(Y_0Y_1\)</span></strong> 的特定组合出现，且可出现
+<strong><span class="math inline">\(g_4=g_5\)</span></strong>。</li>
+</ul>
+<p>若编码或基组不同，<strong>非零项集合</strong> 可能略有变化；你引用的
+<strong>6 项形式</strong> 是 <strong>该文献/该约化路径</strong>
+下的标准写法。</p>
+<hr />
+<p><strong>（5）系数 <span class="math inline">\(g_i\)</span>
+怎么从「推导」落到数字？</strong></p>
+<p>两条等价路线（实务上常混用）：</p>
+<ol type="1">
+<li><strong>化学软件</strong>：用 PySCF、Psi4 等算积分 →
+<code>qiskit_nature.second_q</code> 建费米子算符 →
+<code>JordanWignerMapper</code>（及对称性约化/taper）→ 得到
+<strong><code>SparsePauliOp</code></strong>，读出各 <span
+class="math inline">\(g_i\)</span>。<br />
+</li>
+<li><strong>线性代数</strong>：若已有约化后 <strong><span
+class="math inline">\(4\times 4\)</span> 厄米矩阵</strong> <span
+class="math inline">\(H\)</span>（某组计算基下），则每个泡利串 <span
+class="math inline">\(P\)</span> 的系数为 <strong>Hilbert–Schmidt
+投影</strong>（2 比特下 <span
+class="math inline">\(\mathrm{Tr}(P^2)=4\)</span>）：</li>
+</ol>
+<p><span class="math display">\[
+g_P = \frac{1}{4}\,\mathrm{Tr}(P\,H).
+\]</span></p>
+<p>这与笔记本里单比特 <code>decompose_to_pauli</code> 里 <span
+class="math inline">\(\mathrm{Tr}(PH)/2\)</span> 是同一逻辑的推广（<span
+class="math inline">\(n=1\)</span> 时 <span
+class="math inline">\(\mathrm{Tr}(P^2)=2\)</span>）。</p>
+<hr />
+<p><strong>（6）小结（推导链一句话）</strong></p>
+<p><strong>积分 <span class="math inline">\(\to\)</span> 二次量子化
+<span class="math inline">\(\hat{H}\)</span> <span
+class="math inline">\(\to\)</span> JW（+Pauli 代数化简）<span
+class="math inline">\(\to\)</span> 对称性约化到 2 比特 <span
+class="math inline">\(\to\)</span> 非零泡利类只剩 6 类 <span
+class="math inline">\(\to\)</span> <span
+class="math inline">\(g_i\)</span> 由积分或 <span
+class="math inline">\(\mathrm{Tr}(PH)/4\)</span> 确定。</strong></p>
+<p>若要 <strong>自己重算一遍 <span
+class="math inline">\(g_i\)</span></strong>，建议在工程里用
+<strong>Qiskit Nature 从 H<span class="math inline">\(_2\)</span> 直接
+build 哈密顿量</strong> 与笔记本中 Peruzzo 系数对照，比手算所有 JW
+展开更可靠。</p>
+<hr />
+<h3 id="条目-13">条目 13</h3>
+<p><strong>日期：</strong> 2026-04-02</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1 <code>01_量子计算基础与概念映射.ipynb</code> §5 H₂
+示例）流程是：<strong>积分 → 二次量子化 <span
+class="math inline">\(\hat{H}\)</span> → JW（+Pauli 化简）→ 对称性约化到
+2 比特 → 非零泡利只剩 6 类 → <span class="math inline">\(g_i\)</span>
+由积分或 <span class="math inline">\(\mathrm{Tr}(PH)/4\)</span>
+定</strong>。希望 <strong>更细</strong>
+理解：<strong>对称性约化</strong> 在做什么、<strong>为什么只剩 6
+项</strong>、<strong><span
+class="math inline">\(\mathrm{Tr}(PH)/4\)</span></strong> 怎么用。</p>
+<p><strong>回答：</strong></p>
+<p>下面按 <strong>链条</strong> 讲；<strong>6 项</strong> 与
+<strong><span class="math inline">\(\mathrm{Tr}(PH)/4\)</span></strong>
+放在 <strong>已经得到 2 比特矩阵 <span class="math inline">\(H\)</span>
+之后</strong> 最清楚。</p>
+<hr />
+<p><strong>（1）积分 → 二次量子化</strong></p>
+<p>在 <strong>给定基组</strong>（如 H₂ STO-3G）下，先做
+<strong>HF</strong> 得 <strong>分子轨道</strong>，再算
+<strong>单电子积分</strong> <span
+class="math inline">\(h_{pq}\)</span>、<strong>双电子积分</strong>（<span
+class="math inline">\((pq|rs)\)</span> 等，记号依文献）。它们进入</p>
+<p><span class="math display">\[
+\hat{H} = E_{\mathrm{nuc}} + \sum_{pq} h_{pq}\,\hat{a}_p^\dagger
+\hat{a}_q + \frac{1}{2}\sum_{pqrs} h_{pqrs}\,\hat{a}_p^\dagger
+\hat{a}_q^\dagger \hat{a}_r \hat{a}_s
+\]</span></p>
+<p>（具体 <span class="math inline">\(h_{pqrs}\)</span> 与 <span
+class="math inline">\((pq|rs)\)</span> 的对应关系按你用的
+<strong>chemist / physicist 记号</strong>
+换序，这里不展开。）到这一步，<span
+class="math inline">\(\hat{H}\)</span> 仍是
+<strong>费米子算符</strong>，作用在 <strong>Fock 空间</strong> 上。</p>
+<hr />
+<p><strong>（2）JW：四个自旋轨道 → 先得到「4 量子比特」表述</strong></p>
+<p>H₂ STO-3G：<strong>2 个空间轨道 × 2 自旋 = 4
+条自旋轨道</strong>，每条对应 <strong>一个</strong> JW
+费米子模式，<strong>最直白</strong> 的映射是 <strong><span
+class="math inline">\(n=4\)</span> 个量子比特</strong>。</p>
+<p>把每个 <span class="math inline">\(\hat{a}_p^{(\dagger)}\)</span>
+换成 <strong>Pauli 串</strong>（带 <strong>Jordan–Wigner 弦</strong>
+<span class="math inline">\(Z_0 Z_1\cdots Z_{p-1}\)</span>），再把
+<strong>多项乘开</strong>，用 <span
+class="math inline">\(XY=\mathrm{i}Z\)</span> 等 <strong>Pauli
+代数</strong> 合并同类项，得到 <strong>仅含 <span
+class="math inline">\(I,X,Y,Z\)</span> 张量积</strong> 的哈密顿量。</p>
+<p><strong>注意：</strong> 在 <strong>未约化</strong> 的 4
+比特形式下，泡利展开里 <strong>远多于 6 项</strong>；笔记本里的
+<strong>6 项</strong> 是 <strong>约化之后、作用在 2 比特子空间上的 <span
+class="math inline">\(4\times 4\)</span> 有效哈密顿量</strong>
+的展开。</p>
+<hr />
+<p><strong>（3）对称性约化：从 4 比特「压」到 2
+比特——在干什么？</strong></p>
+<p><strong>目标：</strong> 真实物理的 H₂（固定
+<strong>电子数</strong>、关心 <strong>基态</strong>
+所在的小子空间）<strong>不需要</strong> 在 <strong>全部</strong> <span
+class="math inline">\(2^4=16\)</span> 维计算基上写最一般的 <span
+class="math inline">\(\hat{H}\)</span>；利用 <strong>与 <span
+class="math inline">\(\hat{H}\)</span> 对易的量子数</strong>，可把问题
+<strong>限制在更小的有效空间</strong>，并
+<strong>减少比特数</strong>。</p>
+<p>对分子哈密顿量（JW 之后），常用思路包括：</p>
+<ul>
+<li><strong>费米子层面的对称性：</strong> <strong>粒子数</strong> <span
+class="math inline">\(\hat{N}\)</span>、<strong>自旋投影</strong> <span
+class="math inline">\(\hat{S}_z\)</span>（闭壳 / 单态
+sector）、<strong>点群</strong>（H₂ 有 <strong>反演</strong> <span
+class="math inline">\(g/u\)</span> 等）。<span
+class="math inline">\(\hat{H}\)</span> 与这些算符 <strong>对易</strong>
+⇒ 在 <strong>共同本征子空间</strong>
+里块对角，<strong>其它块与基态无关</strong> 时可丢掉。<br />
+</li>
+<li><strong>量子比特层面的「削比特」（tapering，思想）：</strong> 若存在
+<strong>Pauli 型</strong> 对称算符 <span
+class="math inline">\(G\)</span>（由 JW 后的对称性推出），满足 <span
+class="math inline">\([H,G]=0\)</span> 且 <span
+class="math inline">\(G^2=I\)</span>，则整个希尔伯特空间按 <span
+class="math inline">\(G\)</span> 的本征值 <strong><span
+class="math inline">\(\pm 1\)</span></strong> 分成两块；在
+<strong>固定本征值</strong> 的扇区里，<span
+class="math inline">\(G\)</span> 相当于 <strong><span
+class="math inline">\(\pm I\)</span></strong>，可用
+<strong>经典比特记录该量子数</strong>，从而
+<strong>消去一个依赖比特</strong>——多个独立对称可 <strong>多次</strong>
+削，<strong>4 比特 → 2 比特</strong> 正是
+<strong>消掉两个这类自由度</strong>
+的典型结果（具体选哪两个对称，由实现与文献约定决定；笔记本概括为
+<strong>粒子守恒等对称性</strong>）。</li>
+</ul>
+<p><strong>直觉：</strong> 不是「随便删掉两个比特」，而是
+<strong>「基态（及 VQE 关心的态）只活在一个 4 维子空间里，且该子空间可用
+2 个量子比特标记」</strong>；其余 2 个比特上的信息被
+<strong>对称性固定</strong>，不必带进量子处理器。</p>
+<hr />
+<p><strong>（4）为什么约化后「非零泡利类」常只剩 6 类（II, IZ, ZI, ZZ,
+XX, YY）？</strong></p>
+<p>在 <strong>已经得到的 <span class="math inline">\(4\times 4\)</span>
+有效厄米矩阵 <span class="math inline">\(H\)</span></strong>（2
+比特）上，<strong>原则上</strong> 可展成 <strong>16 个</strong> Pauli
+串的基：</p>
+<p><span class="math display">\[
+H = \sum_{P\in\{I,X,Y,Z\}^{\otimes 2}} c_P\,P.
+\]</span></p>
+<p><strong>6 项</strong> 的意思是：<strong>其中 10 个 <span
+class="math inline">\(c_P=0\)</span></strong>。原因来自
+<strong>有效哈密顿量的结构</strong>，而不是「Pauli 基只有 6 个」：</p>
+<ul>
+<li><strong>实厄米 + H₂ 最小基集下的积分选择定则：</strong> 许多
+<strong>单比特 <span class="math inline">\(X\)</span>、<span
+class="math inline">\(Y\)</span> 单独出现</strong> 或 <strong><span
+class="math inline">\(X\)</span> 与 <span
+class="math inline">\(Z\)</span> 混排</strong> 等项，对应
+<strong>在分子轨道对称性下为零的矩阵元</strong>（或整块在选定的
+<strong>单态 / <span class="math inline">\(S_z=0\)</span></strong>
+子空间里 <strong>矩阵元恰为零</strong>）。<br />
+</li>
+<li><strong>常见模式：</strong> 保留 <strong>常数项 + 局域 <span
+class="math inline">\(Z\)</span> 型</strong>（II, IZ, ZI, ZZ，来自占据数
+/ 库仑交换的对角结构在 Pauli 表象下的分解），以及 <strong><span
+class="math inline">\(\frac{1}{2}(X_0 X_1 + Y_0 Y_1)\)</span>
+型</strong> 配对项（与 <strong>单态</strong> 下 <strong><span
+class="math inline">\(\lvert01\rangle\leftrightarrow\lvert10\rangle\)</span></strong>
+的 <strong>自旋翻转激发</strong> 有关）；<strong>IX, IY, XZ, …</strong>
+等在该 <span class="math inline">\(4\times4\)</span> 块里
+<strong>系数算出来就是 0</strong>。</li>
+</ul>
+<p>因此：<strong>6 =
+这具体问题里非零系数个数</strong>；换分子、换基组、换是否再削对称，<strong>项数会变</strong>。</p>
+<hr />
+<p><strong>（5）<span class="math inline">\(g_i\)</span> 与 <span
+class="math inline">\(\mathrm{Tr}(PH)/4\)</span>：怎么算、和积分什么关系？</strong></p>
+<ul>
+<li><strong>两比特</strong> 上，Pauli 串 <span
+class="math inline">\(P\)</span> 满足 <strong><span
+class="math inline">\(\mathrm{Tr}(P^2)=\mathrm{Tr}(I)=4\)</span></strong>，且不同串
+<strong>Hilbert–Schmidt 正交</strong>：<span
+class="math inline">\(\mathrm{Tr}(PQ)=0\)</span>（<span
+class="math inline">\(P\neq Q\)</span>）。因此</li>
+</ul>
+<p><span class="math display">\[
+c_P = \frac{\mathrm{Tr}(P\,H)}{\mathrm{Tr}(P^2)} =
+\frac{\mathrm{Tr}(P\,H)}{4}.
+\]</span></p>
+<p>这就是笔记本里 <strong><span
+class="math inline">\(\mathrm{Tr}(PH)/4\)</span></strong>（记号与 <span
+class="math inline">\(P\)</span>
+顺序无关）。<strong>只要你手里已经有</strong> 与线路一致的 <strong><span
+class="math inline">\(4\times4\)</span> 矩阵 <span
+class="math inline">\(H\)</span></strong>，<strong>逐个</strong> <span
+class="math inline">\(P\in\{II,IX,\ldots,ZZ\}\)</span> 做
+<strong>迹</strong> 就得到所有系数；<strong>其中 10 个为 0</strong>
+就得到 <strong>6 个非零 <span
+class="math inline">\(g_i\)</span></strong>。</p>
+<ul>
+<li><strong>和积分的关系：</strong> 实务中
+<strong>顺序是反过来的</strong>：用 <strong>量子化学程序</strong> 由
+<strong>积分</strong> 组装 <strong>费米子 <span
+class="math inline">\(\hat{H}\)</span></strong> → <strong>JW +
+对称性程序</strong> 得到 <strong>数值矩阵 <span
+class="math inline">\(H\)</span></strong>（或等价泡利分解）。<strong>Tr
+公式</strong> 是 <strong>从最终矩阵读回 Pauli 系数</strong> 的
+<strong>线性代数定义</strong>，与「积分怎么来的」<strong>不矛盾</strong>——同一
+<span class="math inline">\(H\)</span>，<strong>从积分走</strong> 与
+<strong>先建矩阵再 Tr</strong>
+<strong>必须一致</strong>（数值误差除外）。</li>
+</ul>
+<hr />
+<p><strong>（6）小结表</strong></p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>对象</th>
+<th>维数 / 项数直觉</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>积分</td>
+<td><span class="math inline">\(h_{pq},(pq\|rs)\)</span> 等</td>
+<td>两体 <span class="math inline">\(\sim O(N^4)\)</span></td>
+</tr>
+<tr>
+<td>二次量子化</td>
+<td><span class="math inline">\(\hat{H}\)</span> 费米子</td>
+<td>Fock 空间很大</td>
+</tr>
+<tr>
+<td>JW（未削）</td>
+<td>Pauli 串，<span class="math inline">\(n=4\)</span></td>
+<td>比特数 4；展开项多</td>
+</tr>
+<tr>
+<td>对称性约化</td>
+<td>有效 <span class="math inline">\(H\)</span> 在 2 比特</td>
+<td><span class="math inline">\(4\times4\)</span> 矩阵</td>
+</tr>
+<tr>
+<td>Pauli 展开</td>
+<td><span class="math inline">\(c_P=\mathrm{Tr}(PH)/4\)</span></td>
+<td>最多 16 项，本例 6 项非零</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>一句话：</strong> <strong>对称性约化</strong> = 用 <strong>与
+<span class="math inline">\(H\)</span> 对易的量子数</strong> 把问题
+<strong>缩到小希尔伯特空间并少用量子比特</strong>；<strong>6 项</strong>
+= <strong>该 2 比特有效 <span class="math inline">\(H\)</span></strong>
+在 16 个 Pauli 基下 <strong>只有 6 个非零系数</strong>；<strong><span
+class="math inline">\(\mathrm{Tr}(PH)/4\)</span></strong> = <strong>这 6
+个（及隐藏的 10 个零）系数的统一定义</strong>。</p>
+<hr />
+<h3 id="条目-14">条目 14</h3>
+<p><strong>日期：</strong> 2026-04-02</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1 <code>01_量子计算基础与概念映射.ipynb</code>，H<span
+class="math inline">\(_2\)</span>
+泡利哈密顿量对角化打印基态）循环里为什么要
+<code>if abs(coeff) &gt; 0.01</code> 才打印？</p>
+<p><strong>回答：</strong></p>
+<p>这是
+<strong>显示用阈值</strong>，<strong>不是</strong>量子力学里「系数必须大于某值」的定理；目的是
+<strong>省掉几乎为 0 的项</strong>，让输出
+<strong>干净、好读</strong>，并顺带 <strong>压住浮点噪声</strong>。</p>
+<hr />
+<p><strong>（1）数学上：完整基态仍是所有分量的叠加</strong></p>
+<p>基态 <span class="math inline">\(\lvert\psi_0\rangle=\sum_k c_k\lvert
+k\rangle\)</span> <strong>包含</strong> 每一个计算基分量 <span
+class="math inline">\(c_k\)</span>；即便某个 <span
+class="math inline">\(\lvert c_k\rvert\)</span> 很小，它仍
+<strong>客观存在</strong>。<code>if abs(coeff) &gt; 0.01</code>
+<strong>没有</strong> 改变物理，只是 <strong>打印时跳过</strong>
+足够小的项。</p>
+<hr />
+<p><strong>（2）为什么要过滤？</strong></p>
+<ul>
+<li><strong>可读性：</strong> H<span
+class="math inline">\(_2\)</span>（及类似演示）的基态往往
+<strong>少数几个</strong> 计算基振幅占主导（例如接近 HF 主导 +
+少量双激）；其余分量 <strong>解析上应为 0</strong> 或
+<strong>极小</strong>。全部打印会出现一长串「0.00000…」或
+<strong>科学计数法杂项</strong>，<strong>抓不住主结构</strong>。<br />
+</li>
+<li><strong>数值噪声：</strong> <code>np.linalg.eigh</code>
+给出的本征矢分量里，<strong>严格应为 0</strong> 的元可能出现
+<strong><span class="math inline">\(10^{-16}\)</span> 量级</strong>
+的虚部/实部；设阈值可避免把 <strong>垃圾小数</strong>
+当成「有物理的成份」。<br />
+</li>
+<li><strong>0.01 的含义：</strong> 纯属
+<strong>教学上取的尺度</strong>——振幅约 <strong>1%</strong>
+量级；对应概率权重 <span class="math inline">\(\lvert c_k\rvert^2\sim
+10^{-4}\)</span>，对总范数贡献通常
+<strong>可忽略</strong>，适合当作「<strong>可略去展示</strong>」的
+cutoff。<strong>想看得更细</strong> 可改成 <code>1e-6</code> 或
+<code>1e-10</code>，或 <strong>不设条件</strong>
+看全部分量（再自己肉眼看哪些是真小）。</li>
+</ul>
+<hr />
+<p><strong>（3）和「截断 CI」不要混</strong></p>
+<p><strong>活性空间 / CI 截断</strong> 是
+<strong>在哈密顿量或基组层面</strong> 扔掉某些组态；这里的
+<code>0.01</code> <strong>只是 print</strong>，<strong>不参与</strong>
+能量计算——本征矢仍是 <strong>完整 4 维（或 <span
+class="math inline">\(2^n\)</span> 维）</strong> 上算出来的
+<strong>精确</strong>（在该矩阵意义下）结果。</p>
+<hr />
+<p><strong>一句话：</strong> <code>abs(coeff) &gt; 0.01</code> =
+<strong>打印时只显示「够大」的分量</strong>，方便看
+<strong>主导组态</strong> 并
+<strong>过滤数值毛刺</strong>；<strong>不是</strong> 物理近似。</p>
+<hr />
+<h3 id="条目-15">条目 15</h3>
+<p><strong>日期：</strong> 2026-04-02</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1 <code>01_量子计算基础与概念映射.ipynb</code> §6.1
+电路示意图）为什么只有 <strong>q_0</strong> 画了参数化
+<strong>[Rz(θ)]</strong>，<strong>q_1</strong> 上没有参数化旋转？</p>
+<p><strong>回答：</strong></p>
+<p><strong>不是</strong>「量子力学规定第二根线不能带参数」，而是
+<strong>示意图 + 与下文「单参数 ansatz」配套</strong>：用
+<strong>一个</strong> 可调门代表 <strong>一个</strong>
+变分参数，图画简单；<strong>一般 VQE</strong> 里完全可以在
+<strong>多根线上</strong> 放 <strong>Ry/Rz</strong> 或多层线路。</p>
+<hr />
+<p><strong>（1）这一格在讲什么？</strong></p>
+<p>§6.1 的 ASCII 图是在介绍
+<strong>符号</strong>：H、CNOT、<strong>某处</strong> 出现
+<strong>[Rz(θ)]</strong>、末端 <strong>⟨Z⟩</strong>。重点是让读者认出
+<strong>「参数化酉 → 测泡利期望值 → 经典优化
+θ」</strong>，<strong>不是</strong> 给出与 Peruzzo 论文逐门一致的
+<strong>唯一</strong> 硬件线路。</p>
+<hr />
+<p><strong>（2）和紧挨着的 H₂ 单参数演示一致</strong></p>
+<p>同一节下面的代码用</p>
+<p><span class="math display">\[
+\lvert\psi(\theta)\rangle=\cos\frac{\theta}{2}\lvert01\rangle+\sin\frac{\theta}{2}\lvert10\rangle
+\]</span></p>
+<p>即在 <strong>粒子数守恒</strong> 的两比特子空间 <span
+class="math inline">\(\mathrm{span}\{\lvert01\rangle,\lvert10\rangle\}\)</span>
+里
+<strong>只扫一个混合角</strong>。对应到「需要几个独立变分参数」：<strong>这个最小模型里一个实参就够</strong>（在该二维子空间里逼近基态的主要自由度）。示意图里
+<strong>只画一个 [Rz(θ)]</strong> 与「<strong>单参数
+VQE</strong>」叙述对齐。</p>
+<hr />
+<p><strong>（3）为何不必在 q_1 上再画一个 θ′？</strong></p>
+<ul>
+<li><strong>参数冗余：</strong> 在同一二维流形里，往往可用
+<strong>一个</strong> 混合角描述；再多加一个独立旋转可能
+<strong>不增加</strong> 可达集合，或可通过 <strong>重新参数化</strong>
+合并（视具体线路与规范而定）。<br />
+</li>
+<li><strong>教学排版：</strong> 两个带参门会让示意图变长，而 §6.1
+的目标只是 <strong>点出「VQE 的核心是带参门」</strong>。</li>
+</ul>
+<hr />
+<p><strong>（4）一般情况</strong></p>
+<p><strong>硬件高效 ansatz（HEA）</strong>、<strong>UCC 风格</strong>
+等常在 <strong>多比特、多层</strong> 上布置 <strong>一串</strong> <span
+class="math inline">\(R_y,R_z\)</span>；<strong>线路上没有「只能参数化一根比特」的规则</strong>。若你发现某论文里
+<strong>两侧都有</strong> <span
+class="math inline">\(\theta\)</span>，那是 <strong>更强 ansatz</strong>
+或 <strong>不同编码</strong>，与这本笔记本的 <strong>极简示意</strong>
+不矛盾。</p>
+<hr />
+<p><strong>一句话：</strong> 只画 <strong>q_0 上的 [Rz(θ)]</strong> =
+<strong>示意 + 单参数 H₂ 子空间</strong> 的写法；<strong>不是</strong>
+说 q_1 <strong>禁止</strong> 加参数化门。</p>
+<hr />
+<h3 id="条目-16">条目 16</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1 <code>01_量子计算基础与概念映射.ipynb</code> VQE
+演示）参数化态</p>
+<p><span class="math display">\[
+\lvert\psi(\theta)\rangle = \cos\frac{\theta}{2}\lvert\mathrm{HF}\rangle
++ \sin\frac{\theta}{2}\lvert\mathrm{double\ exc}\rangle
+\]</span></p>
+<p>为什么用 <strong>cos、sin</strong>，而且角度是 <strong><span
+class="math inline">\(\theta/2\)</span></strong>（和「两个都用 <span
+class="math inline">\(\theta\)</span>」有什么不同）？</p>
+<p><strong>回答：</strong></p>
+<p>代码里 <code>psi_HF</code> 对应 <span
+class="math inline">\(\lvert01\rangle\)</span>、<code>psi_double</code>
+对应 <span class="math inline">\(\lvert10\rangle\)</span>，二者
+<strong>正交归一</strong>。这是在 <strong>二维子空间</strong> 里做
+<strong>实系数叠加</strong> 并把 <strong>范数固定为 1</strong>。</p>
+<hr />
+<p><strong>（1）为什么用 cos、sin？</strong></p>
+<p>两态正交归一时，最一般的 <strong>实</strong> 叠加可写成</p>
+<p><span class="math display">\[
+\lvert\psi\rangle = a\lvert\phi_0\rangle + b\lvert\phi_1\rangle,\quad
+a,b\in\mathbb{R},\quad a^2+b^2=1.
+\]</span></p>
+<p>令 <span class="math inline">\(a=\cos\varphi,\;
+b=\sin\varphi\)</span>（某一区间内的 <span
+class="math inline">\(\varphi\)</span>），则
+<strong>自动归一</strong>：<span
+class="math inline">\(\cos^2\varphi+\sin^2\varphi=1\)</span>。</p>
+<p>所以 <strong>cos/sin 不是物理定理「强迫」的唯一写法</strong>，而是
+<strong>单位圆上最常用的参数化</strong>；等价地也可写成 <span
+class="math inline">\(\sqrt{1-t^2}\lvert\phi_0\rangle +
+t\lvert\phi_1\rangle\)</span> 等，但和 <strong>量子门习惯</strong>
+不直接对齐。</p>
+<hr />
+<p><strong>（2）为什么是 <span
+class="math inline">\(\theta/2\)</span>，而不是 <span
+class="math inline">\(\cos\theta\)</span> 与 <span
+class="math inline">\(\sin\theta\)</span>？</strong></p>
+<p>这与 <strong>单量子比特绕 <span class="math inline">\(Y\)</span>
+轴的旋转</strong> 定义一致。泡利 <span class="math inline">\(Y\)</span>
+的旋转门（与 Qiskit 等常见的 <span
+class="math inline">\(R_y(\theta)\)</span> 一致）为</p>
+<p><span class="math display">\[
+R_y(\theta) = e^{-i\theta \sigma_y/2}
+= \begin{pmatrix}\cos\frac{\theta}{2} &amp; -\sin\frac{\theta}{2}
+\\[4pt]\sin\frac{\theta}{2} &amp; \cos\frac{\theta}{2}\end{pmatrix}.
+\]</span></p>
+<p>作用在计算基 <span class="math inline">\(\lvert0\rangle\)</span>
+上：</p>
+<p><span class="math display">\[
+R_y(\theta)\lvert0\rangle = \cos\frac{\theta}{2}\lvert0\rangle +
+\sin\frac{\theta}{2}\lvert1\rangle.
+\]</span></p>
+<p>指数上是 <strong><span
+class="math inline">\(\theta/2\)</span></strong>（李代数里生成元系数），矩阵元里就出现
+<strong><span class="math inline">\(\theta/2\)</span> 的
+cos/sin</strong>。这是 <strong><span
+class="math inline">\(\mathrm{SU}(2)\)</span> 与 Bloch 球</strong>
+的标准「半角」结构：Bloch 球上转 <strong><span
+class="math inline">\(\theta\)</span></strong>，振幅里出现 <strong><span
+class="math inline">\(\theta/2\)</span></strong>。</p>
+<p>因此：若你把 <span
+class="math inline">\(\lvert\mathrm{HF}\rangle\)</span>、<span
+class="math inline">\(\lvert\mathrm{double\ exc}\rangle\)</span>
+<strong>编码成</strong> 某个比特的 <span
+class="math inline">\(\lvert0\rangle,\lvert1\rangle\)</span>（或经固定幺正搬到这一对基），则
+<strong>电路里一个 <span
+class="math inline">\(R_y(\theta)\)</span></strong> 制备的态
+<strong>天然</strong> 就是 <span
+class="math inline">\(\cos(\theta/2)\lvert\mathrm{HF}\rangle+\sin(\theta/2)\lvert\mathrm{double\
+exc}\rangle\)</span>；<strong>参数 <span
+class="math inline">\(\theta\)</span>
+与门角度一一对应</strong>，周期、优化步长都与软件一致。</p>
+<p>若强行写成 <span
+class="math inline">\(\cos\theta\lvert\mathrm{HF}\rangle+\sin\theta\lvert\mathrm{double\
+exc}\rangle\)</span>，在 <span
+class="math inline">\(\theta\in[0,2\pi)\)</span> 上
+<strong>振幅会扫两遍</strong>（<span
+class="math inline">\(\cos,\sin\)</span> 的周期与 <span
+class="math inline">\(R_y\)</span> 的 <strong><span
+class="math inline">\(2\pi\)</span> 周期</strong> 不一致），且
+<strong><span class="math inline">\(\theta\)</span> 不再等于</strong>
+电路里 <span class="math inline">\(R_y\)</span> 的角度——容易在接 Qiskit
+时混。</p>
+<hr />
+<p><strong>（3）小结</strong></p>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr>
+<th>点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cos、sin</td>
+<td><strong>归一化二维实叠加</strong> 的标准三角参数化。</td>
+</tr>
+<tr>
+<td><span class="math inline">\(\theta/2\)</span></td>
+<td>与 <strong><span class="math inline">\(R_y(\theta)=e^{-i\theta
+Y/2}\)</span></strong> 及 Bloch 球 <strong>半角</strong> 一致，便于
+<strong>电路实现 VQE</strong>。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="条目-17">条目 17</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1 <code>01_量子计算基础与概念映射.ipynb</code>）为什么 VQE
+演示里只用 <strong>HF 态</strong> 和
+<strong>双激发态</strong>，<strong>没有单激发态</strong>？</p>
+<p><strong>回答：</strong></p>
+<p>分三层：<strong>量子化学定理（主因）</strong>、<strong>H<span
+class="math inline">\(_2\)</span>
+对称性与极小基（具体体系）</strong>、<strong>笔记本里的教学简化（2
+比特子空间）</strong>。</p>
+<hr />
+<p><strong>（1）Brillouin 定理：闭壳层 HF
+与单激发在能量上「不直接耦合」</strong></p>
+<p>设 <span class="math inline">\(\lvert\Phi_0\rangle\)</span> 为
+<strong>闭壳层 RHF 行列式</strong>，<span
+class="math inline">\(\lvert\Phi_i^a\rangle\)</span> 表示
+<strong>单激发</strong>（占据 <span class="math inline">\(i\to\)</span>
+虚轨道 <span class="math inline">\(a\)</span>）。若轨道满足
+<strong>Hartree–Fock 方程</strong>，则</p>
+<p><span class="math display">\[
+\langle \Phi_0 \lvert \hat{H} \rvert \Phi_i^a \rangle = 0.
+\]</span></p>
+<p>这叫 <strong>Brillouin 定理</strong>。</p>
+<p>因此：在 <strong>线性 CI</strong> 里，基态能量对单激发系数是
+<strong>一阶退化</strong>
+的——<strong>不把双激发等拉进来之前</strong>，单激发
+<strong>不会</strong> 与 <span
+class="math inline">\(\lvert\Phi_0\rangle\)</span> 通过 <span
+class="math inline">\(\hat{H}\)</span> 发生 <strong>一阶混合</strong>
+来压低能量。电子相关能的 <strong>主导修正</strong> 通常来自
+<strong>双激发</strong>（MP2、CCD、CISD 里双激发的角色也与此一致）。</p>
+<p><strong>注意</strong>：不是说单激发行列式从希尔伯特空间里消失了，而是
+<strong><span class="math inline">\(\hat{H}\)</span> 在 <span
+class="math inline">\(\lvert\Phi_0\rangle\)</span>
+与单激发块之间的矩阵元为 0</strong>，所以在「HF +
+单激」张成的子空间里，<strong>能量极小值仍在
+HF</strong>（一阶上）；要看到单激发的间接效应，往往要通过
+<strong>与双激发的耦合</strong>（如 CISDT…）或 <strong>非 RHF
+参考</strong> 等更复杂机制。</p>
+<hr />
+<p><strong>（2）H<span class="math inline">\(_2\)</span> + STO–3G：FCI
+基态几乎只在 HF + 双激子空间</strong></p>
+<p>同一笔记本前面用近似 FCI 波函数</p>
+<p><span class="math display">\[
+\lvert\psi_{\mathrm{FCI}}\rangle \approx c_{\mathrm{HF}}\lvert
+1100\rangle + c_{\mathrm{double}}\lvert 0011\rangle
+\]</span></p>
+<p>（两系数 <span class="math inline">\(\approx 0.99\)</span> 与 <span
+class="math inline">\(\approx
+-0.11\)</span>），<strong>刻意没写单激发构型</strong>——对 <strong><span
+class="math inline">\(^1\Sigma_g^+\)</span>
+基态、闭壳层参考、极小基</strong> 而言，<strong>对称性</strong> 与
+<strong>积分结构</strong> 使得
+<strong>重要单激发要么系数极小，要么与参考的 <span
+class="math inline">\(\hat{H}\)</span> 耦合已为
+0（Brillouin）</strong>，基态能量与波函数 <strong>主要由 HF
++（键反键）双激发</strong> 决定。</p>
+<p>因此：<strong>不是「物理上永远没有单激发」</strong>，而是
+<strong>在这个分子 + 基组 +
+对称性下，对基态而言单激发不重要</strong>；换成分子、大基组、开壳层参考，单激发会进入
+ansatz（如 <strong>UCCSD 里的单激指数</strong>）。</p>
+<hr />
+<p><strong>（3）演示用的 2 量子比特、单参数
+ansatz：教学上的裁剪</strong></p>
+<p>§6 代码把问题压到 <strong><span
+class="math inline">\(\lvert01\rangle\)</span>（记作 HF）</strong> 与
+<strong><span class="math inline">\(\lvert10\rangle\)</span>（记作
+double exc）</strong> 的 <strong>二维</strong> 子空间，用
+<strong>一个</strong> <span class="math inline">\(R_y(\theta)\)</span>
+扫能量曲线。这是为了 <strong>图解变分原理</strong>，不是要宣称
+<strong>完整 H<span class="math inline">\(_2\)</span> FCI
+空间只有两维</strong>。</p>
+<p>全空间里有更多行列式（含单激发）；<strong>选这两维</strong>是因为它们
+<strong>对应前面 FCI 近似里权重最大的两个构型</strong>，且 <strong>与
+Brillouin + H<span class="math inline">\(_2\)</span> 基态物理</strong>
+一致；若把单激发也纳入，至少需要
+<strong>更多基向量与更多参数</strong>，图会复杂，偏离「一眼看懂
+VQE」的目标。</p>
+<hr />
+<p><strong>（4）小结</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>原因</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Brillouin</strong></td>
+<td>RHF 参考下 <span
+class="math inline">\(\langle\mathrm{HF}\lvert\hat{H}\rvert\text{单激}\rangle=0\)</span>，单激
+<strong>不</strong> 与 HF <strong>直接</strong> 混合降能。</td>
+</tr>
+<tr>
+<td><strong>H<span class="math inline">\(_2\)</span> 基态</strong></td>
+<td>极小基下基态 <strong>近似</strong> 为 HF +
+主导双激；单激权重小。</td>
+</tr>
+<tr>
+<td><strong>笔记本设计</strong></td>
+<td><strong>单参数、2 比特</strong> 演示；完整工作流见 Phase2
+<strong>UCCSD</strong> 等含单激的 ansatz。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="条目-18">条目 18</h3>
+<p><strong>日期：</strong> 2026-04-02</p>
+<p><strong>问题：</strong></p>
+<p>（接续 <strong>条目 17</strong> 末句）为什么说换
+<strong>大分子、大基组、开壳层参考</strong> 时，<strong>单激发</strong>
+往往 <strong>不能忽略</strong>，会进入 <strong>UCCSD</strong> 等 ansatz
+的 <strong>单激指数</strong>？请比 H<span
+class="math inline">\(_2\)</span> 极小基讲得更细。</p>
+<p><strong>回答：</strong></p>
+<p>先 <strong>纠正一个常见误读</strong>：<strong>Brillouin 定理</strong>
+只保证 <strong><span
+class="math inline">\(\langle\Phi_0\lvert\hat{H}\rvert\Phi_i^a\rangle=0\)</span></strong>（闭壳层
+RHF 下 <strong>HF 与单激发块之间</strong> 矩阵元为
+0），<strong>并不</strong> 保证在 <strong>完整相关计算</strong> 里
+<strong>单激发系数恒为 0</strong>。下面分 <strong>大分子 / 大基组 /
+开壳层</strong> 说明 <strong>为何单激会变得重要</strong>。</p>
+<hr />
+<p><strong>（1）Brillouin 之后，单激发还能从哪「长」出来？</strong></p>
+<p>在 <strong>CISD / CCSD</strong> 等里，决定振幅的是
+<strong>整张哈密顿矩阵（或 CC 振幅方程）</strong>，不只是 <strong><span
+class="math inline">\(\langle\Phi_0\lvert\hat{H}\rvert\text{单激}\rangle\)</span></strong>
+这一条。</p>
+<p>典型链条：</p>
+<ul>
+<li><strong><span
+class="math inline">\(\langle\Phi_0\lvert\hat{H}\rvert\text{双激}\rangle\neq
+0\)</span></strong>（HF 与双激发 <strong>直接</strong> 耦合）；<br />
+</li>
+<li><strong><span
+class="math inline">\(\langle\text{单激}\lvert\hat{H}\rvert\text{双激}\rangle\)</span></strong>
+一般 <strong><span class="math inline">\(\neq
+0\)</span></strong>；<br />
+</li>
+<li><strong>单激发块内部</strong> <strong><span
+class="math inline">\(\langle\Phi_i^a\lvert\hat{H}\rvert\Phi_j^b\rangle\)</span></strong>
+也一般 <strong>非零</strong>。</li>
+</ul>
+<p>因此，即便 <strong>HF↔︎单激</strong> 被 Brillouin
+<strong>关掉</strong>，<strong>单激↔︎双激↔︎HF</strong> 仍可把
+<strong>单激发振幅</strong> 拉成 <strong>非零</strong>（CISD
+本征矢量、CCSD 的 <strong><span
+class="math inline">\(T_1\)</span></strong>
+都如此）。<strong>体系越大、基组越大</strong>，<strong>单/双激子空间的维数</strong>
+与 <strong>耦合路径</strong> 越多，<strong><span
+class="math inline">\(T_1\)</span> 或 CI 单激系数</strong> 往往
+<strong>越大</strong>，不能再当「永远可略」。</p>
+<hr />
+<p><strong>（2）大分子：对称性降低 + 轨道多</strong></p>
+<p>H<span class="math inline">\(_2\)</span> 极小基有
+<strong>很高对称</strong>（如 <strong><span
+class="math inline">\(g/u\)</span></strong>），许多单激发
+<strong>按对称性整类禁阻</strong> 或
+<strong>权重极小</strong>；<strong>大分子</strong> 点群
+<strong>较低</strong>（仅 <span
+class="math inline">\(C_1\)</span>、<span
+class="math inline">\(C_s\)</span>
+等也很常见），<strong>「禁阻」变少</strong>，<strong>允许的单激发通道</strong>
+激增。</p>
+<p>同时 <strong>价层、内层、多键、配位</strong> 等使
+<strong>占据–虚轨道</strong> 对数增多：<strong>同一对称块里</strong> 的
+<strong>单激子空间维度</strong> 随 <strong>电子数与轨道数</strong>
+增长，<strong>与双激的纠缠</strong> 更强，<strong>单激振幅</strong> 通常
+<strong>显著大于</strong> H<span
+class="math inline">\(_2\)</span>–STO–3G 那种极限情形。</p>
+<hr />
+<p><strong>（3）大基组：更多虚轨道 + 「轨道松弛」信息</strong></p>
+<p>基组从 <strong>极小</strong> 扩到 <strong>分裂价、极化、弥散</strong>
+后，<strong>虚轨道</strong> 数目与 <strong>空间分布</strong> 大变。RHF
+轨道 <strong>只在平均场意义下最优</strong>；<strong>相关波函数</strong>
+往往希望 <strong>占据与虚轨道之间有更细的单粒子重混合</strong>（可理解为
+<strong>电子相关诱导的轨道松弛</strong> 的一部分）。在
+<strong>CCSD</strong> 里，<strong><span
+class="math inline">\(T_1\)</span></strong> 正是承担
+<strong>这类单粒子重混合</strong> 的主要自由度之一（与 <strong><span
+class="math inline">\(T_2\)</span></strong> 强耦合），故
+<strong>大基组</strong> 下 <strong><span
+class="math inline">\(T_1\)</span></strong> 通常
+<strong>不可删</strong>；删成 <strong>仅 CCD / 无单激的截断</strong> 常
+<strong>明显损精度</strong>。</p>
+<p><strong>近简并</strong>（前线轨道挤在一起）时，<strong>单激发能量分母变小</strong>
+的通道增多，<strong>微扰/变分</strong> 意义上单激
+<strong>更容易变大</strong>——这与 <strong>条目 1（4）</strong>
+里「近前线」讨论是同一类物理。</p>
+<hr />
+<p><strong>（4）开壳层参考：Brillouin 的「闭壳层
+RHF」前提常不成立</strong></p>
+<p><strong>条目 17</strong> 写的 Brillouin 针对 <strong>闭壳层 RHF +
+自旋限制单参考</strong>。</p>
+<ul>
+<li><strong>UHF / ROHF / 开壳层</strong>：参考行列式 <strong><span
+class="math inline">\(\lvert\Phi_0\rangle\)</span></strong>
+不再满足同一套 <strong>限制 Hartree–Fock 方程</strong>，常有
+<strong><span
+class="math inline">\(\langle\Phi_0\lvert\hat{H}\rvert\Phi_i^a\rangle\neq
+0\)</span></strong>，单激发 <strong>可直接</strong> 与参考混合
+<strong>压低能量</strong>，<strong>比闭壳层 RHF
+更「表面」上就重要</strong>。<br />
+</li>
+<li><strong><span class="math inline">\(\alpha\)</span> 与 <span
+class="math inline">\(\beta\)</span> 电子</strong>
+环境不同（开壳层），<strong>自旋通道不对称</strong>，许多
+<strong>单激发</strong> 描述
+<strong>自旋极化、自旋相关</strong>，<strong>与双激发同属必需自由度</strong>。</li>
+</ul>
+<p>因此 <strong>开壳层</strong> 上 <strong>UCCSD 的 <span
+class="math inline">\(e^{T_1}\)</span></strong>（单激部分）几乎是
+<strong>标准配置</strong>，而不是「可省」。</p>
+<hr />
+<p><strong>（5）与量子算法（UCCSD）的衔接</strong></p>
+<p><strong>UCCSD</strong> 写 <span
+class="math inline">\(\lvert\psi\rangle\propto
+e^{T_1+T_2}\lvert\mathrm{HF}\rangle\)</span>，<strong><span
+class="math inline">\(T_1\)</span></strong>、<strong><span
+class="math inline">\(T_2\)</span></strong> 对应
+<strong>单、双激生成元</strong>。H<span
+class="math inline">\(_2\)</span> 教学例子里 <strong>两维子空间 +
+单参数</strong> 是 <strong>刻意裁剪</strong>；<strong>一般分子</strong>
+上若仍 <strong>省略单激</strong>，等于 <strong>子空间不包含 CCSD
+中重要的 <span class="math inline">\(T_1\)</span>
+方向</strong>，<strong>能量与性质</strong>
+都会偏。<strong>大分子、大基组、开壳层</strong> 正是 <strong><span
+class="math inline">\(T_1\)</span> 变大、变不可省</strong> 的典型
+regime。</p>
+<hr />
+<p><strong>一句话：</strong> Brillouin 只 <strong>挡掉
+HF↔︎单激的直接矩阵元</strong>；<strong>单激仍可通过双激等间接进入波函数</strong>，且
+<strong>大体系 / 大基组</strong> 放大这种耦合与 <strong><span
+class="math inline">\(T_1\)</span></strong>；<strong>开壳层</strong>
+则常使 <strong>HF↔︎单激</strong> 本身 <strong>不再为 0</strong>——故
+<strong>单激发在一般量子化学与 UCCSD 里不能忽略</strong>。</p>
+<hr />
+<h3 id="条目-19">条目 19</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1
+<code>02_Qiskit入门实践.ipynb</code>）<code>qc.measure([0, 1], [0, 1])</code>
+为什么测量要写成这样？</p>
+<p><strong>回答：</strong></p>
+<p>在 Qiskit 里，<code>QuantumCircuit.measure(qargs, cargs)</code> 需要
+<strong>两组下标</strong>，因为 <strong>量子比特</strong> 与
+<strong>经典寄存器里的比特</strong> 是
+<strong>两套线</strong>，必须说清楚「<strong>测谁</strong>」以及「<strong>结果存到哪</strong>」。</p>
+<hr />
+<p><strong>（1）两个列表分别是什么？</strong></p>
+<ul>
+<li><strong>第一个参数 <code>qargs</code></strong>：要测量的
+<strong>量子比特</strong> 编号（电路里 <strong>qubit</strong>
+线的索引）。<br />
+</li>
+<li><strong>第二个参数
+<code>cargs</code></strong>：<strong>经典比特</strong>
+编号（<strong>classical register</strong> 里存 0/1 的位置）。</li>
+</ul>
+<p><strong>按位置配对</strong>：<code>qargs[i]</code> 的测量结果写入
+<code>cargs[i]</code>。</p>
+<p>因此</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>qc.measure([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>])</span></code></pre></div>
+<p>表示：<strong>测第 0 号量子比特 → 存到经典寄存器第 0 位；测第 1
+号量子比特 → 存到经典寄存器第 1 位</strong>。</p>
+<p>两个列表 <strong>恰好都是 <code>[0, 1]</code></strong>
+只是「编号对齐」的常见写法，<strong>不是</strong>语法要求两边必须相同——例如你也可以（在寄存器够大的前提下）写成
+<code>qc.measure([0, 1], [3, 5])</code>，表示结果落到经典位的第 3、5
+格。</p>
+<hr />
+<p><strong>（2）为什么要分开写，而不是只写
+<code>measure([0,1])</code>？</strong></p>
+<p>量子算法里 <strong>量子线</strong> 与 <strong>经典线</strong>
+在电路图中是 <strong>不同横线</strong>；编译、
+shots、后端读取结果时，都以 <strong>经典寄存器</strong> 为输出接口。API
+设计成 <strong>显式指定 (量子源, 经典宿)</strong>，才能支持
+<strong>部分测量</strong>、<strong>重排读出顺序</strong>、<strong>多量子比特映射到任意经典位</strong>
+等用法。</p>
+<p>单比特时可写 <code>qc.measure(0, 0)</code>（两个整数）；多比特用
+<strong>等长列表</strong>。</p>
+<hr />
+<p><strong>（3）小结</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>写法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>measure([0,1], [0,1])</code></td>
+<td>量子比特 0、1 分别测到经典位 0、1。</td>
+</tr>
+<tr>
+<td>两列表等长</td>
+<td>必须 <strong>一一对应</strong>，否则报错。</td>
+</tr>
+<tr>
+<td>与 <code>[[0,1]]</code> 混淆？</td>
+<td>这里是 <strong>两个</strong> 参数，各为 <strong>一维</strong>
+索引列表，不是嵌套一条经典总线。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="条目-20">条目 20</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>在 Qiskit 里要显式写 <code>qc.measure([0,1], [0,1])</code>
+指定量子比特与经典寄存器；用 <strong>PennyLane</strong> 时好像
+<strong>不用</strong> 指定「存到第几个经典比特」，为什么？</p>
+<p><strong>回答：</strong></p>
+<p>这是 <strong>API 抽象层次不同</strong>，不是物理上「PennyLane
+不测经典比特」。底层真机上
+<strong>照样要有读出与比特串</strong>；PennyLane 在
+<strong>编译到具体后端</strong> 时由 <strong>设备 / 插件</strong> 帮你把
+<strong>量子线（wires）</strong> 接到
+<strong>读出通道</strong>，你在前端写的是
+<strong>观测量或采样接口</strong>，而不是 <strong>OpenQASM
+风格的两套寄存器</strong>。</p>
+<hr />
+<p><strong>（1）Qiskit <code>QuantumCircuit</code>：接近「电路
+IR」</strong></p>
+<p><code>QuantumCircuit</code> 显式维护 <strong>量子寄存器 +
+经典寄存器</strong>；<code>measure(qargs, cargs)</code> 是在电路里
+<strong>真的画一条</strong>「测量并把结果写入经典线」的指令，和
+<strong>OpenQASM 2</strong> 的 <code>measure q[0] -&gt; c[0];</code>
+同一思路。</p>
+<p>好处：<strong>与硬件作业、比特串
+<code>counts</code>、部分测量顺序</strong> 对齐得
+<strong>很直白</strong>；代价是你要管 <strong>经典位下标</strong>。</p>
+<hr />
+<p><strong>（2）PennyLane：「量子函数 + 观测量」抽象</strong></p>
+<p>你通常写的是 <strong>在哪些 wires 上</strong> 对
+<strong>哪个可观测量</strong> 求值，例如：</p>
+<ul>
+<li><code>qml.expval(qml.PauliZ(0))</code>：得到
+<strong>期望值</strong>（解析或有限 shots 估计）；<br />
+</li>
+<li><code>qml.sample(wires=[0, 1])</code>：得到
+<strong>采样张量</strong>；<br />
+</li>
+<li><code>qml.probs(wires=...)</code>：<strong>概率分布</strong>。</li>
+</ul>
+<p>这里 <strong>没有</strong> 用户可见的
+<code>classical_register[i]</code>，因为 PennyLane 把电路建成
+<strong>tape / QNode</strong>，再交给
+<strong><code>device</code>（<code>default.qubit</code>、<code>lightning.qubit</code>、IBM、Braket
+等）</strong> 执行；<strong>真机路径上</strong>，插件会把
+<code>wires</code> 映射到硬件的
+<strong>物理比特与读出槽位</strong>，经典比特排列在
+<strong>驱动层</strong> 处理，<strong>不暴露</strong>
+成你手写第二组列表。</p>
+<hr />
+<p><strong>（3）对照小结</strong></p>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 44%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr>
+<th>侧面</th>
+<th>Qiskit（本笔记本写法）</th>
+<th>PennyLane（常见写法）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户显式对象</td>
+<td>量子比特线 + <strong>经典寄存器线</strong></td>
+<td><strong>wires</strong> +
+<strong>测量类型</strong>（<code>expval</code> / <code>sample</code> /
+…）</td>
+</tr>
+<tr>
+<td>经典位下标</td>
+<td>自己写 <code>measure(q, c)</code></td>
+<td>一般 <strong>不写</strong>（设备封装）</td>
+</tr>
+<tr>
+<td>典型用途</td>
+<td>画电路、对接 Qiskit Runtime / 原始 <code>counts</code></td>
+<td>可微 VQE、混合自动微分、多后端统一接口</td>
+</tr>
+</tbody>
+</table>
+<p>若你在 PennyLane 里也要 <strong>原始比特串级</strong>
+的控制，仍可通过 <strong>具体设备的底层接口</strong> 或 <strong>导出成
+Qiskit 电路</strong> 再
+<code>measure</code>，那时就会重新看到「经典寄存器」这一层。</p>
+<hr />
+<h3 id="条目-21">条目 21</h3>
+<p><strong>日期：</strong> 2026-04-02</p>
+<p><strong>标签：</strong> <code>#Qiskit</code> <code>#参数化线路</code>
+<code>#Statevector</code></p>
+<p><strong>问题：</strong></p>
+<p>在 <code>02_Qiskit入门实践.ipynb</code>
+中，下面两行各自在做什么？Qiskit 里 <code>assign_parameters</code> 与
+<code>Statevector.from_instruction</code> 的作用是什么？</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>bound_circuit <span class="op">=</span> qc_ansatz.assign_parameters({theta: theta_val})</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sv_bound <span class="op">=</span> Statevector.from_instruction(bound_circuit)</span></code></pre></div>
+<p><strong>回答：</strong></p>
+<p><strong>（1）<code>assign_parameters({theta: theta_val})</code>——把「符号参数」换成具体数值</strong></p>
+<ul>
+<li>前面的 <code>qc_ansatz</code> 是用 <code>Parameter('θ')</code>
+建出来的 <strong>参数化量子线路</strong>：门里写的是
+<strong>符号</strong> <span
+class="math inline">\(\theta\)</span>，还不是某一个确定的旋转角。<br />
+</li>
+<li><code>assign_parameters</code> 接收一个
+<strong>字典</strong>（或其它 Qiskit 支持的绑定形式），键是
+<code>Parameter</code> 对象，值是 <strong>浮点数</strong>（这里
+<code>theta_val</code>，例如 <span
+class="math inline">\(\pi/4\)</span>）。<br />
+</li>
+<li>返回值 <code>bound_circuit</code> 是一条 <strong>已绑定</strong>
+的线路：<strong>所有 <span class="math inline">\(\theta\)</span>
+都被替换成该数值</strong>，线路上不再含未定义参数，可以交给模拟器、Estimator，或再与
+<code>transpile</code> 等配合使用。<br />
+</li>
+<li><strong>在 VQE / 变分思路里</strong>：经典优化器每给出一组参数，就
+<strong>绑定一次</strong> 得到具体线路，再算能量或梯度——这一行就是
+<strong>「把当前候选 <span class="math inline">\(\theta\)</span>
+写进线路」</strong>。</li>
+</ul>
+<p><strong>（2）<code>Statevector.from_instruction(bound_circuit)</code>——由线路得到完整量子态向量</strong></p>
+<ul>
+<li><code>Statevector</code> 表示
+<strong>归一化的态矢量</strong>（在计算基下的 <span
+class="math inline">\(2^n\)</span> 维复向量，<span
+class="math inline">\(n\)</span> 为量子比特数）。<br />
+</li>
+<li><code>from_instruction(...)</code> 把 <strong>幺正部分</strong>
+的线路当成从 <span class="math inline">\(\lvert 0\cdots
+0\rangle\)</span>
+出发的制备：等价于先取全零初态，再按门顺序作用，<strong>得到输出态</strong>；结果封装为
+<code>Statevector</code> 对象 <code>sv_bound</code>。<br />
+</li>
+<li>之后可用 <code>sv_bound[i]</code> 读各计算基振幅、用
+<code>probabilities_dict()</code> 看概率分布等。<br />
+</li>
+<li><strong>注意：</strong> 若线路里含 <strong>测量</strong>
+或非幺正操作，<code>from_instruction</code>
+的行为与是否支持有关；本笔记本里用于
+<strong>无测量的参数化制备</strong>，语义就是
+<strong>精确态模拟</strong>。</li>
+</ul>
+<p><strong>（3）两行连起来读</strong></p>
+<p>先 <strong>固定 <span
+class="math inline">\(\theta=\theta_{\mathrm{val}}\)</span></strong>
+得到具体线路，再 <strong>在全振幅意义上模拟</strong> 该线路的输出态——即
+<strong>「在参数 <span
+class="math inline">\(\theta_{\mathrm{val}}\)</span> 下的波函数 <span
+class="math inline">\(\lvert\psi(\theta_{\mathrm{val}})\rangle\)</span>」</strong>，便于打印主要基分量、与化学里的变分波函数类比。</p>
+<h3 id="条目-22">条目 22</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1 <code>02_Qiskit入门实践.ipynb</code> §3.2）解释</p>
+<p><code>ry(theta,0)</code> → <code>x(1)</code> →
+<code>cx(0,1)</code>（原稿另有 <code>ry(-theta,0)</code>）在做什么？</p>
+<p><strong>回答：</strong></p>
+<p>约定：<strong>初态</strong> 为两比特 <span
+class="math inline">\(\lvert 00\rangle\)</span>，<strong>Qiskit</strong>
+的比特串 <span class="math inline">\(\lvert q_1 q_0\rangle\)</span> 与
+<code>Statevector</code> 下标一致（<span
+class="math inline">\(q_0\)</span> 为 <strong>LSB</strong>）。</p>
+<hr />
+<p><strong>（1）逐步推导（前三门）</strong></p>
+<ol type="1">
+<li><strong><code>ry(θ, 0)</code></strong> 只在 <span
+class="math inline">\(q_0\)</span> 上作用：<span
+class="math inline">\(\lvert 0\rangle\to \cos\frac{\theta}{2}\lvert
+0\rangle+\sin\frac{\theta}{2}\lvert 1\rangle\)</span>，<span
+class="math inline">\(q_1\)</span> 仍为 <span
+class="math inline">\(\lvert 0\rangle\)</span>，故</li>
+</ol>
+<p><span class="math display">\[
+\lvert 00\rangle \to \cos\frac{\theta}{2}\lvert 00\rangle +
+\sin\frac{\theta}{2}\lvert 01\rangle.
+\]</span></p>
+<ol start="2" type="1">
+<li><strong><code>x(1)</code></strong> 把 <span
+class="math inline">\(q_1\)</span> 取反：<span
+class="math inline">\(\lvert 0\rangle\leftrightarrow\lvert
+1\rangle\)</span>，</li>
+</ol>
+<p><span class="math display">\[
+\to \cos\frac{\theta}{2}\lvert 10\rangle + \sin\frac{\theta}{2}\lvert
+11\rangle.
+\]</span></p>
+<ol start="3" type="1">
+<li><strong><code>cx(0,1)</code></strong>：<span
+class="math inline">\(q_0\)</span> 为 <strong>控制</strong>，<span
+class="math inline">\(q_1\)</span> 为 <strong>目标</strong>（<span
+class="math inline">\(q_0{=}1\)</span> 时翻 <span
+class="math inline">\(q_1\)</span>）。
+<ul>
+<li><span class="math inline">\(\lvert 10\rangle\)</span>：控制为
+0，不变；<br />
+</li>
+<li><span class="math inline">\(\lvert 11\rangle\)</span>：控制为
+1，<span class="math inline">\(\lvert 11\rangle\to\lvert
+01\rangle\)</span>。</li>
+</ul></li>
+</ol>
+<p>故</p>
+<p><span class="math display">\[
+\lvert\psi(\theta)\rangle = \cos\frac{\theta}{2}\lvert 10\rangle +
+\sin\frac{\theta}{2}\lvert 01\rangle.
+\]</span></p>
+<p>这就是 <strong>单参数下</strong> 在 <span
+class="math inline">\(\{\lvert 01\rangle,\lvert 10\rangle\}\)</span>
+张成的平面里转一圈（与 Phase1 里 H<span
+class="math inline">\(_2\)</span> 演示用的 <strong>HF / 双激</strong>
+两维子空间同一类想法）。</p>
+<hr />
+<p><strong>（2）和注释里「cos|01⟩+sin|10⟩」的关系</strong></p>
+<p>在 <strong>Qiskit 写法</strong> 下，<strong>cos 乘在 <span
+class="math inline">\(\lvert 10\rangle\)</span>、sin 乘在 <span
+class="math inline">\(\lvert
+01\rangle\)</span></strong>（见上式）。若某处写成 <span
+class="math inline">\(\cos\frac{\theta}{2}\lvert
+01\rangle+\sin\frac{\theta}{2}\lvert 10\rangle\)</span>，往往是
+<strong>把两个比特谁先写、谁叫「第 0 位」</strong>
+换了顺序，<strong>不是</strong> 数学上多出一道不同的门。对照时请以
+<strong><code>Statevector</code> 或 <code>draw</code> 输出</strong>
+为准。</p>
+<hr />
+<hr />
+<h3 id="条目-23">条目 23</h3>
+<p><strong>日期：</strong> 2026-03-27</p>
+<p><strong>问题：</strong></p>
+<p>（Phase1 <code>02_Qiskit入门实践.ipynb</code>
+§4.4）<code>minimize(..., method='COBYLA', options={'maxiter': 100, 'rhobeg': 0.5})</code>
+在 Qiskit 里是怎么实现的？</p>
+<p><strong>回答：</strong></p>
+<p>这一格 <strong>并不是 Qiskit 实现的</strong>，而是
+<strong><code>scipy.optimize.minimize</code></strong>（文件里
+<code>from scipy.optimize import minimize</code>）。Qiskit 只负责
+<strong><code>StatevectorEstimator</code>
+算能量</strong>；<strong>经典优化器</strong> 这里用的是 <strong>SciPy
+自带的 COBYLA</strong>。</p>
+<hr />
+<p><strong>（1）COBYLA 是什么？</strong></p>
+<p><strong>COBYLA</strong>（Constrained Optimization BY Linear
+Approximations）是 <strong>M. J. D. Powell</strong> 提出的
+<strong>无导数</strong>（只用函数值）优化算法，适合
+<strong>噪声目标、黑箱代价</strong>（与 VQE 里「测期望值」很搭）。SciPy
+通过 <strong>Fortran 实现的 <code>cobyla</code>
+接口</strong>（或后续维护版本）接到 Python；<strong>算法细节在 SciPy
+文档 / Powell 原文</strong>，不在 Qiskit 核心库里。</p>
+<hr />
+<p><strong>（2）<code>options</code> 里两项什么意思？</strong></p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义（COBYLA）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>maxiter</code></strong></td>
+<td>允许的最大 <strong>迭代次数</strong>（一次迭代里会多次调用
+<code>cost_function</code>，故 <strong>函数评估次数</strong> 可能大于
+<code>maxiter</code>）。</td>
+</tr>
+<tr>
+<td><strong><code>rhobeg</code></strong></td>
+<td>初始 <strong>信赖域 /
+步长尺度</strong>（变量空间里的初始「试探半径」量级）；参数维数、典型尺度不同时可调，影响前几步走多远。</td>
+</tr>
+</tbody>
+</table>
+<p>具体语义以 <strong>当前 SciPy 版本</strong> 的 <a
+href="https://docs.scipy.org/doc/scipy/reference/optimize.minimize-cobyla.html"><code>minimize</code>
+COBYLA 说明</a> 为准。</p>
+<hr />
+<p><strong>（3）若要用「Qiskit 自带」优化器呢？</strong></p>
+<p><code>qiskit-algorithms</code> 里的 <strong><code>VQE</code></strong>
+等可把
+<strong><code>COBYLA</code></strong>、<code>SLSQP</code>、<code>L_BFGS_B</code>
+等放在
+<strong><code>qiskit_algorithms.optimizers</code></strong>（多是对 SciPy
+或其它库的 <strong>封装</strong>）。逻辑仍是：<strong>量子端算
+<code>⟨H⟩</code>，经典端跑优化</strong>；本教学格为透明起见
+<strong>直接调 SciPy</strong>。</p>
+<hr />
+<hr />
+<h3 id="条目-24">条目 24</h3>
+<p><strong>日期：</strong> 2026-04-02</p>
+<p><strong>问题：</strong></p>
+<p>（Phase2
+<code>01_VQE原理与实现.ipynb</code>）表中「试探波函数与计算量」一行里，HF、CCSD(T)、VQE、FCI
+的 <strong>计算量</strong>（<span
+class="math inline">\(O(N^3)\)</span>、<span
+class="math inline">\(O(N^7)\)</span>、经典 <span
+class="math inline">\(O(M)\)</span> / 量子 <span
+class="math inline">\(O(\text{深度})\)</span>、<span
+class="math inline">\(O(\exp(N))\)</span>）分别指什么？<strong><span
+class="math inline">\(N\)</span></strong> 与 <strong><span
+class="math inline">\(M\)</span></strong> 是什么？</p>
+<p><strong>回答：</strong></p>
+<p>表里的 <strong><span class="math inline">\(N\)</span></strong>
+在量子化学讨论标度时，通常指 <strong>基函数（AO）个数</strong>
+或与它同阶的 <strong>体系规模</strong>（有时细分为占据 / 虚轨道数，但
+<strong>标度关系</strong> 不变）。下面按方法说明表中「计算量」一列。</p>
+<hr />
+<p><strong>（1）HF：<span
+class="math inline">\(O(N^3)\)</span></strong></p>
+<ul>
+<li><strong>在做什么：</strong> 反复构造 Fock
+矩阵、对角化得分子轨道系数，直到密度自洽（SCF）。<br />
+</li>
+<li><strong>为何常写 <span class="math inline">\(N^3\)</span>：</strong>
+若 <strong>双电子积分已给出</strong>，用密度矩阵缩并得到 Fock
+的一步，主导标度常记为 <strong><span
+class="math inline">\(O(N^3)\)</span></strong>；若把
+<strong>积分生成</strong>也算进总成本，整体更接近 <strong><span
+class="math inline">\(O(N^4)\)</span></strong>（或经屏蔽后介于两者之间）。<br />
+</li>
+<li><strong>小结：</strong> 表中 <strong><span
+class="math inline">\(O(N^3)\)</span></strong> 多指 <strong>SCF
+迭代里、给定积分后的主要步骤</strong>，或教材对 HF
+<strong>经验标度</strong>的简化；更严谨时可写 <strong><span
+class="math inline">\(O(N^3)\)</span>～<span
+class="math inline">\(O(N^4)\)</span></strong>。</li>
+</ul>
+<hr />
+<p><strong>（2）CCSD(T)：<span
+class="math inline">\(O(N^7)\)</span></strong></p>
+<ul>
+<li><strong>在做什么：</strong> 在 HF 参考上解 <strong>CCSD</strong>
+振幅（<span class="math inline">\(t_1\)</span>、<span
+class="math inline">\(t_2\)</span>），再算 <strong>(T)
+三重激发修正</strong>。<br />
+</li>
+<li><strong>标度：</strong> <strong>CCSD</strong> 部分常见为
+<strong><span
+class="math inline">\(O(N^6)\)</span></strong>；<strong>(T)</strong>
+一步主导为 <strong><span
+class="math inline">\(O(N^7)\)</span></strong>。<br />
+</li>
+<li><strong>小结：</strong> 表把 <strong>CCSD(T)</strong> 整体概括为
+<strong><span class="math inline">\(O(N^7)\)</span></strong>，即以
+<strong>(T)</strong> 为最昂贵环节。</li>
+</ul>
+<hr />
+<p><strong>（3）VQE：经典 <span
+class="math inline">\(O(M)\)</span>，量子 <span
+class="math inline">\(O(\text{深度})\)</span></strong></p>
+<p>与 HF/CC/FCI 的 <strong>单一 <span class="math inline">\(N\)</span>
+幂次</strong> 不是同一套记账方式，需拆开说。</p>
+<ul>
+<li><strong><span class="math inline">\(M\)</span>：</strong>
+变分参数个数（如电路里独立转角 <span
+class="math inline">\(\theta_1,\ldots,\theta_M\)</span>）。<strong>经典侧</strong>
+优化器每步要多次评估能量（若算梯度则评估次数更多），总代价随
+<strong>迭代步数 × 每步评估次数</strong> 增长；表中 <strong><span
+class="math inline">\(O(M)\)</span></strong> 表示
+<strong>随参数规模多项式增长</strong> 的简化说法，<strong>不</strong>
+表示严格线性。<br />
+</li>
+<li><strong>量子侧：</strong> 每次能量估计执行一条
+<strong>参数化电路</strong>；在硬件上更贴切的是
+<strong>电路深度、双比特门数、shots</strong> 等。表中 <strong><span
+class="math inline">\(O(\text{深度})\)</span></strong> 指
+<strong>单次线路执行</strong> 随深度变化。<br />
+</li>
+<li><strong>与 <span class="math inline">\(N\)</span> 的关系：</strong>
+分子越大，二次量子化后 <strong>量子比特数 <span
+class="math inline">\(n\)</span></strong> 通常增加，<strong>Pauli
+项数、线路更深</strong>，总成本 <strong>间接随体系急剧上升</strong>。用
+<strong>态矢量模拟器</strong> 时，模拟成本还随 <strong><span
+class="math inline">\(2^n\)</span></strong> 指数增——那是
+<strong>经典模拟</strong>
+的代价，与「真实量子机时间」不是同一概念。</li>
+</ul>
+<hr />
+<p><strong>（4）FCI：<span
+class="math inline">\(O(\exp(N))\)</span></strong></p>
+<ul>
+<li><strong>在做什么：</strong> 在固定基组下，在
+<strong>全组态空间</strong> 对角化哈密顿量，得该基组内的
+<strong>精确</strong> 电子相关解。<br />
+</li>
+<li><strong>为何指数：</strong> 组态数目随
+<strong>电子数、轨道数</strong> 组合增长，希尔伯特空间维度
+<strong>指数级</strong>。常写作 <strong><span
+class="math inline">\(\exp(O(n))\)</span></strong>（<span
+class="math inline">\(n\)</span> 为自旋轨道数或量子比特数），表中
+<strong><span class="math inline">\(O(\exp(N))\)</span></strong>
+是同一类记号的宽松写法。<br />
+</li>
+<li><strong>小结：</strong> 稍大体系 <strong>精确 FCI
+不可行</strong>，故需 CC、CASSCF、DMRG、量子算法等
+<strong>降维或近似</strong>。</li>
+</ul>
+<hr />
+<p><strong>（5）对照表（与表中「计算量」列对齐）</strong></p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr>
+<th>方法</th>
+<th>计算量在比什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HF</td>
+<td>SCF：<strong>对 <span class="math inline">\(N\)</span>
+多项式</strong>（常记 <span class="math inline">\(N^3\)</span>～<span
+class="math inline">\(N^4\)</span>）</td>
+</tr>
+<tr>
+<td>CCSD(T)</td>
+<td><strong>(T) 主导 <span
+class="math inline">\(N^7\)</span></strong></td>
+</tr>
+<tr>
+<td>VQE</td>
+<td><strong>优化轮数 × 每次量子评估</strong>；评估侧用 <strong><span
+class="math inline">\(M\)</span></strong> 与 <strong>线路深度</strong>
+描述</td>
+</tr>
+<tr>
+<td>FCI</td>
+<td>组态空间 <strong>指数大</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="条目-25专题波函数集中与采样子空间方法">条目
+25（专题：波函数「集中」与采样子空间方法）</h3>
+<p><strong>标签：</strong> <code>#波函数集中性</code> <code>#SQD</code>
+<code>#SKQD</code> <code>#SqDRIFT</code> <code>#多参考</code></p>
+<p><strong>日期：</strong> 2026-04-03</p>
+<p><strong>问题：</strong></p>
+<p>量子化学 / 量子算法语境下，波函数在<strong>计算基</strong>（或
+<strong>Slater
+行列式基</strong>）上<strong>何时更可能「集中」、何时往往「不集中」</strong>？有没有可操作的直觉判别？与
+<strong>SQD、SKQD、SqDRIFT</strong>
+等「采样子空间对角化」类方法的<strong>前提</strong>如何对应？</p>
+<p><strong>回答：</strong></p>
+<p>以下整理适用于理解这类方法对「少量基矢/构型能否承载大部分概率权重」的隐含假设。</p>
+<hr />
+<p><strong>（1）什么时候更可能「集中」？</strong></p>
+<p>下面几类情形里，基态（或目标低能态）往往更容易用<strong>少量基矢/构型</strong>承载大部分概率权重，即更接近「集中型」。</p>
+<ul>
+<li><p><strong>单参考主导 + 微扰式相关：</strong>
+许多闭壳层分子在<strong>较好的分子轨道基</strong>下，Hartree–Fock
+行列式权重很大，真正重要的修正主要来自<strong>相对较少的单、双激发</strong>（或其它低阶激发）。此时
+CISD、CCSD
+等截断方法常常已经「像那么回事」，说明波函数在行列式展开里<strong>头部几项就占了大部分质量</strong>。</p></li>
+<li><p><strong>选对单粒子基：</strong>
+「集中」不是绝对的，<strong>与表象有关</strong>：同一物理态，在不同单粒子基下，展开系数稀疏程度可以差很多。目标是让<strong>主导占据模式</strong>与基尽量对齐。常用候选包括规范
+Hartree–Fock
+轨道、自然轨道、局域化轨道等。<strong>哪一种更集中要就事论事</strong>。例如
+SqDRIFT 一文里同一分子在 HF
+轨道与局域（LO）轨道下，<strong>线路深度与集中性表现可以相反</strong>：LO
+可能让线路更浅，但波函数在行列式意义上未必更集中。</p></li>
+<li><p><strong>对称性把 Hilbert 空间「切碎」：</strong>
+若基态落在某个<strong>小的对称扇区</strong>里（如固定电子数、自旋、点群不可约表示等），则<strong>物理上可及的构型集合</strong>会比全体比特串小得多。但要注意：扇区缩小<strong>不等于</strong>一定集中——扇区维度仍可能是<strong>指数级</strong>的。「集中」还要求：在这个扇区内部，仍然只有<strong>少数构型</strong>占据绝大部分权重，而不是权重摊在指数多个行列式上。</p></li>
+</ul>
+<hr />
+<p><strong>（2）什么时候往往「不集中」（或集中性很差）？</strong></p>
+<ul>
+<li><p><strong>多参考 / 强关联：</strong>
+例如键长拉伸、解离极限；近简并（多个低能态靠得很近）；开壳层金属片段、强关联局域区；需用共振结构描述的自由基等。这类体系里，<strong>多个
+Slater
+行列式往往权重相当</strong>，波函数在展开中分散在许多构型上。</p></li>
+<li><p><strong>「坏基」下的表象：</strong>
+同一个精确波函数，换一组单粒子基后，可能从「少数主导行列式」变成「指数多个小系数叠加」。这与量子信息里「在哪个基上看起来稀疏」是同一类问题：<strong>集中性是表象依赖的</strong>。</p></li>
+<li><p><strong>权重长尾很重：</strong>
+即使<strong>前几名</strong>构型概率很大，若要达到<strong>化学精度</strong>（或你关心的能量/性质精度），还必须系统性地纳入<strong>海量</strong>小权重构型，则在「小子空间对角化」的意义下，<strong>实质上仍算不集中</strong>——因为有效支撑维度并没有被控制在多项式规模内。</p></li>
+</ul>
+<hr />
+<p><strong>（3）有没有一句「判别口诀」？</strong></p>
+<ul>
+<li><strong>更偏集中：</strong> 把行列式（或计算基）按 <span
+class="math inline">\(\lvert c_i\rvert^2\)</span>
+从大到小排序后，<strong>概率质量曲线很快饱和</strong>——前 <strong><span
+class="math inline">\(\mathrm{poly}(n)\)</span>
+个</strong>基矢上的权重之和就达到 <span
+class="math inline">\(1-\varepsilon\)</span>（<span
+class="math inline">\(\varepsilon\)</span> 足够小）。<br />
+</li>
+<li><strong>更偏不集中：</strong>
+曲线饱和<strong>很慢</strong>——要把能量或波函数误差压到目标精度，往往需要
+<strong>指数级多个</strong> 构型才够。</li>
+</ul>
+<hr />
+<p><strong>（4）能不能说「很多开壳层体系、化学反应里很多自由基，波函数都不集中」？</strong></p>
+<p>可以把它理解成<strong>经验上的倾向（prior）</strong>，<strong>不要理解成一条恒真的定理</strong>。</p>
+<ul>
+<li><p><strong>为何常「更不集中」：</strong>
+<strong>开壳层</strong>常有低能激发与基态间距较小、或多个自旋/空间对称相关的组态竞争，单参考未必能垄断权重。<strong>自由基与许多反应中间体</strong>往往涉及成键/反键重新分布、共振、简并或近简并，电子相关更强、构型空间更「散」，与上文「多参考
+/
+强关联」高度重叠。因此在<strong>方法选型直觉</strong>上：对这类体系，采样子空间对角化、截断
+CI
+等依赖「少数构型就够」的思路<strong>更容易吃紧</strong>，往往需要更大的子空间、多参考方法、或更谨慎地选活性空间与轨道基。</p></li>
+<li><p><strong>重要例外：</strong>
+不少开壳层双自由基/自由基在<strong>合适的活性空间 + ROHF/CASSCF 起点 +
+自然轨道</strong>下，仍可能是<strong>一个参考行列式占主导</strong>；「集中」<strong>依赖表象</strong>，自由基并非自动等于「展开系数必散」。</p></li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr>
+<th>说法</th>
+<th>是否妥当</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「开壳层 /
+自由基<strong>往往</strong>比典型闭壳层平衡构型<strong>更难</strong>保证集中」</td>
+<td>✅ 作为经验规律可以这么理解</td>
+</tr>
+<tr>
+<td>「凡是开壳层或凡是自由基都<strong>一定</strong>不集中」</td>
+<td>❌ 过强，不成立</td>
+</tr>
+</tbody>
+</table>
+<p>真正可靠的做法仍是对<strong>具体体系</strong>看
+<strong>（3）</strong> 的「概率质量曲线」或 <strong>（5）</strong>
+的截断误差，而不是只贴标签。</p>
+<hr />
+<p><strong>（5）附：若要做「计算上」的判定</strong></p>
+<p>对具体体系（某分子的活性空间、某格点/自旋模型），可以用更贴近程序的说法自测，例如：</p>
+<ul>
+<li><strong>主导行列式权重</strong>：最大 <span
+class="math inline">\(\lvert c\rvert^2\)</span>
+或前若干项累积权重；<br />
+</li>
+<li><strong>截断误差</strong>：只保留前 <span
+class="math inline">\(L\)</span> 个构型时，能量或方差相对
+FCI（或你认为的参考）差多少。</li>
+</ul>
+<hr />
+<p><em>可与 SqDRIFT 译文 <a
+href="./Quantum_chemistry_with_provable_convergence_via_randomized_sample-based_Krylov_quantum_diagonalization.zh-CN.md">Quantum_chemistry_with_provable_convergence_via_randomized_sample-based_Krylov_quantum_diagonalization.zh-CN.md</a>
+中关于 <span
+class="math inline">\((\alpha_L,\beta_L)\)</span>-集中假设的段落对照阅读。</em></p>
+<hr />
+<p><em>文档说明：后续问答请按教材顺序插入对应位置，或暂附文末后归位；编号顺延为「条目
+26」「条目 27」…</em></p>
+</body>
+</html>

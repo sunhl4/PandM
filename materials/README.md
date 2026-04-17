@@ -15,8 +15,9 @@ materials/
 │   │       ├── 01_量子计算基础与概念映射.ipynb
 │   │       └── 02_Qiskit入门实践.ipynb
 │   ├── 机器学习/                      # NNP, GNN, 主动学习
-│   ├── 量子计算×计算化学/             # 路径：learning/qc-x-chem/
-│   │   ├── learning-example/          # VQE、进阶算法、优势分析等 Notebook
+│   ├── 量子计算×计算化学/             # 路径：learning/quantum-chem/（量子计算相关计算化学学习资料）
+│   │   ├── learning-ms/               # VQE、进阶算法、优势分析等 Notebook + 第4周书面稿
+│   │   ├── QC_learn_unified/          # QC-learn + learning-ms 书面稿单文件合订（见 README_unified.md）
 │   │   └── literature/                # 译文、PDF、SQD/ADAPT 笔记
 │   │       ├── 学习问答记录.md        # 含：工作流标准、文献补充索引、附录模板、问答条目
 │   │       ├── 学习问答记录.html      # Pandoc + MathJax（本目录 python regen_qa_html.py）
